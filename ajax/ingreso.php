@@ -11,8 +11,6 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 }
 
 $postdata = file_get_contents("php://input");
-$email = $postdata->email;
-$pass = $postdata->pass;
 $tipo = $postdata->tipo;
 
 if($tipo == "app"){
