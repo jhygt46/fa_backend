@@ -10,15 +10,13 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
 }
 
-
+$postdata = file_get_contents("php://input");
+$email = $postdata->email;
+$pass = $postdata->pass;
+$tipo = $postdata->tipo;
 
 if($tipo == "app"){
-    
-    $postdata = file_get_contents("php://input");
-    $email = $postdata->email;
-    $pass = $postdata->pass;
-    $tipo = $postdata->tipo;
-    
+
     $info['id'] = 5;
     $info['id_cue'] = 1;
     $info['token'] = "abo9aP115dFmX6iu29";
