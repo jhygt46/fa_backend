@@ -14,7 +14,6 @@ $postdata = file_get_contents("php://input");
 $tipo = $postdata->tipo;
 print_r($postdata);
 print_r($postdata->tipo);
-echo "WENA LOKO ".$tipo;
 
 if($tipo == "app"){
 
