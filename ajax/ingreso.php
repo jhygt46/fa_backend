@@ -12,8 +12,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 
 $postdata = file_get_contents("php://input");
 $tipo = $postdata->tipo;
-print_r($postdata);
-print_r($postdata->tipo);
+$tipo = "app";
 
 if($tipo == "app"){
 
