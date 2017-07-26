@@ -8,3 +8,5 @@
 
 $info["buena"] = "BUEEENA";
 echo json_encode($info);
+
+?>
