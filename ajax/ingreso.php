@@ -7,7 +7,9 @@ header('Content-type: application/json');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/";
+    $path .= "/admin/class";
+}else{
+    $path .= "fa_backend/class";
 }
 
 /*
@@ -16,8 +18,6 @@ $tipo = $postdata->tipo;
 $tipo = "noapp";
 */
 
-    
-$path_ = $path."fa_backend/class";
 require_once($path_."/ingreso_class.php");
 $ingreso = new Ingreso();
 $info = $ingreso->login();
