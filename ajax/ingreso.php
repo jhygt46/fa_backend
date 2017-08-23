@@ -7,12 +7,13 @@ header('Content-type: application/json');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path_class .= "/fa_backend/class";
-    $path_n .= "/fa_backend";
     $path .= "/";
+    $path_class = $path."/fa_backend/class";
+    $path_n = $path."/fa_backend";
+    
 }else{
-    $path_class .= "admin/class";
-    $path_n .= "admin";
+    $path_class = $path."admin/class";
+    $path_n = $path."admin";
 }
 
 echo $path_class."<br>";
