@@ -31,25 +31,30 @@ class Ingreso {
     }
     public function recuperar(){
         
-        $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST["user"]."' AND eliminado='0'");
-        $to = $user["resultado"][0]["correo"];
-        
-        $id = $user["resultado"][0]["id_user"];
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        $code = substr(str_shuffle($chars), 0, 30);
-        
-        $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$id."'");
-        
-        $subject = "Recuperar Password Fireapp";
-        $message = "<html><head><title>FireApp</title></head><body><a href='http://www.fireapp.cl/admin/password.php?id=".$id."&code=".$code."'>PRESIONAR ACA</a></body></html>";
-        // To send HTML mail, the Content-type header must be set
-        $headers[] = "MIME-Version: 1.0";
-        $headers[] = "Content-type: text/html; charset=iso-8859-1";
-        
-        if(mail($to, $subject, $message, implode("\r\n", $headers))){
-            $info['op'] = 1;
+        if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
+            
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST["user"]."' AND eliminado='0'");
+            if($user['count'] == 1){
+                
+                $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                $code = substr(str_shuffle($chars), 0, 30);
+                $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$user["resultado"][0]["id_user"]."'");
+                file_get_contents("http://www.jardinvalleencantado.cl/send_fireapp.php?id=".$id."&code=".$code."&correo=".$_POST["user"]);
+                $info["op"] = 1;
+                $info["message"] = "Correo Enviado";
+                
+            }else{
+                
+                $info["op"] = 2;
+                $info["message"] = "Error:";
+                
+            }
+            
         }else{
-            $info['op'] = 2;
+            
+            $info["op"] = 2;
+            $info["message"] = "Error:";
+            
         }
         return $info;
         
