@@ -18,6 +18,9 @@ $tipo = $postdata->tipo;
 $tipo = "noapp";
 */
 
+echo $path;
+exit;
+
 require_once($path_."/ingreso_class.php");
 $ingreso = new Ingreso();
 $info = $ingreso->login();
