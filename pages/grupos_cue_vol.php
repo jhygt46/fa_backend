@@ -6,18 +6,18 @@ $fireapp = new Fireapp();
 //$fireapp->seguridad_permiso(5);
 
 /* CONFIG PAGE */
-$list = $fireapp->get_grupos_cue(1);
-$cargos = $fireapp->get_cargos_cue();
+$list = $fireapp->get_grupos_cue(0);
+$users = $fireapp->get_usuarios_cue();
 $titulo = "Grupos de Asistentes de Cuerpo";
 $titulo_list = "Lista de Grupos";
 $sub_titulo1 = "Ingresar Grupo";
 $sub_titulo2 = "Modificar Grupo";
-$accion = "creargrupocue";
+$accion = "creargrupovolcue";
 
-$eliminaraccion = "eliminargrupocue";
+$eliminaraccion = "eliminargrupovolcue";
 $id_list = "id_gru";
 $eliminarobjeto = "Grupo";
-$page_mod = "pages/grupos_cue.php";
+$page_mod = "pages/grupos_cue_vol.php";
 /* CONFIG PAGE */
 
 
@@ -26,13 +26,11 @@ $sub_titulo = $sub_titulo1;
 if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
     $sub_titulo = $sub_titulo2;
-    $that = $fireapp->get_grupo_cue($_GET["id"]);
+    $that = $fireapp->get_grupo_cue_vol($_GET["id"]);
     $id = $_GET["id"];
     
 }
-/*
 
-*/
 ?>
 
 <div class="title">
@@ -60,10 +58,10 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                         <div class="mensaje"></div>
                     </label>
                     <div class="newform" style="margin-left: 167px; background: #ddd;">
-                    <?php foreach($cargos as $value){ if(isset($that['carg'])){ $check = ""; for($j=0; $j<count($that['carg']); $j++){ if($value['id_carg'] == $that['carg'][$j]['id_carg']){ $check = "checked='checked'"; } }} ?>
+                    <?php foreach($users as $value){ if(isset($that['user'])){ $check = ""; for($j=0; $j<count($that['user']); $j++){ if($value['id_user'] == $that['user'][$j]['id_user']){ $check = "checked='checked'"; } }} ?>
                         <div class="groupdetail">
                             <label>
-                                <input id="carg-<?php echo $value['id_carg']; ?>" type="checkbox" value="1" <?php echo $check; ?> />
+                                <input id="users-<?php echo $value['id_user']; ?>" type="checkbox" value="1" <?php echo $check; ?> />
                                 <span class='detail'><?php echo $value['nombre']; ?></span>
                             </label>
                         </div>

@@ -1,7 +1,16 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-
+date_default_timezone_set('America/Santiago');
+/*
+$path = $_SERVER['DOCUMENT_ROOT'];
+if($_SERVER['HTTP_HOST'] == "localhost"){
+    $path .= "/";
+}
+$path_ = $path."fa_backend/class";
+include($path_."/fireapp.php");
+$fireapp = new Fireapp();
+$_SESSION['user']['permisos'] = $fireapp->permisos_usuario($_SESSION['user']['info']['id_user']);
+*/
 if(isset($_SESSION['user']['info']['id_user'])){
         
     $page = "layout";
@@ -32,18 +41,18 @@ if(isset($_SESSION['user']['info']['id_user'])){
                         
                         <?php
                             
-                            /*
                             echo "<pre>";
                             print_r($_SESSION);
                             echo "</pre>";
-                            */
+                        
+                            include("pages/muro.php");
                         
                         ?>
                             
                     </div>
                 </div>
             </div>
-            <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAq6hw0biMsUBdMBu5l-bai9d3sUI-f--g&libraries=places" async defer></script>-->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAq6hw0biMsUBdMBu5l-bai9d3sUI-f--g&libraries=places" async defer></script>
         </body>
     </html>
     

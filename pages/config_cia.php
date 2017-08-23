@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
+$fireapp->seguridad_permiso(10);
 
 /* CONFIG PAGE */
 $conf = $fireapp->get_config_cia();

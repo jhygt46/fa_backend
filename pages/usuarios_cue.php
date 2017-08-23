@@ -1,19 +1,21 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
+$fireapp->seguridad_permiso(4);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_usuarios_cue();
+$cias = $fireapp->get_cias();
+
 $titulo = "Usuarios de Cuerpo";
 $titulo_list = "Lista de Usuarios";
 $sub_titulo1 = "Ingresar Usuario";
 $sub_titulo2 = "Modificar Usuario";
-$accion = "crearusuario";
+$accion = "crearusuariocue";
 
-$eliminaraccion = "eliminarusuario";
+$eliminaraccion = "eliminarusuariocue";
 $id_list = "id_user";
 $eliminarobjeto = "Usuario";
 $page_mod = "pages/usuarios_cue.php";
@@ -56,6 +58,21 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                     <label>
                         <span>Nombre:</span>
                         <input id="nombre" type="text" value="<?php echo $that['nombre']; ?>" />
+                        <div class="mensaje"></div>
+                    </label>
+                    <label>
+                        <span>Correo Electr&oacute;nico:</span>
+                        <input id="correo" type="text" value="<?php echo $that['correo']; ?>" />
+                        <div class="mensaje"></div>
+                    </label>
+                    <label>
+                        <span>Compa&ntilde;ia:</span>
+                        <select id="id_cia">
+                            <option value="0" <?php if($that["id_cia"] == 0){ echo"selected"; } ?>>Comandancia</option>
+                            <?php for($i=0; $i<count($cias); $i++){ ?>
+                            <option value="<?php echo $cias[$i]['id_cia']; ?>" <?php if($that["id_cia"] == $cias[$i]['id_cia']){ echo"selected"; } ?>><?php echo $cias[$i]['numero']; ?></option>
+                            <?php } ?>
+                        </select>
                         <div class="mensaje"></div>
                     </label>
                     <label style='margin-top:20px'>
@@ -115,9 +132,9 @@ echo "</pre>";
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre" id_cia="<?php echo $id_cia; ?>" name="<?php echo $nombre; ?>"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <a title="Perfiles" class="agregaradmin" onclick="navlink('pages/usuario_perfiles_cue.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Perfiles" class="icn agregaradmin" onclick="navlink('pages/usuario_perfiles_cue.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
                     </ul>
                 </li>
                 

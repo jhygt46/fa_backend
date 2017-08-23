@@ -10,13 +10,38 @@ class Ingreso {
     public function __construct(){
         
         $this->con = new Conexion();
+
+    }
+    public function login(){
+        
+        $accion = $_POST["accion"];
+        
+        if($accion == "admin"){
+            $tipo = $_POST["tipo"];
+            if($tipo == 1){
+                return $this->ingresar_user();
+            }
+            if($tipo == 2){
+                return $this->recuperar();
+            }
+        }
+        if($accion == "app"){
+            return $this->ingresar_user_app();
+        }
+    }
+    public function recuperar(){
+        
+    }
+    
+    public function ingresar_user_app(){
         
     }
     
     public function ingresar_user(){
                 
         if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
-            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST['user']."'");
+            
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST['user']."' AND eliminado='0'");
 
             if($user['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
@@ -36,15 +61,13 @@ class Ingreso {
                         $user['resultado'][0]['intentos'] = 0;
                     }else{
                         $time = strtotime($fecha_block) - time() + 86400;
-                        $hrs = date("H:i:s", $time);
+                        $hrs = @date("H:i:s", $time);
                         $info['op'] = 2;
                         $info['message'] = "Su cuenta esta Bloqueada, se desbloqueara autom&aacute;ticamente en ".$hrs;
                     }
                 }
                 
                 if($block == 0){
-                    
-                    $info['db'] = $user;
 
                     $pass = $user['resultado'][0]['pass'];
                     if($pass == md5($_POST['pass'])){
@@ -58,7 +81,7 @@ class Ingreso {
                         $intentos = $user['resultado'][0]['intentos'] + 1;
                         $this->con->sql("UPDATE usuarios SET intentos='".$intentos."' WHERE id_user='".$user['resultado'][0]['id_user']."'");
                         if($intentos > 5){
-                            $this->con->sql("UPDATE usuarios SET block='1', fecha_block='".date('Y-m-d H:i:s')."' WHERE id_user='".$user['resultado'][0]['id_user']."'");
+                            $this->con->sql("UPDATE usuarios SET block='1', fecha_block='".@date('Y-m-d H:i:s')."' WHERE id_user='".$user['resultado'][0]['id_user']."'");
                         }
                         $int = 6 - $intentos;
                         $info['op'] = 2;
@@ -72,6 +95,40 @@ class Ingreso {
         
         return $info;    
             
+    }
+    
+    private function session($user){
+        
+        $aux['info']['id_user'] = $user['id_user'];
+        $aux['info']['nombre'] = $user['nombre'];
+        $aux['info']['id_cia'] = $user['id_cia'];
+        $aux['info']['id_cue'] = $user['id_cue'];
+        $aux['permisos'] = $this->permisos_usuario($user['id_user']);
+        return $aux;
+        
+    }
+    
+    public function permisos_usuario($id){
+        
+        $id_user = $id;
+        
+        $aux = Array();
+        $permisos_per = $this->con->sql("SELECT DISTINCT(t4.id_tar) FROM perfiles_usuarios t1, perfiles t2, perfiles_tareas t3, tareas t4 WHERE t1.id_user='".$id_user."' AND t1.id_per=t2.id_per AND t2.id_per=t3.id_per AND t3.id_tar=t4.id_tar");
+        for($i=0; $i<$permisos_per['count']; $i++){
+            $aux[] = $permisos_per['resultado'][$i]['id_tar'];
+        }
+        $cargo = $this->con->sql("SELECT * FROM usuarios_cargos WHERE id_user='".$id_user."' AND fecha_ini <= '".@date("Y-m-d")."' AND (fecha_fin >= '".@date("Y-m-d")."' OR fecha_fin='0000-00-00 00:00:00')");
+        if($cargo['count'] == 1){
+            $id_carg = $cargo['resultado'][0]['id_carg'];
+            $permisos_car = $this->con->sql("SELECT DISTINCT(t4.id_tar) FROM perfiles_cargos t1, perfiles t2, perfiles_tareas t3, tareas t4 WHERE t1.id_carg='".$id_carg."' AND t1.id_per=t2.id_per AND t2.id_per=t3.id_per AND t3.id_tar=t4.id_tar");
+            for($i=0; $i<$permisos_car['count']; $i++){
+                if(!in_array($permisos_car['resultado'][$i]['id_tar'], $aux)){
+                    $aux[] = $permisos_car['resultado'][$i]['id_tar'];
+                }
+            } 
+        }
+        return $aux;
+        
     }
     
     public function recuperar_password(){
@@ -88,34 +145,6 @@ class Ingreso {
             $info['user'] = $user['resultado'][0]['correo'];
         }
         return $info;
-        
-    }
-    
-    private function session($user){
-        
-        $aux['info']['id_user'] = $user['id_user'];
-        $aux['info']['nombre'] = $user['nombre'];
-        $aux['info']['id_page'] = $user['id_page'];
-        
-        $page = $this->con->sql("SELECT * FROM paginas WHERE id_page='".$user["id_page"]."'");
-        $aux['info']['tareas'] = $page['resultado'][0]['tareas'];
-        $aux['info']['titulo'] = $page['resultado'][0]['titulo'];
-        
-        if($aux['info']['tareas'] == 1){
-            $aux['permisos'] = $this->permisos_ususarios($user['id_user']);
-        }
-        return $aux;
-        
-    }
-    
-    public function permisos_ususarios($id_user){
-        
-        $aux = Array();
-        $permisos_per = $this->con->sql("SELECT t4.id_tar FROM perfiles_usuarios t1, perfiles t2, perfiles_tareas t3, tareas t4 WHERE t1.id_user='".$id_user."' AND t1.id_per=t2.id_per AND t2.id_per=t3.id_per AND t3.id_tar=t4.id_tar");
-        for($i=0; $i<$permisos_per['count']; $i++){
-            $aux[] = $permisos_per['resultado'][$i]['id_tar'];
-        }
-        return $aux;
         
     }
 

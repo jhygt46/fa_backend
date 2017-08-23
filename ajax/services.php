@@ -1,7 +1,40 @@
 <?php
+session_start();
 
+header('Content-type: text/json');
+header('Content-type: application/json');
 
+$path = $_SERVER['DOCUMENT_ROOT'];
+if($_SERVER['HTTP_HOST'] == "localhost"){
+    $path .= "/";
+}
+$path_ = $path."fa_backend/class";
+require_once($path_."/core.php");
+$core = new Core();
 
+if($_POST["accion"] == "getllamados"){
+    
+    //$data = $core->get_llamados();
+    $e[0]['id'] = 1;
+    $e[0]['clave'] = "10-0-1";
+    
+    $e[1]['id'] = 1;
+    $e[1]['clave'] = "10-0-1";
+    
+    $e[2]['id'] = 1;
+    $e[2]['clave'] = "10-0-1";
+    $data = $e;
+    
+}
+if($_POST["accion"] == "getCarros"){
+    
+    $data = $core->get_carros();
+    
+}
+echo json_encode($data);
+exit;
+
+?>
 
 
 
@@ -140,10 +173,6 @@ $e['fotos'][1]['user_nombre'] = "Diego Gomez B";
 $e['fotos'][1]['lat'] = "-33.4397973";
 $e['fotos'][1]['lng'] = "-70.6169393";
 
-echo "<pre>";
-print_r($e);
-echo "</pre>";
-
-//echo json_encode($e);
+echo json_encode($e);
 
 ?>

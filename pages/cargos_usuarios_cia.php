@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
+$fireapp->seguridad_permiso(2);
 
 /* CONFIG PAGE */
 $titulo = "Cargo de Usuarios";

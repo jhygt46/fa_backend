@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
-
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
+$fireapp->seguridad_permiso(3);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_tareas_cia('order');

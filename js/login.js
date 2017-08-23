@@ -9,7 +9,7 @@ $(document).ready(function(){
         $.ajax({
             url: "ajax/ingreso.php",
             type: "POST",
-            data: "accion=ingreso&tipo="+tipo+"&user="+user+"&pass="+pass,
+            data: "accion=admin&tipo="+tipo+"&user="+user+"&pass="+pass,
             success: function(data){
                 
                 console.log(data); // ELIMINAR

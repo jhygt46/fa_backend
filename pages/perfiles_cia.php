@@ -3,12 +3,8 @@ session_start();
 
 require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-//$fireapp->seguridad(1);
-/*
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-*/
+$fireapp->seguridad_permiso(3);
+
 /* CONFIG PAGE */
 $list = $fireapp->get_perfiles_cia();
 $titulo = "Perfiles de Compañia";
@@ -92,9 +88,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <a title="Tareas" class="listareas" onclick="navlink('pages/tareas_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Tareas" class="icn listareas" onclick="navlink('pages/tareas_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
                     </ul>
                 </li>
                 

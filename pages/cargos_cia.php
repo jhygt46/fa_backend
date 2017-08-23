@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
+$fireapp->seguridad_permiso(2);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_cargos_cia();
@@ -93,14 +93,14 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                     <ul class="clearfix">
                         <li class="nombre"><?php echo $nombre; ?></li>
                         <?php if($list[$i]['id_cia'] != 0){ ?>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
                         <?php }else{ ?>
-                        <a class="sinicono"></a>
-                        <a class="sinicono"></a>
+                        <a class="icn sinicono"></a>
+                        <a class="icn sinicono"></a>
                         <?php } ?>
-                        <a title="Perfiles" class="agregaradmin" onclick="navlink('pages/cargos_perfiles_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
-                        <a title="Usuario" class="carusuario" onclick="navlink('pages/cargos_usuarios_cia.php?id=<?php echo $id; ?>')"></a>
+                        <a title="Perfiles" class="icn agregaradmin" onclick="navlink('pages/cargos_perfiles_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <a title="Usuario" class="icn carusuario" onclick="navlink('pages/cargos_usuarios_cia.php?id=<?php echo $id; ?>')"></a>
                     </ul>
                 </li>
                 

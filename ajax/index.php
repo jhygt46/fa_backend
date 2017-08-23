@@ -8,7 +8,7 @@ $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
 }
-$path_ = $path."admin/class";
+$path_ = $path."fa_backend/class";
 require_once($path_."/guardar.php");
 $guardar = new Guardar();
 $data = $guardar->process();

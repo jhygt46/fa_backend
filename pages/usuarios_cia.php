@@ -1,19 +1,23 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
-
+$fireapp->seguridad_permiso(1);
+/*
+echo "<pre>";
+print_r($fireapp->permisos_usuario());
+echo "</pre>";
+*/
 /* CONFIG PAGE */
 $list = $fireapp->get_usuarios_cia();
 $titulo = "Usuarios de Compañia";
 $titulo_list = "Lista de Usuarios";
 $sub_titulo1 = "Ingresar Usuario";
 $sub_titulo2 = "Modificar Usuario";
-$accion = "crearusuario";
+$accion = "crearusuariocia";
 
-$eliminaraccion = "eliminarusuario";
+$eliminaraccion = "eliminarusuariocia";
 $id_list = "id_user";
 $eliminarobjeto = "Usuario";
 $page_mod = "pages/usuarios_cia.php";
@@ -58,6 +62,11 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                         <input id="nombre" type="text" value="<?php echo $that['nombre']; ?>" />
                         <div class="mensaje"></div>
                     </label>
+                    <label>
+                        <span>Correo Electr&oacute;nico:</span>
+                        <input id="correo" type="text" value="<?php echo $that['correo']; ?>" />
+                        <div class="mensaje"></div>
+                    </label>
                     <label style='margin-top:20px'>
                         <span>&nbsp;</span>
                         <a id='button' onclick="form()">Enviar</a>
@@ -100,9 +109,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre" name="<?php echo $nombre; ?>"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <a title="Perfiles" class="agregaradmin" onclick="navlink('pages/usuario_perfiles_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Perfiles" class="icn agregaradmin" onclick="navlink('pages/usuario_perfiles_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
                     </ul>
                 </li>
                 

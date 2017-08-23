@@ -5,7 +5,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
 }
 
-require_once '../db_config.php';
+require_once $path.'fa_backend/db_config.php';
 require_once $path.'config/config.php';
 
 class Conexion {

@@ -1,290 +1,283 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
-
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$llamados = $fireapp->llamados();
+//$fireapp->seguridad(1);
+$claves = $fireapp->get_claves_llamados_cue();
 
+
+
+$lat = -33.5412656;
+$lng = -70.6165092;
+
+if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
+    
+    $that = $fireapp->get_llamado($_GET["id"]);
+    $id = $_GET["id"];
+    
+    $lat = $that['lat'];
+    $lng = $that['lng'];
+    
+    $id_clave = $that['id_cla'];
+    foreach($claves as $k => $d){
+        for($j=0; $j < count($d['claves']); $j++){
+            if($id == $d['claves'][$j]['id_cla']){
+                $clave_nombre = $k."-".$d['claves'][$j]['clave'];
+            }
+        }
+    }
+    
+}
 ?>
 
 <script>
+    
+    var map = "";
+    var markers = Array();
     $(document).ready(function(){
-        
+
         var id_cue = 1;
         var send = {accion: "getllamados", id_cue: id_cue};
         $.ajax({
-            url: "../admin/ajax/info.php",
+            url: "ajax/services.php",
             type: "POST",
             data: send,
             success: function(res){
+                render(res);
                 
-                renderllamado(res, 1);
-
+            },error: function(e){
+                console.log(e);
             }
         });
+        map = initMap('mapa', <?php echo $lat; ?>, <?php echo $lng; ?>);
+        crear_llamado(map);
         
-        /*
-        $('.claves .clave ul li').click(function(){
-
-            var clave = $(this).attr('rel');
-            var parent = $('.cla');
-            parent.find('.optionclose').slideDown();
-            parent.find('.optionopen').slideUp();
-            parent.find('.close').hide();
-            parent.find('.restore').show();
-            parent.find('.infomostrar').html(clave);
-            $('#claveid').val(clave);
-            var num = parent.parent().attr('rel');
-            $('.newllamado').find('li').eq(num).html(clave);
-            
-            //webSocket.emit('crearClave', {clave: clave});
-            
-        });
-        */
-        /*
-        $('.close').click(function(){
-
-            var parent = $(this).parent();
-            parent.find('.optionclose').slideDown();
-            parent.find('.optionopen').slideUp();
-            parent.find('.close').hide();
-            parent.find('.restore').show();
+        $('.list_claves .clave .detalle_clave').click(function(){
+        
+            var clave_id = $(this).attr('id');
+            var nombre = $(this).parents('.clave').find('h3').html()+"-"+$(this).html();
+            $("#clave_id").val(clave_id);
+            $('.claves').find('.in').hide();
+            $('.claves').append('<div class="out"><h1>'+nombre+'</h1></div>');
+            buscar_carros();
 
         });
-        $('.restore').click(function(){
-
-            var parent = $(this).parent();
-            parent.find('.optionclose').slideUp();
-            parent.find('.optionopen').slideDown();
-            parent.find('.close').show();
-            parent.find('.restore').hide();
-
-        });
-        */
         
     });
+    
+    function render(llamados){
+        
+        var select_llamado = '<li onclick="navlink(\'pages/despacho.php?id=0\')">Nuevo +</li>';
+        for(var i=0; i<llamados.length; i++){
+            
+            select_llamado = select_llamado + '<li onclick="navlink(\'pages/despacho.php?id='+llamados[i].id+'\')">'+llamados[i].clave+'</li>';
+
+        }
+        //select_llamado = select_llamado + '<li onclick="navlink(\'pages/despacho.php?id=0\')">Nuevo +</li>';
+        $('.select_llamado').html(select_llamado);
+        
+    }
+    
+    function crear_llamado(map){
+        
+        
+        var searchBox = new google.maps.places.SearchBox(document.getElementById("input_gmap"));
+        searchBox.addListener('places_changed', function(){
+            
+            var places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+            
+            $("#address").val(places[0].formatted_address);
+            $("#lat").val(places[0].geometry.location.lat());
+            $("#lng").val(places[0].geometry.location.lng());
+                        
+            markers.forEach(function(marker){
+                marker.setMap(null);
+            });
+            markers = [];
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place){
+                
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                }else{
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
+            buscar_carros();
+            
+        });
+        map.addListener('bounds_changed', function(){
+            
+            searchBox.setBounds(map.getBounds());
+            
+        });
+        
+    }
+    
+    function buscar_carros(){
+        
+        var clave_id = $('#clave_id').val();
+        var lat = $('#lat').val();
+        var lng = $('#lng').val();
+        
+        if(clave_id != "" && lat != "" && lng != ""){
+            
+            var id_cue = 1;
+            var send = {accion: "getCarros", id_cue: id_cue, clave_id: clave_id, lat: lat, lng: lng};
+            $.ajax({
+                url: "ajax/services.php",
+                type: "POST",
+                data: send,
+                success: function(res){
+
+                   carros(res);
+
+                },error: function(e){
+                    
+                    console.log(e);
+                    
+                }
+            });
+            
+        }
+        
+    }
+    
+    function carros(param){
+        
+        console.log(param);
+        
+        for(var i=0; i<param.puntos.length; i++){
+            
+            var myLatLng = {lat:  parseFloat(param.puntos[i].lat), lng:  parseFloat(param.puntos[i].lng)};
+            markers.push(new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: param.puntos[i].titulo
+            }));
+            
+        }
+        
+        map.setZoom(4);
+        
+        for(var j=0; j<param.carros.length; j++){
+            
+            var punto = param.carros[j].punto;
+            var nombre = param.carros[j].nombre;
+            
+            $('.ls1').append("<li class='carro_param'><div class='titulo'>"+nombre+"</div><div class='infos'> mts</div><div class='btns btn1' onclick='close_bomba(this)'></div></li>");
+            
+            
+        }
+        
+    }
+    function close_bomba(that){
+        
+        var carro_param = $(that).parents('.carro_param');
+        var clon = carro_param.clone();
+        carro_param.remove();
+        clon.appendTo('.ls2');
+        
+    }
+    function initMap(variable, lat, lng, zoom = 8) {
+        return new google.maps.Map(document.getElementById(variable), { center: { lat: lat, lng: lng }, zoom: zoom } );
+    }
+
 </script>
-<div class='llamados'>
-    <br/>
-    <ul class='newllamado clearfix'>
+
+<div class="llamados">
+    <ul class="select_llamado clearfix">
         
     </ul>
-    <div class='contllamados'>
-        <div class='contllamado' rel='x'>
-            <input type='hidden' class='claveid' value='' />
-            <input type='hidden' class='clave' value='' />
-            <div class='cla'>
-                <div class='close'></div>
-                <div class='restore'></div>
-                <div class='optionclose infomostrar'>10-0-1</div>
-                <ul class='optionopen claves clearfix'>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-0</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-0-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-0-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-0-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-0-4'>4</li>
-                            <li onclick='addclave(this)' rel='10-0-5'>4</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-1</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-1-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-1-2'>2</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-2</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-2-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-2-2'>2</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-3</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-3-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-3-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-3-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-3-4'>4</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-4</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-4-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-4-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-4-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-4-4'>4</li>
-                            <li onclick='addclave(this)' rel='10-4-5'>5</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-5</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-5-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-5-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-5-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-5-4'>4</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-6</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-6-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-6-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-6-3'>3</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-7</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-7-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-7-2'>2</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-8</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-8-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-8-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-8-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-8-4'>4</li>
-                            <li onclick='addclave(this)' rel='10-8-5'>5</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-9</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-9-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-9-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-9-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-9-4'>4</li>
-                            <li onclick='addclave(this)' rel='10-9-5'>5</li>
-                            <li onclick='addclave(this)' rel='10-9-6'>6</li>
-                            <li onclick='addclave(this)' rel='10-9-7'>7</li>
-                        </ul>
-                    </li>
-                    <li class='clave'>
-                        <h1>Llamados Estructurales</h1>
-                        <h2>10-10</h2>
-                        <ul class='clearfix'>
-                            <li onclick='addclave(this)' rel='10-10-1'>1</li>
-                            <li onclick='addclave(this)' rel='10-10-2'>2</li>
-                            <li onclick='addclave(this)' rel='10-10-3'>3</li>
-                            <li onclick='addclave(this)' rel='10-10-4'>4</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class='dir'>
-                <div class='close'></div>
-                <div class='restore'></div>
-                <div class='optionclose infomostrar'>Jose Tomas Rider 1185, Providencia, Santiago</div>
-                <div class='optionopen direccion'>
-                    <ul class='busqueda clearfix'>
-                        <li><span>Direccion:</span><input type='text' class='dirllamado' value='' /></li>
-                        <li><span>Latitud:</span><input type='text' class='lat' value='' /></li>
-                        <li><span>Longitud:</span><input type='text' class='lng' value='' /></li>
-                    </ul>
-                    <div class='mapallamado'></div>
+    <div class="parent_contenido_llamado">
+        <ul class="contenido_llamado" id="contenido_llamado">
+            <li rel="0" class="clearfix">
+                <input type="hidden" id="acto_id" value="<?php echo $that['id_act']; ?>">
+                <div class="list l1">
+                    <h1>Seleccionar Clave</h1>
+                    <div class="content claves">
+                        <input type="hidden" id="clave_id" value="<?php echo $that['id_clave']; ?>">
+                        <?php if(!isset($that['id_act'])){ ?>               
+                        <div class="in">
+                            <div class="list_claves clearfix">
+                                <?php foreach($claves as $key => $data){ ?>
+                                <div class="clave">
+                                    <h3><?php echo $key; ?></h3>
+                                    <h2><?php echo $data['nombre']; ?></h2>
+                                    <div class="detalle_claves clearfix">
+                                    <?php
+                                        for($i=0; $i<count($data['claves']); $i++){
+                                            echo '<div class="detalle_clave" id="'.$data['claves'][$i]['id_cla'].'">'.$data['claves'][$i]['clave'].'</div>';
+                                        }
+                                    ?>
+                                    </div>
+                                </div>
+                                <?php } ?>
+                            </div>    
+                        </div>
+                        <?php }else{ ?>
+                        <div class="out"><h1><?php echo $clave_nombre; ?></h1></div>
+                        <?php } ?>
+                    </div>
+                    <div class="mod mod1"></div>
                 </div>
-            </div>
-            <div class='car'>
-                <div class='close'></div>
-                <div class='restore'></div>
-                <div class='optionclose infomostrar'>B13 B14 Q15</div>
-                <div class='optionopen carros'>
-                    <ul class='list recomendaciones clearfix'>
-                        <li class='carro'>
-                            <h1>B13</h1>
-                            <div class='carroclose'></div>
-                            <h2>Diego Gomez B. <p>1328</p></h2>
-                            <ul class='clearfix'>
-                                <li>12:45</li>
-                                <li>12:48</li>
-                                <li>13:24</li>
-                                <li>13:30</li>
-                            </ul>
-                            <div class='mas'><h4>+</h4><div class='masinfo'>Cantidad de Personas, kilometros de distancia, chofer, solicitar 66</div></div>
-                        </li>
-                        <li class='carro'>
-                            <h1>B14</h1>
-                            <div class='carroclose'></div>
-                            <h2>Capitan <p>54</p></h2>
-                            <ul class='clearfix'>
-                                <li>12:45</li>
-                                <li>12:48</li>
-                                <li>13:24</li>
-                                <li>13:30</li>
-                            </ul>
-                            <div class='mas'><h4>+</h4><div class='masinfo'></div></div>
-                        </li>
-                        <li class='carro'>
-                            <h1>Q15</h1>
-                            <div class='carroclose'></div>
-                            <h2>Diego Gomez B. <p>1589a</p></h2>
-                            <ul class='clearfix'>
-                                <li>12:45</li>
-                                <li>12:48</li>
-                                <li>13:24</li>
-                                <li>13:30</li>
-                            </ul>
-                            <div class='mas'><h4>+</h4><div class='masinfo'></div></div>
-                        </li>
-                    </ul>
-                    <ul class='tipolist clearfix'>
-                        <li><h1>B</h1><h2>Bomba</h2></li>
-                        <li><h1>Q</h1><h2>PortaEscala</h2></li>
-                        <li><h1>R</h1><h2>Rescate</h2></li>
-                        <li><h1>M</h1><h2>Mecanica</h2></li>
-                    </ul>
-                    <ul class='list recomendaciones clearfix'>
-                        <li class='carro'>
-                            <h1>B3</h1>
-                            <div class='carroclose'></div>
-                            <h3><strong>5.9</strong> Kilometros</h3>
-                            <h3><strong>6</strong> vols</h3>
-                            <h3 class='s'>Diego Gomez B. (4años)</h3>
-                        </li>
-                        <li class='carro'>
-                            <h1>B18</h1>
-                            <div class='carroclose'></div>
-                            <h3><strong>5.9</strong> Kilometros</h3>
-                            <h3><strong>3</strong> vols</h3>
-                            <h3 class='s'>Capitan</h3>
-                        </li>
-                    </ul>
+                <div class="list l2">
+                    <h1>Ingresar Direccion</h1>
+                    <div class="content direccion">
+                        <input type="hidden" id="address" value="<?php echo $that['direccion']; ?>">
+                        <input type="hidden" id="lat" value="<?php echo $that['lat']; ?>">
+                        <input type="hidden" id="lng" value="<?php echo $that['lng']; ?>">
+                        <div class="input_direccion"><input type="text" id="input_gmap" class="direccion_class" placeholder="Providencia 1185, Providencia" /></div>
+                        <div class="mapa" id="mapa"></div>
+                    </div>
+                    <div class="mod mod1"></div>
                 </div>
-            </div>
-            <div class='res'>
-                <div class='close'></div>
-                <div class='restore'></div>
-                <div class='optionclose infomostrar'>Resumen</div>
-                <div class='optionopen resumen'>
-                    <ul class='data clearfix'>
-                        <li class='infores'>
-                            <h1>10-0-1</h1>
-                        </li>
-                        <li class='mapa'></li>
-                    </ul>
+                <div class="list l3">
+                    <h1>Carros</h1>
+                    <div class="content carros">
+                        <ul class="carros_in ls1 clearfix"></ul>
+                        <ul class="carros_in ls2 clearfix"></ul>
+                    </div>
+                    <div class="mod mod1"></div>
                 </div>
-            </div>
-        </div>
-        
-    </div>
-    
+                <div class="list l4">
+                    <h1>Otros Carros</h1>
+                    <div class="content otroscarros">
+                        <ul class="list_tdcs clearfix">
+                            <li>B</li>
+                            <li>Q</li>
+                            <li>M</li>
+                            <li>R</ul>
+                        <ul class="list_otros clearfix">
+                            
+                        </ul>
+                    </div>
+                    <div class="mod mod1"></div>
+                </div>
+                <div class="list"><a class="guardar" href="" >GUARDAR</a></div>
+            </li>
+        </ul>
+    <div>
 </div>

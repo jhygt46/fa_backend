@@ -1,23 +1,19 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
-/*
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-*/
+
 /* CONFIG PAGE */
 $list = $fireapp->get_claves_cia();
 $carros = $fireapp->get_carros_mi_cia();
-$grupos = $fireapp->get_grupos_cia();
+$grupos = $fireapp->get_grupos_cia(2);
 $titulo = "Tipos de Claves";
 $titulo_list = "Lista de Claves";
 $sub_titulo1 = "Ingresar Clave";
 $sub_titulo2 = "Modificar Clave";
 $accion = "crearclavecia";
+
 
 $eliminaraccion = "eliminarclavecia";
 $id_list = "id_cla";
@@ -33,11 +29,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     $sub_titulo = $sub_titulo2;
     $that = $fireapp->get_clave_cia($_GET["id"]);
     $id = $_GET["id"];
-    /*
-    echo "<pre>";
-    print_r($that);
-    echo "</pre>";
-    */
+    
 }
 
 ?>
@@ -113,13 +105,13 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                         <div style="padding: 15px 0px 10px 10%; font-size: 16px; color: #666">Asistentes</div>
                         <label>
                             <span>Todos</span>
-                            <input id="todos" type="checkbox" value="1" <?php echo ($that['clave']['todos'] == 1 || !isset($that['clave']['todos'])) ? 'checked="checked"' : ''; ?>/>
+                            <input id="todos" type="checkbox" value="1" <?php echo ($that['todos'] == 1) ? 'checked="checked"' : ''; ?>/>
                         </label>
-                        <div class="grupos" style="display: <?php echo (isset($that['grupos']))? 'block': 'none';?>">
-                        <?php for($i=0; $i<count($grupos); $i++){ if(isset($that['grupos'])){ for($j=0; $j<count($that['grupos']); $j++){ $check = ""; if($grupos[$i]['id_gru'] == $that['grupos'][$j]['id_gru']){ $check = "checked='checked'"; } }}?>
+                        <div class="grupos" style="display: <?php echo ($that['todos'] == 0)? 'block': 'none';?>">
+                        <?php for($i=0; $i<count($grupos); $i++){ if($that['id_gru'] == $grupos[$i]['id_gru']){ $check = "checked='checked'"; }else{ $check = ""; } ?>
                         <label>
                             <span><?php echo $grupos[$i]['nombre']; ?>:</span>
-                            <input id="gru-<?php echo $grupos[$i]['id_gru']; ?>" type="checkbox" value="1" <?php echo $check; ?> />
+                            <input id="id_gru" name="grupo" type="radio" value="<?php echo $grupos[$i]['id_gru']; ?>" <?php echo $check; ?> />
                         </label>
                         <?php } ?>
                         </div>
@@ -188,8 +180,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                     <ul class="clearfix">
                         <li class="nombre"><?php echo $nombre; ?></li>
                         <?php if($id_cia != 0){ ?>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
                         <?php } ?>
                     </ul>
                 </li>

@@ -1,18 +1,14 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
-
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
+$fireapp->seguridad_permiso(6);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_tareas_cue('order');
 $titulo = "Permisos del perfil ".$_GET['nombre'];
-/*
-echo "<pre>";
-print_r($list);
-echo "</pre>";
-*/
+
 $sub_titulo2 = "Lista de Permisos";
 $accion = "asignartareascue";
 

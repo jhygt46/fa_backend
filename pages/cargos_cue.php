@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
-
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
+$fireapp->seguridad_permiso(5);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_cargos_cue();
@@ -119,14 +119,14 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre" iscia="<?php echo $iscia; ?>"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
                         <?php if($iscia == 0){ ?>
-                        <a title="Perfiles" class="agregaradmin" onclick="navlink('pages/cargos_perfiles_cue.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
-                        <a title="Usuario" class="carusuario" onclick="navlink('pages/cargos_usuarios_cue.php?id=<?php echo $id; ?>')"></a>
+                        <a title="Perfiles" class="icn agregaradmin" onclick="navlink('pages/cargos_perfiles_cue.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <a title="Usuario" class="icn carusuario" onclick="navlink('pages/cargos_usuarios_cue.php?id=<?php echo $id; ?>')"></a>
                         <?php }else{ ?>
-                        <a class="sinicono"></a>
-                        <a class="sinicono"></a>
+                        <a class="icn sinicono"></a>
+                        <a class="icn sinicono"></a>
                         <?php } ?>
                         
                     </ul>

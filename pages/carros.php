@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once("../../class/fireapp.php");
+require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-$fireapp->seguridad(1);
+$fireapp->seguridad_permiso(9);
 
 /* CONFIG PAGE */
 
@@ -15,13 +15,10 @@ $accion = "crearcarrocia";
 $eliminaraccion = "eliminarcarrocia";
 $id_list = "id_car";
 $eliminarobjeto = "Carro";
-$page_mod = "pages/carros_cia.php";
+$page_mod = "pages/carros.php";
 /* CONFIG PAGE */
 
-
-
-
-if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
+if(isset($_GET["id"]) && is_numeric($_GET["id"])){
     
     $sub_titulo = $sub_titulo1;
     $list = $fireapp->get_carros_cia($_GET["id"]);
@@ -45,7 +42,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
 <div class="title">
     <h1><?php echo $titulo; ?></h1>
     <ul class="clearfix">
-        <li class="back" onclick="navlink('pages/crear_cias.php')"></li>
+        <li class="back" onclick="backurl()"></li>
     </ul>
 </div>
 <hr>
@@ -103,8 +100,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="modificar" onclick="navlink('<?php echo $page_mod; ?>?id_car=<?php echo $id; ?>&id=<?php echo $id_cia; ?>&nombre=<?php echo $_GET["nombre"]; ?>')"></a>
+                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
+                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id_car=<?php echo $id; ?>&id=<?php echo $id_cia; ?>&nombre=<?php echo $_GET["nombre"]; ?>')"></a>
                     </ul>
                 </li>
                 

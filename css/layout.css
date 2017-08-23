@@ -641,7 +641,7 @@ body {
 .basic-grey input[type="radio"] {
     border: 1px solid #DADADA;
     color: #888;
-    margin-top: 2px;
+    margin-top: 8px;
     outline: 0 none;
     padding: 3px 3px 3px 5px;
     width: 16px;
@@ -784,6 +784,263 @@ body {
 }
 
 
+.llamados{
+        display: block;
+        margin-top: 20px;
+    }
+    .llamados .select_llamado{
+        border-left: 1px solid #999;
+    }
+    .llamados .select_llamado li{
+        width: 80px;
+        padding: 10px;
+        float: left;
+        font-size: 18px;
+        text-align: center;
+        background: #bbb;
+        border-right: 1px solid #999;
+        border-top: 1px solid #999;
+    }
+    .llamados .parent_contenido_llamado{
+        width: 100%;
+        overflow: hidden;
+        height: 1800px;
+        border: 1px solid #999;
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado{
+        margin-bottom: 20px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li{
+        background: #ddd;
+        padding: 10px;
+        float: left;
+        width: -webkit-calc(100% - 20px);
+        width:    -moz-calc(100% - 20px);
+        width:         calc(100% - 20px);
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list{
+        display: block;
+        position: relative;
+        float: left;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .l1{
+        width: 100%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .l2{
+        width: 49%;
+        margin-right: 3%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .l3{
+        width: 48%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .l4{
+        width: 100%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list h1{
+        margin: 0px;
+        font-size: 2.4em;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .guardar{
+        padding: 5px 10px;
+        font-size: 2em;
+        text-align: center;
+        background: #999;
+        color: #fff;
+        display: block;
+        text-decoration: none;
+        margin: 10px auto 5px auto;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .mod{
+        position: absolute;
+        top: 4px;
+        width: 25px;
+        height: 25px;
+        background: #999;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .mod1{
+        right: 0px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .content{
+        
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .content .ls1{
+        background: #cfc;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .content .ls2{
+        background: #fcc;
+    }
+    
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .otroscarros{
+        
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .otroscarros .list_tdcs{
+        width: 100%;
+        margin-top: 15px;
+        border-left: 1px solid #999;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .otroscarros .list_tdcs li{
+        width: 40px;
+        float: left;
+        padding: 5px;
+        font-size: 2.6em;
+        border-top: 1px solid #999;
+        font-weight: bold;
+        border-right: 1px solid #999;
+        text-align: center;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .otroscarros .list_otros{
+        height: 200px;
+        border: 1px solid #999;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .list .otroscarros .list_otros li{
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves{
+        display: block;
+        padding-bottom: 10px;
+    }
+    
+    
+    
+    
+    
+    
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .out{
+        margin-bottom: 10px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves h1{
+        display: block;
+        font-size: 25px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves{
+        display: block;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves .clave{
+        display: block;
+        width: 169px;
+        height: 102px;
+        background: #bbb;
+        margin: 3px;
+        float: left;
+        padding: 3px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves .clave h2{
+        font-size: 15px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves .clave h3{
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves .clave .detalle_claves{
+        
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .claves .list_claves .clave .detalle_claves .detalle_clave{
+        width: 23%;
+        float: left;
+        margin: 1%;
+        background: #999;
+        text-align: center;
+        padding: 4px 0;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .direccion{
+        display: block;
+        padding-bottom: 10px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .direccion h1{
+        display: block;
+        font-size: 25px;
+        padding-top: 10px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .direccion .input_direccion{
+        display: block;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .direccion .input_direccion .direccion_class{
+        width: 100%;
+        height: 30px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .direccion .mapa{
+        width: 100%;
+        height: 465px;
+        background: #00f;
+        margin-top: 5px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros{
+        
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros h1{
+        display: block;
+        font-size: 2.4em;
+        padding-top: 10px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in{
+        display: block;
+        background: #ccc;
+        min-height: 250px;
+        padding: 1%;
+    }
+    
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param{
+        width: 29.333%;
+        height: 125px;
+        float: left;
+        background: #0cf;
+        position: relative;
+        padding: 1%;
+        margin: 1%;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param .titulo{
+        font-size: 2.6em;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param .infos{
+        font-size: 1.2em;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param .btns{
+        position: absolute;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param .btn1{
+        width: 15px;
+        height: 15px;
+        background: #888;
+        top: 5px;
+        right: 5px;
+    }
+    .llamados .parent_contenido_llamado .contenido_llamado li .carros .carros_in .carro_param .btn2{
+        width: 15px;
+        height: 15px;
+        background: #999;
+        top: 5px;
+        right: 25px;
+    }
+    
+    .newform{
+        background: #ddd;
+        padding: 10px;
+    }
+    .newform .grupo{
+        font-size: 1.7em;
+        padding: 10px 0 5px 10px;
+    }
+    .newform .groupdetail{
+        padding-left: 20px;
+    }
+    .newform .groupdetail .detail{
+        float: none;
+    }
 
 @keyframes scale {
 	0% {

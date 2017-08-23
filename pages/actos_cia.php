@@ -3,21 +3,23 @@ session_start();
 
 require_once("../class/fireapp.php");
 $fireapp = new Fireapp();
-//$fireapp->seguridad_permiso(5);
+$fireapp->seguridad_permiso(3);
 
 /* CONFIG PAGE */
-$list = $fireapp->get_grupos_cue(1);
-$cargos = $fireapp->get_cargos_cue();
-$titulo = "Grupos de Asistentes de Cuerpo";
-$titulo_list = "Lista de Grupos";
-$sub_titulo1 = "Ingresar Grupo";
-$sub_titulo2 = "Modificar Grupo";
-$accion = "creargrupocue";
+$list = $fireapp->get_actos_cia();
+$claves_cia = $fireapp->get_claves_cia();
 
-$eliminaraccion = "eliminargrupocue";
-$id_list = "id_gru";
-$eliminarobjeto = "Grupo";
-$page_mod = "pages/grupos_cue.php";
+
+$titulo = "Actos de Compañia";
+$titulo_list = "Proximos de Actos";
+$sub_titulo1 = "Ingresar Acto";
+$sub_titulo2 = "Modificar Acto";
+$accion = "crearactocia";
+
+$eliminaraccion = "eliminaractocia";
+$id_list = "id_act";
+$eliminarobjeto = "Acto";
+$page_mod = "pages/actos_cia.php";
 /* CONFIG PAGE */
 
 
@@ -26,13 +28,13 @@ $sub_titulo = $sub_titulo1;
 if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
     $sub_titulo = $sub_titulo2;
-    $that = $fireapp->get_grupo_cue($_GET["id"]);
+    $that = $fireapp->get_acto_cia($_GET["id"]);
     $id = $_GET["id"];
     
 }
-/*
 
-*/
+
+
 ?>
 
 <div class="title">
@@ -55,20 +57,18 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                     <input id="id" type="hidden" value="<?php echo $id; ?>" />
                     <input id="accion" type="hidden" value="<?php echo $accion; ?>" />
                     <label>
-                        <span>Nombre:</span>
-                        <input id="nombre" type="text" value="<?php echo $that['gru']['nombre']; ?>" require="" placeholder="Ej: Cuerpo de Bomberos de Santiago" />
-                        <div class="mensaje"></div>
+                        <span>Clave:</span>
+                        <select id="clave">
+                            <option value="0">Seleccionar</option>
+                            <?php for($i=0; $i<count($claves_cia); $i++){ ?>
+                            <option value="<?php echo $claves_cia[$i]['id_cla']; ?>" <?php if($that['id_cla'] == $claves_cia[$i]['id_cla']){ echo "selected"; } ?>><?php echo $claves_cia[$i]['nombre']; ?></option>
+                            <?php } ?>
+                        </select>
                     </label>
-                    <div class="newform" style="margin-left: 167px; background: #ddd;">
-                    <?php foreach($cargos as $value){ if(isset($that['carg'])){ $check = ""; for($j=0; $j<count($that['carg']); $j++){ if($value['id_carg'] == $that['carg'][$j]['id_carg']){ $check = "checked='checked'"; } }} ?>
-                        <div class="groupdetail">
-                            <label>
-                                <input id="carg-<?php echo $value['id_carg']; ?>" type="checkbox" value="1" <?php echo $check; ?> />
-                                <span class='detail'><?php echo $value['nombre']; ?></span>
-                            </label>
-                        </div>
-                    <?php } ?>
-                    </div>
+                    <label>
+                        <span>Fecha:</span>
+                        <input id="fecha" type="text" value="<?php echo $that['fecha_creado']; ?>" require="" placeholder="10-0-1" />
+                    </label>
                     <label style='margin-top:20px'>
                         <span>&nbsp;</span>
                         <a id='button' onclick="form()">Enviar</a>
@@ -101,6 +101,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                         <li class="nombre"><?php echo $nombre; ?></li>
                         <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
                         <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <a title="Tareas" class="icn listareas" onclick="navlink('pages/tareas_cia.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
                     </ul>
                 </li>
                 
