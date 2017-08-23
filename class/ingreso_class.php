@@ -170,9 +170,9 @@ class Ingreso {
         $pass1 = $_POST['pass1'];
         $pass2 = $_POST['pass2'];
         
-        $user = $this->con->sql("SELECT * FROM ilusuarios WHERE id_user='".$id."'");
-        if($user['resultado'][0]['mailcode'] == $code && $pass1 == $pass2 && strlen($pass1) >= 8){
-            $this->con->sql("UPDATE ilusuarios SET password='".md5($pass1)."', mailcode='' WHERE id_user='".$id."'");
+        $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+        if($user['resultado'][0]['code'] == $code && $pass1 == $pass2 && strlen($pass1) >= 8){
+            $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
             $info['op'] = 1;
             $info['user'] = $user['resultado'][0]['correo'];
         }
