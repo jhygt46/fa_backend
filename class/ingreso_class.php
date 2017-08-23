@@ -15,7 +15,6 @@ class Ingreso {
     public function login(){
         
         $accion = $_POST["accion"];
-        
         if($accion == "admin"){
             $tipo = $_POST["tipo"];
             if($tipo == 1){
@@ -28,8 +27,29 @@ class Ingreso {
         if($accion == "app"){
             return $this->ingresar_user_app();
         }
+        
     }
     public function recuperar(){
+        
+        $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST["user"]."' AND eliminado='0'");
+        $to = $user["resultado"][0]["correo"];
+        
+        $id = $user["resultado"][0]["id_user"];
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $code = substr(str_shuffle($chars), 0, 30);
+        
+        $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$id."'");
+        
+        $subject = "Recuperar Password Fireapp";
+        $message = "<html><head><title>FireApp</title></head><body><a href='http://www.fireapp.cl/admin/password.php?id=".$id."&code=".$code."'>PRESIONAR ACA</a></body></html>";
+        // To send HTML mail, the Content-type header must be set
+        $headers[] = "MIME-Version: 1.0";
+        $headers[] = "Content-type: text/html; charset=iso-8859-1";
+        
+        mail($to, $subject, $message, implode("\r\n", $headers));
+        $info['op'] = 1;
+        
+        return $info;
         
     }
     
