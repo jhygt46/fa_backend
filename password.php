@@ -13,7 +13,7 @@ include("includes/header.php");
                     <div class='contlogin'>
                         <div class='us'>
                             <div class='txt'>Contrase&ntilde;a</div>
-                            <div class='input'><input type='text' id='pass1'></div>
+                            <div class='input'><input type='password' id='pass1'></div>
                         </div>
                         <div class='pa'>
                             <div class='txt'>Repetir Contrase&ntilde;a</div>

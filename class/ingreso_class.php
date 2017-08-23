@@ -27,6 +27,9 @@ class Ingreso {
         if($accion == "app"){
             return $this->ingresar_user_app();
         }
+        if($accion == "recuperar_password"){
+            return $this->recuperar_password();
+        }
         
     }
     public function recuperar(){
