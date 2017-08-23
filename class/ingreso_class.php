@@ -46,9 +46,11 @@ class Ingreso {
         $headers[] = "MIME-Version: 1.0";
         $headers[] = "Content-type: text/html; charset=iso-8859-1";
         
-        mail($to, $subject, $message, implode("\r\n", $headers));
-        $info['op'] = 1;
-        
+        if(mail($to, $subject, $message, implode("\r\n", $headers))){
+            $info['op'] = 1;
+        }else{
+            $info['op'] = 2;
+        }
         return $info;
         
     }
