@@ -1,11 +1,6 @@
 <?php
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/";
-}
-
-require_once $path.'fa_backend/db_config.php';
+require_once $path_n.'db_config.php';
 require_once $path.'config/config.php';
 
 class Conexion {

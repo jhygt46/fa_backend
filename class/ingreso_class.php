@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once($path_."/mysql_class.php");
+require_once($path_class."/mysql_class.php");
 
 class Ingreso {
     
@@ -34,7 +34,11 @@ class Ingreso {
     }
     
     public function ingresar_user_app(){
-        
+        /*
+        $postdata = file_get_contents("php://input");
+        $tipo = $postdata->tipo;
+        $tipo = "noapp";
+        */
     }
     
     public function ingresar_user(){

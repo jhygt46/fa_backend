@@ -7,21 +7,14 @@ header('Content-type: application/json');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/fa_backend/class";
+    $path_class .= "/fa_backend/class";
+    $path_n .= "/fa_backend";
 }else{
-    $path .= "admin/class";
+    $path_class .= "admin/class";
+    $path_n .= "admin";
 }
 
-/*
-$postdata = file_get_contents("php://input");
-$tipo = $postdata->tipo;
-$tipo = "noapp";
-*/
-
-echo $path;
-exit;
-
-require_once($path_."/ingreso_class.php");
+require_once($path_class."/ingreso_class.php");
 $ingreso = new Ingreso();
 $info = $ingreso->login();
 echo json_encode($info);
