@@ -15,7 +15,7 @@
     $headers[] = "Content-type: text/html; charset=iso-8859-1";
 
     if(mail($to, $subject, $message, implode("\r\n", $headers))){
-        echo "SI<br>";
+        echo "SI: ".$to." <br/>";
     }else{
         echo "NO<br>";
     }
