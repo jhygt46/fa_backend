@@ -39,7 +39,7 @@ class Ingreso {
                 $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 $code = substr(str_shuffle($chars), 0, 30);
                 $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$user["resultado"][0]["id_user"]."'");
-                $url = "http://www.jardinvalleencantado.cl/send_fireapp.php?id=".$id."&correo=".$correo."&code=".$code;
+                $url = "http://www.jardinvalleencantado.cl/send_fireapp.php?id=".$user['resultado'][0]['id_user']."&correo=".$user['resultado'][0]['correo']."&code=".$code;
                 $a = file_get_contents($url);
                 $info["op"] = 1;
                 $info["message"] = $a;
