@@ -7,7 +7,7 @@
         exit;
     }
     
-    $to = "diegomez13@hotmail.com";
+    $to = "diego.gomez.bezmalinovic@gmail.com";
     $subject = "Recuperar Password Fireapp";
     $message = "<html><head><title>FireApp</title></head><body><a href='http://www.fireapp.cl/admin/password.php?id=".$id."&code=".$code."'>PRESIONAR ACA</a></body></html>";
     // To send HTML mail, the Content-type header must be set
