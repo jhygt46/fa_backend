@@ -7,6 +7,9 @@
         exit;
     }
     
+    phpinfo();
+    exit;
+    
     if(!isset($_SESSION['user']['info']['id_user'])){
         include("login.php");
     }else{

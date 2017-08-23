@@ -1,5 +1,6 @@
 <?php
     
+    /*
     if(in2_arr()){
         $arrays["nombre"] = "Cuerpos";
         $arrays["link"] = "pages/crear_cuerpo.php";
@@ -28,23 +29,38 @@
         unset($aux);
         unset($array);
     }
+    */
+    if(in_arr(3)){
+        $arrays["nombre"] = "Inicio";
+        $arrays["link"] = "pages/muro.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(3)){
+        $arrays["nombre"] = "Mi Perfil";
+        $arrays["link"] = "pages/mi_perfil.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(3)){
+        $arrays["nombre"] = "Mi Informacion";
+        $arrays["link"] = "pages/mi_informacion.php";
+        $array[] = $arrays;
+    }
     
-    
+    if(isset($array)){
+        $aux["ico"] = 4;
+        $aux["categoria"] = "Voluntarios";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+
     if(in_arr(1)){
         $arrays["nombre"] = "Usuarios";
         $arrays["link"] = "pages/usuarios_cia.php";
         $array[] = $arrays;
     }
-    if(in_arr(3)){
-        $arrays["nombre"] = "Perfiles";
-        $arrays["link"] = "pages/perfiles_cia.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(2)){
-        $arrays["nombre"] = "Cargos";
-        $arrays["link"] = "pages/cargos_cia.php";
-        $array[] = $arrays;
-    }
+    
     if(in_arr(10)){
         $arrays["nombre"] = "Configuracion";
         $arrays["link"] = "pages/config_cia.php";
@@ -60,19 +76,65 @@
         $arrays["link"] = "pages/grupos_cia_vol.php";
         $array[] = $arrays;
     }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Claves Cia";
-        $arrays["link"] = "pages/tipos_de_claves_cia.php";
-        $array[] = $arrays;
-    }
+    
     if(isset($array)){
-        $aux["ico"] = 3;
+        $aux["ico"] = 1;
         $aux["categoria"] = "Administrador Cia";
         $aux["subcategoria"] = $array;
         $menu[] = $aux;
         unset($aux);
         unset($array);
     }
+    
+    if(in_arr(3)){
+        $arrays["nombre"] = "Perfiles";
+        $arrays["link"] = "pages/perfiles_cia.php";
+        $array[] = $arrays;
+    }
+    if(isset($array)){
+        $aux["ico"] = 2;
+        $aux["categoria"] = "Permisos";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+
+    if(in_arr(10)){
+        $arrays["nombre"] = "Claves Cia";
+        $arrays["link"] = "pages/tipos_de_claves_cia.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(2)){
+        $arrays["nombre"] = "Cargos";
+        $arrays["link"] = "pages/cargos_cia.php";
+        $array[] = $arrays;
+    }
+    if(isset($array)){
+        $aux["ico"] = 3;
+        $aux["categoria"] = "Configuracion Base";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
     
     if(in_arr(4)){
         $arrays["nombre"] = "Usuarios";
@@ -133,7 +195,7 @@
         unset($array);
     }
     
-
+    */
     
     
     
