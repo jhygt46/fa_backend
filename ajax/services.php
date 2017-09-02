@@ -47,7 +47,7 @@ if($_GET["accion"] == "getGrifos"){
     
 }
 echo json_encode($data);
-
+exit;
 ?>
 
 
