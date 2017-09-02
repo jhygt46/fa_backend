@@ -3,12 +3,12 @@ session_start();
 
 header('Content-type: text/json');
 header('Content-type: application/json');
-
+/*
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
 }
-/*
+
 $path_ = $path."fa_backend/class";
 require_once($path_."/core.php");
 $core = new Core();
@@ -32,7 +32,10 @@ if($_POST["accion"] == "getCarros"){
     $data = $core->get_carros();
     
 }
-if($_POST["accion"] == "getGrifos"){
+if($_GET["accion"] == "getGrifos"){
+    
+    $lat = $_GET["lat"];
+    $lng = $_GET["lng"];
     
     $e['grifos'][0]['lat'] = 3;
     $e['grifos'][0]['lng'] = 4;
@@ -44,7 +47,6 @@ if($_POST["accion"] == "getGrifos"){
     
 }
 echo json_encode($data);
-exit;
 
 ?>
 
