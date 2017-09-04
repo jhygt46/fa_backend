@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generaciÃ³n: 04-09-2017 a las 19:53:40
+-- Tiempo de generaciÃ³n: 04-09-2017 a las 20:14:23
 -- VersiÃ³n del servidor: 5.7.15-log
 -- VersiÃ³n de PHP: 5.6.26
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `fireapp`
 --
+CREATE DATABASE IF NOT EXISTS `fireapp` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
+USE `fireapp`;
 
 -- --------------------------------------------------------
 
@@ -222,6 +224,26 @@ INSERT INTO `carros_tipo` (`id_car`, `id_tdc`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `clave_grupos`
+--
+
+CREATE TABLE `clave_grupos` (
+  `id_cla` int(4) NOT NULL,
+  `id_gru` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `clave_grupos`
+--
+
+INSERT INTO `clave_grupos` (`id_cla`, `id_gru`) VALUES
+(1, 1),
+(2, 1),
+(4, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `claves`
 --
 
@@ -286,26 +308,6 @@ CREATE TABLE `claves_tipo` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clave_grupos`
---
-
-CREATE TABLE `clave_grupos` (
-  `id_cla` int(4) NOT NULL,
-  `id_gru` int(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `clave_grupos`
---
-
-INSERT INTO `clave_grupos` (`id_cla`, `id_gru`) VALUES
-(1, 1),
-(2, 1),
-(4, 2);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `companias`
 --
 
@@ -335,6 +337,26 @@ INSERT INTO `companias` (`id_cia`, `numero`, `lat`, `lng`, `nombre`, `fecha_crea
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cuerpo_cias_despacho`
+--
+
+CREATE TABLE `cuerpo_cias_despacho` (
+  `id_cue` int(4) NOT NULL,
+  `id_cia` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `cuerpo_cias_despacho`
+--
+
+INSERT INTO `cuerpo_cias_despacho` (`id_cue`, `id_cia`) VALUES
+(1, 1),
+(1, 8),
+(1, 9);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cuerpos`
 --
 
@@ -354,26 +376,6 @@ CREATE TABLE `cuerpos` (
 INSERT INTO `cuerpos` (`id_cue`, `nombre`, `sigla`, `fecha_creado`, `fecha_eliminado`, `eliminado`) VALUES
 (1, 'Cuerpo de Bomberos de Santiago', 'CBS', '0000-00-00', '0000-00-00 00:00:00', 0),
 (2, 'Cuerpo de Bomberos de Concepcion', 'CBC', '0000-00-00', '2017-08-19 17:18:44', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `cuerpo_cias_despacho`
---
-
-CREATE TABLE `cuerpo_cias_despacho` (
-  `id_cue` int(4) NOT NULL,
-  `id_cia` int(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `cuerpo_cias_despacho`
---
-
-INSERT INTO `cuerpo_cias_despacho` (`id_cue`, `id_cia`) VALUES
-(1, 1),
-(1, 8),
-(1, 9);
 
 -- --------------------------------------------------------
 
@@ -563,6 +565,25 @@ INSERT INTO `perfiles_usuarios` (`id_user`, `id_per`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tarea_grupo_cuerpo`
+--
+
+CREATE TABLE `tarea_grupo_cuerpo` (
+  `id_gtar` int(4) NOT NULL,
+  `id_cue` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `tarea_grupo_cuerpo`
+--
+
+INSERT INTO `tarea_grupo_cuerpo` (`id_gtar`, `id_cue`) VALUES
+(1, 1),
+(2, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tareas`
 --
 
@@ -616,25 +637,6 @@ INSERT INTO `tareas_grupos` (`id_gtar`, `nombre`, `orden`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tarea_grupo_cuerpo`
---
-
-CREATE TABLE `tarea_grupo_cuerpo` (
-  `id_gtar` int(4) NOT NULL,
-  `id_cue` int(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `tarea_grupo_cuerpo`
---
-
-INSERT INTO `tarea_grupo_cuerpo` (`id_gtar`, `id_cue`) VALUES
-(1, 1),
-(2, 1);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tipos_de_carros`
 --
 
@@ -656,6 +658,26 @@ INSERT INTO `tipos_de_carros` (`id_tdc`, `nombre`, `descripcion`, `eliminado`, `
 (1, 'Bomba B', '', 0, '0000-00-00', '0000-00-00', 1),
 (2, 'Portalescala Q', '', 0, '0000-00-00', '0000-00-00', 1),
 (3, 'Mecanica M', '', 0, '2017-04-20', '2017-04-21', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario_cias`
+--
+
+CREATE TABLE `usuario_cias` (
+  `id_user` int(4) NOT NULL,
+  `id_cia` int(4) NOT NULL,
+  `fecha_ini` datetime NOT NULL,
+  `fecha_fin` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `usuario_cias`
+--
+
+INSERT INTO `usuario_cias` (`id_user`, `id_cia`, `fecha_ini`, `fecha_fin`) VALUES
+(1, 1, '2017-01-01 00:00:00', '3017-06-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -714,26 +736,6 @@ INSERT INTO `usuarios_cargos` (`id_ucar`, `id_carg`, `id_user`, `fecha_ini`, `fe
 (9, 2, 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '2017-04-26'),
 (10, 2, 2, '2017-04-25 00:00:00', '0000-00-00 00:00:00', '2017-04-26');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario_cias`
---
-
-CREATE TABLE `usuario_cias` (
-  `id_user` int(4) NOT NULL,
-  `id_cia` int(4) NOT NULL,
-  `fecha_ini` datetime NOT NULL,
-  `fecha_fin` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `usuario_cias`
---
-
-INSERT INTO `usuario_cias` (`id_user`, `id_cia`, `fecha_ini`, `fecha_fin`) VALUES
-(1, 1, '2017-01-01 00:00:00', '3017-06-22 00:00:00');
-
 --
 -- Ã�ndices para tablas volcadas
 --
@@ -789,6 +791,12 @@ ALTER TABLE `carros_tipo`
   ADD KEY `id_tdc` (`id_tdc`);
 
 --
+-- Indices de la tabla `clave_grupos`
+--
+ALTER TABLE `clave_grupos`
+  ADD PRIMARY KEY (`id_cla`,`id_gru`);
+
+--
 -- Indices de la tabla `claves`
 --
 ALTER TABLE `claves`
@@ -809,12 +817,6 @@ ALTER TABLE `claves_tipo`
   ADD KEY `id_tdc` (`id_tdc`);
 
 --
--- Indices de la tabla `clave_grupos`
---
-ALTER TABLE `clave_grupos`
-  ADD PRIMARY KEY (`id_cla`,`id_gru`);
-
---
 -- Indices de la tabla `companias`
 --
 ALTER TABLE `companias`
@@ -822,16 +824,16 @@ ALTER TABLE `companias`
   ADD KEY `id_cue` (`id_cue`);
 
 --
--- Indices de la tabla `cuerpos`
---
-ALTER TABLE `cuerpos`
-  ADD PRIMARY KEY (`id_cue`);
-
---
 -- Indices de la tabla `cuerpo_cias_despacho`
 --
 ALTER TABLE `cuerpo_cias_despacho`
   ADD PRIMARY KEY (`id_cue`,`id_cia`);
+
+--
+-- Indices de la tabla `cuerpos`
+--
+ALTER TABLE `cuerpos`
+  ADD PRIMARY KEY (`id_cue`);
 
 --
 -- Indices de la tabla `grifos`
@@ -882,6 +884,12 @@ ALTER TABLE `perfiles_usuarios`
   ADD PRIMARY KEY (`id_user`,`id_per`);
 
 --
+-- Indices de la tabla `tarea_grupo_cuerpo`
+--
+ALTER TABLE `tarea_grupo_cuerpo`
+  ADD PRIMARY KEY (`id_gtar`,`id_cue`);
+
+--
 -- Indices de la tabla `tareas`
 --
 ALTER TABLE `tareas`
@@ -894,17 +902,17 @@ ALTER TABLE `tareas_grupos`
   ADD PRIMARY KEY (`id_gtar`);
 
 --
--- Indices de la tabla `tarea_grupo_cuerpo`
---
-ALTER TABLE `tarea_grupo_cuerpo`
-  ADD PRIMARY KEY (`id_gtar`,`id_cue`);
-
---
 -- Indices de la tabla `tipos_de_carros`
 --
 ALTER TABLE `tipos_de_carros`
   ADD PRIMARY KEY (`id_tdc`),
   ADD KEY `id_cue` (`id_cue`);
+
+--
+-- Indices de la tabla `usuario_cias`
+--
+ALTER TABLE `usuario_cias`
+  ADD PRIMARY KEY (`id_user`,`id_cia`,`fecha_ini`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -917,12 +925,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `usuarios_cargos`
   ADD PRIMARY KEY (`id_ucar`);
-
---
--- Indices de la tabla `usuario_cias`
---
-ALTER TABLE `usuario_cias`
-  ADD PRIMARY KEY (`id_user`,`id_cia`,`fecha_ini`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
