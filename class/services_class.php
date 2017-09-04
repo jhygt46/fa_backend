@@ -36,7 +36,7 @@ class Services extends Core{
             $lng = $_GET['lng'];
             $coords = $this->getBoundaries($lat, $lng, 1);
             $grifos = $this->con->sql("SELECT * FROM grifos WHERE (lat BETWEEN ".$coords["min_lat"]." AND ".$coords["max_lat"].") AND (lng BETWEEN ".$coords['min_lng']." AND ".$coords['max_lng'].")");
-            return $grifos['resultado'];
+            return $grifos;
             
         }
         
