@@ -15,7 +15,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-require_once($path_class."services.php");
+require_once($path_class."services_class.php");
 $guardar = new Services();
 $data = $guardar->process();
 echo json_encode($data);
