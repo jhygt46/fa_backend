@@ -29,15 +29,14 @@ class Services extends Core{
         
     }
     public function process(){
-        return "AUX";
+
         if($_GET['accion'] == "getGrifos"){
             
             $lat = $_GET['lat'];
             $lng = $_GET['lng'];
             $coords = $this->getBoundaries($lat, $lng, 1);
-            echo "<pre>";
-            print_r($coords);
-            echo "</pre>";
+            $grifos = $this->con->sql("SELECT * FROM grifos WHERE (lat BETWEEN ".$coords["min_lat"]." AND ".$coords["max_lat"].") AND (lng BETWEEN ".$coords['min_lng']." AND ".$coords['max_lng'].")");
+            return $grifos['resultado'];
             
         }
         
