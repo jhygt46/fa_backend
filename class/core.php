@@ -648,6 +648,31 @@ class Core{
         
     }
     
+    function getBoundaries($lat, $lng, $distance = 1){
+        
+        $earthRadius = 6371;
+        $return = array();
+        $cardinalCoords = [0, 180, 90, 270];
+        $cardinalNames = [0, 180, 90, 270];
+        $rLat = deg2rad($lat);
+        $rLng = deg2rad($lng);
+        $rAngDist = $distance/$earthRadius;
+        for($i=0; count($cardinalCoords); $i++){
+            
+            $rAngle = deg2rad($cardinalCoords[$i]);
+            $rLatB = asin(sin($rLat) * cos($rAngDist) + cos($rLat) * sin($rAngDist) * cos($rAngle));
+            $rLonB = $rLng + atan2(sin($rAngle) * sin($rAngDist) * cos($rLat), cos($rAngDist) - sin($rLat) * sin($rLatB));
+            $return[$cardinalNames[$i]] = array('lat' => (float) rad2deg($rLatB), 'lng' => (float) rad2deg($rLonB));
+        }
+        
+        $aux['min_lat'] = $return['south']['lat'];
+        $aux['max_lat'] = $return['north']['lat'];
+        $aux['min_lng'] = $return['west']['lng'];
+        $aux['max_lng'] = $return['east']['lng'];
+        return $aux;
+        
+    }
+    
     
     // PERMISOS //
 
