@@ -1,19 +1,7 @@
 <?php
 session_start();
 
-$path = $_SERVER['DOCUMENT_ROOT'];
-if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/";
-    $path_class = $path."/fa_backend/class/";
-    $path_n = $path."/fa_backend/";
-    
-}else{
-    $path_class = $path."admin/class/";
-    $path_n = $path."admin/";
-}
-
-require_once $path_class.'mysql_class.php';
-require_once $path_class.'core.php';
+require_once $path_class."core.php";
 
 class Services extends Core{
     

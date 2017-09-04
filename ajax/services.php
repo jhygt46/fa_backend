@@ -3,51 +3,24 @@ session_start();
 
 header('Content-type: text/json');
 header('Content-type: application/json');
-/*
+
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
+    $path_class = $path."/fa_backend/class/";
+    $path_n = $path."/fa_backend/";
+    
+}else{
+    $path_class = $path."admin/class/";
+    $path_n = $path."admin/";
 }
 
-$path_ = $path."fa_backend/class";
-require_once($path_."/core.php");
-$core = new Core();
-*/
-if($_POST["accion"] == "getllamados"){
-    
-    //$data = $core->get_llamados();
-    $e[0]['id'] = 1;
-    $e[0]['clave'] = "10-0-1";
-    
-    $e[1]['id'] = 1;
-    $e[1]['clave'] = "10-0-1";
-    
-    $e[2]['id'] = 1;
-    $e[2]['clave'] = "10-0-1";
-    $data = $e;
-    
-}
-if($_POST["accion"] == "getCarros"){
-    
-    $data = $core->get_carros();
-    
-}
-if($_GET["accion"] == "getGrifos"){
-    
-    $lat = $_GET["lat"];
-    $lng = $_GET["lng"];
-    
-    $e['grifos'][0]['lat'] = 3;
-    $e['grifos'][0]['lng'] = 4;
-    $e['grifos'][1]['lat'] = 3;
-    $e['grifos'][1]['lng'] = 4;
-    $e['grifos'][2]['lat'] = 3;
-    $e['grifos'][2]['lng'] = 4;
-    $data = $e;
-    
-}
+require_once($path_class."services.php");
+$guardar = new Services();
+$data = $guardar->process();
 echo json_encode($data);
-exit;
+
+
 ?>
 
 
