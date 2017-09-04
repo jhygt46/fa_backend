@@ -6,10 +6,10 @@ header('Content-type: application/json');
 
 require_once 'class/services_class.php';
 $services = new Services();
+
+$res = $services->process();
 echo "1";
 exit;
-$res = $services->process();
-
     
 echo json_encode($res);
     
