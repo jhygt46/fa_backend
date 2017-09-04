@@ -29,7 +29,7 @@ class Services extends Core{
         
     }
     public function process(){
-        
+        return "AUX";
         if($_GET['accion'] == "getGrifos"){
             
             $lat = $_GET['lat'];
