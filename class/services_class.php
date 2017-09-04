@@ -35,7 +35,7 @@ class Services extends Core{
             $lat = $_GET['lat'];
             $lng = $_GET['lng'];
             $coords = $this->getBoundaries($lat, $lng, 1);
-            print_r($coords);
+            return $coords;
             
         }
         
