@@ -115,10 +115,7 @@ class Services extends Core{
                 
                 $retrun[] = $aux;
                 unset($aux);
-                
-                
-                
-                
+
             }
         }
         
