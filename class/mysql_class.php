@@ -35,7 +35,7 @@ class Conexion {
             $resultado['query'] = $sql;
             
             while($row = mysqli_fetch_row($res)){
-                printf ("%s (%s)\n",$row[0],$row[1]);
+                $resultado['aux'][] = $row;
             }
             
             mysqli_free_result($res);
