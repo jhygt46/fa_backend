@@ -25,10 +25,10 @@ class Conexion {
     }
 
     private function conexion($r){
-        echo $this->host[$r]." - ".$this->usuario[$r]." - ".$this->password[$r];
-        $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
+        echo "AA";
+        $this->con = mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
+        echo "BB";
         $error_mysql = mysql_error();
-        echo "AAA: ".$error_mysql;
         if($error_mysql != ''){
             $resultado['estado']	= false;
             $resultado['mensaje']	= 'Error en la conexion con servidor';
@@ -51,19 +51,17 @@ class Conexion {
 
 
     public function sql($sql) {
-        
+
         if (preg_match("/select/i", $sql)) {
             $r = rand(1, count($this->host) - 1);
         }else{
             $r = 0;
         }
-        
+
         $this->conexion($r);
-        
-        $result = mysql_query($sql);
-        echo "DD//";
+        $result = @mysql_query($sql);
         $error_mysql = mysql_error();
-        echo "EE//";
+
         if($error_mysql != ''){
             $resultado['estado'] = false;
             $resultado['query'] = $sql;
