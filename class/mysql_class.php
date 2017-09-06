@@ -26,7 +26,7 @@ class Conexion {
 
     private function conexion($r){
         echo "AA";
-        $this->con = mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
+        $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
         echo "BB";
         $error_mysql = mysql_error();
         if($error_mysql != ''){
