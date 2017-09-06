@@ -25,10 +25,12 @@ class Conexion {
     }
 
     private function conexion($r){
-        
+        echo "AA//";
         $this->con = mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
+        echo "BB//";
         $error_mysql = mysql_error();
-        echo "MYSQL ERROR: ".$error_mysql;
+        echo "CC//";
+        echo $error_mysql;
         if($error_mysql != ''){
             $resultado['estado']	= false;
             $resultado['mensaje']	= 'Error en la conexion con servidor';
@@ -51,15 +53,15 @@ class Conexion {
 
 
     public function sql($sql) {
-        echo "AA//";
+        
         if (preg_match("/select/i", $sql)) {
             $r = rand(1, count($this->host) - 1);
         }else{
             $r = 0;
         }
-        echo "BB//";
+        
         $this->conexion($r);
-        echo "CC//";
+        
         $result = mysql_query($sql);
         echo "DD//";
         $error_mysql = mysql_error();
