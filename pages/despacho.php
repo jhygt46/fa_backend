@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+/*
 echo "AA";
 require_once("/var/www/html/fireapp.cl/public_html/admin/class/fireapp.php");
 echo "BB";
@@ -9,7 +9,7 @@ echo "CC";
 //$fireapp->seguridad(1);
 $claves = $fireapp->get_claves_llamados_cue();
 echo "DD";
-
+*/
 
 
 $lat = -33.5412656;
