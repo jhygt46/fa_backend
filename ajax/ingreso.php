@@ -16,14 +16,17 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-echo "0";
+
 require_once($path_class."ingreso_class.php");
-echo "1";
 $ingreso = new Ingreso();
-echo "2";
+
+
+
 $info = $ingreso->login();
-echo "3";
+
+
+
 echo json_encode($info);
-echo "4";
+
 
 ?>
