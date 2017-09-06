@@ -51,17 +51,19 @@ class Conexion {
 
 
     public function sql($sql) {
-
+        echo "AA//";
         if (preg_match("/select/i", $sql)) {
             $r = rand(1, count($this->host) - 1);
         }else{
             $r = 0;
         }
-
+        echo "BB//";
         $this->conexion($r);
+        echo "CC//";
         $result = mysql_query($sql);
+        echo "DD//";
         $error_mysql = mysql_error();
-
+        echo "EE//";
         if($error_mysql != ''){
             $resultado['estado'] = false;
             $resultado['query'] = $sql;
