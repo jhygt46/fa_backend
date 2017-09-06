@@ -60,9 +60,9 @@ class Conexion {
 
         $this->conexion($r);
         echo "AA";
-        $result = mysql_query($sql);
+        $result = mysqli_query($sql);
         echo "BB";
-        $error_mysql = mysql_error();
+        $error_mysql = mysqli_error();
 
         if($error_mysql != ''){
             $resultado['estado'] = false;
@@ -74,16 +74,16 @@ class Conexion {
         }
 
         if (preg_match("/insert/i", $sql)){
-                $resultado['insert_id'] = mysql_insert_id();
+                $resultado['insert_id'] = mysqli_insert_id();
         }
         if (preg_match("/update/i", $sql)){
-                $resultado['update_rows'] = mysql_affected_rows();
+                $resultado['update_rows'] = mysqli_affected_rows();
         }
         if (preg_match("/delete/i", $sql)){
 
         }
         if (preg_match("/select/i", $sql)){
-            while($row = @mysql_fetch_array($result, MYSQL_ASSOC)){
+            while($row = @mysqli_fetch_array($result, MYSQL_ASSOC)){
                 $resultado['resultado'][] = $row;
             }
         }
