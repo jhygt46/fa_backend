@@ -5,22 +5,30 @@ header('Content-type: text/json');
 header('Content-type: application/json');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
+
 if($_SERVER['HTTP_HOST'] == "localhost"){
+    
     $path .= "/";
     $path_class = $path."/fa_backend/class/";
     $path_n = $path."/fa_backend/";
     
 }else{
+    
     $path_class = $path."admin/class/";
     $path_n = $path."admin/";
+    
 }
 
 require_once($path_class."services_class.php");
-$guardar = new Services();
-$data = $guardar->process();
-echo json_encode($data);
+$svc = new Services();
+$data = $svc->process();
 
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+//echo json_encode($data);
 
+/*
 ?>
 
 
@@ -161,5 +169,5 @@ $e['fotos'][1]['lat'] = "-33.4397973";
 $e['fotos'][1]['lng'] = "-70.6169393";
 
 echo json_encode($e);
-
+*/
 ?>

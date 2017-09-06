@@ -653,11 +653,11 @@ class Core{
         $earthRadius = 6371;
         $return = array();
         $cardinalCoords = [0, 180, 90, 270];
-        $cardinalNames = [0, 180, 90, 270];
+        $cardinalNames = ['north', 'south', 'west', 'east'];
         $rLat = deg2rad($lat);
         $rLng = deg2rad($lng);
         $rAngDist = $distance/$earthRadius;
-        for($i=0; count($cardinalCoords); $i++){
+        for($i=0; $i<count($cardinalCoords); $i++){
             
             $rAngle = deg2rad($cardinalCoords[$i]);
             $rLatB = asin(sin($rLat) * cos($rAngDist) + cos($rLat) * sin($rAngDist) * cos($rAngle));
