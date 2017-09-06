@@ -25,17 +25,17 @@ class Conexion {
     }
 
     private function conexion($r){
-        echo "AA";
+        
         $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
-        echo "BB";
-        $error_mysql = mysql_error();
+        
+        $error_mysql = mysqli_error();
         if($error_mysql != ''){
             $resultado['estado']	= false;
             $resultado['mensaje']	= 'Error en la conexion con servidor';
             $resultado['error']	= $error_mysql;
         }else {
-            $db = mysql_select_db($this->base_datos[$r]);
-            $error_mysql = mysql_error();
+            $db = mysqli_select_db($this->base_datos[$r]);
+            $error_mysql = mysqli_error();
             if($error_mysql != '') {
                     $resultado['estado']	= false;
                     $resultado['mensaje']	= 'Error al seleccionar la base de datos';
@@ -59,7 +59,9 @@ class Conexion {
         }
 
         $this->conexion($r);
-        $result = @mysql_query($sql);
+        echo "AA";
+        $result = mysql_query($sql);
+        echo "BB";
         $error_mysql = mysql_error();
 
         if($error_mysql != ''){
