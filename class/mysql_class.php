@@ -26,8 +26,8 @@ class Conexion {
 
     private function conexion($r){
         echo $this->host[$r]." - ".$this->usuario[$r]." - ".$this->password[$r];
-        $this->con = mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
-
+        $this->con = @mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
+        echo "con: ".$this->con;
         $error_mysql = mysql_error();
 
         if($error_mysql != ''){
