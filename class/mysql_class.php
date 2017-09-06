@@ -4,7 +4,8 @@ require_once $path_n."db_config.php";
 require_once $path."config/config.php";
 
 class Conexion {
-
+    
+    public $conn = null;
     public $host = null;
     public $usuario = null;
     public $password = null;
@@ -21,37 +22,17 @@ class Conexion {
         $this->usuario = $db_user;
         $this->password = $db_password;
         $this->base_datos = $db_database;
+        $this->conn = mysqli_connect($this->host[0], $this->usuario[0], $this->password[0], $this->base_datos[0]);
 
     }
-
-    private function conexion($r){
-        
-        $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
-        
-        $error_mysql = mysqli_error();
-        if($error_mysql != ''){
-            $resultado['estado']	= false;
-            $resultado['mensaje']	= 'Error en la conexion con servidor';
-            $resultado['error']	= $error_mysql;
-        }else {
-            $db = mysqli_select_db($this->base_datos[$r]);
-            $error_mysql = mysqli_error();
-            if($error_mysql != '') {
-                    $resultado['estado']	= false;
-                    $resultado['mensaje']	= 'Error al seleccionar la base de datos';
-                    $resultado['error']	= $error_mysql;
-            }
-            else {
-                    $resultado['estado']	= true;
-            }
-        }
-        return $resultado;
-
-    }
-
 
     public function sql($sql) {
-
+        
+        $res = mysqli_query($this->conn, $sql);
+        print_r($res);
+        echo $res;
+        exit;
+        
         if (preg_match("/select/i", $sql)) {
             $r = rand(1, count($this->host) - 1);
         }else{
@@ -95,7 +76,7 @@ class Conexion {
     }
 
     public function __destruct(){
-        @mysqli_close($this->con);
+        mysqli_close($this->conn);
     }
 
 
