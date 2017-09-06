@@ -29,33 +29,23 @@ class Conexion {
     public function sql($sql) {
         
         $res = mysqli_query($this->conn, $sql);
-        echo "<pre>";
-        print_r($res);
-        echo "</pre>";
-        exit;
-        
-        if (preg_match("/select/i", $sql)) {
-            $r = rand(1, count($this->host) - 1);
-        }else{
-            $r = 0;
-        }
 
-        $this->conexion($r);
-        echo $sql."//";
-        $result = mysqli_query($this->con, $sql);
-        print_r($result);
-        exit;
-        $error_mysql = mysqli_error();
-        
-        if($error_mysql != ''){
-            $resultado['estado'] = false;
-            $resultado['query'] = $sql;
-            $resultado['error'] = $error_mysql;
-        }else{
+        if(!mysqli_connect_errno()){
             $resultado['estado'] = true;
             $resultado['query'] = $sql;
+            
+            while ($row = mysqli_fetch_row($res)){
+                echo $row;
+            }
+            
+        }else{
+            $resultado['estado'] = false;
+            $resultado['query'] = $sql;
+            $resultado['error'] = "Failed: ".mysqli_connect_error();
         }
-
+        
+        exit;
+        
         if (preg_match("/insert/i", $sql)){
                 $resultado['insert_id'] = mysqli_insert_id();
         }
