@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once("/var/www/html/fireapp.cl/public_html/admin/class/fireapp.php");
+//require_once("/var/www/html/fireapp.cl/public_html/admin/class/fireapp.php");
 //$fireapp = new Fireapp();
 //$fireapp->seguridad(1);
 //$claves = $fireapp->get_claves_llamados_cue();
