@@ -13,7 +13,7 @@ class Ingreso {
 
     }
     public function login(){
-        
+        echo "AAA";
         $accion = $_POST["accion"];
         if($accion == "admin"){
             $tipo = $_POST["tipo"];
@@ -24,6 +24,7 @@ class Ingreso {
                 return $this->recuperar();
             }
         }
+        echo "BBB";
         if($accion == "app"){
             return $this->ingresar_user_app();
         }
@@ -73,7 +74,8 @@ class Ingreso {
     }
     
     public function ingresar_user(){
-                
+        
+        echo "WWW";
         if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
             
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST['user']."' AND eliminado='0'");
