@@ -26,6 +26,11 @@ class Conexion {
 
     private function conexion($r){
         
+        echo $this->host[$r]."//";
+        echo $this->usuario[$r]."//";
+        echo $this->password[$r]."//";
+        echo $this->base_datos[$r]."//";
+        
         $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
         
         $error_mysql = mysqli_error();
