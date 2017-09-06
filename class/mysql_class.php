@@ -59,9 +59,11 @@ class Conexion {
         }
 
         $this->conexion($r);
+        echo $sql;
         $result = mysqli_query($sql);
+        echo $result;
         $error_mysql = mysqli_error();
-        print_r($result);
+        
         if($error_mysql != ''){
             $resultado['estado'] = false;
             $resultado['query'] = $sql;
