@@ -29,8 +29,9 @@ class Conexion {
     public function sql($sql) {
         
         $res = mysqli_query($this->conn, $sql);
+        echo "<pre>";
         print_r($res);
-        echo $res;
+        echo "</pre>";
         exit;
         
         if (preg_match("/select/i", $sql)) {
