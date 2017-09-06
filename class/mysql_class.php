@@ -46,7 +46,7 @@ class Conexion {
             $resultado['error'] = "Failed: ".mysqli_connect_error();
         }
         
-        exit;
+        return $resultado;
         /*
         if (preg_match("/insert/i", $sql)){
                 $resultado['insert_id'] = mysqli_insert_id();
@@ -65,7 +65,7 @@ class Conexion {
         $resultado['count'] = count($resultado['resultado']);	
         @mysqli_free_result($result);
         */
-        return $resultado;
+        
         
     }
 

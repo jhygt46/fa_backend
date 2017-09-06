@@ -19,13 +19,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 
 require_once($path_class."ingreso_class.php");
 $ingreso = new Ingreso();
-
-
-
 $info = $ingreso->login();
-
-
-
 echo json_encode($info);
 
 

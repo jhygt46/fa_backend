@@ -37,6 +37,7 @@ class Ingreso {
         if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
             
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST["user"]."' AND eliminado='0'");
+            $info['db'] = $user;
             if($user['count'] == 1){
                 
                 $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
