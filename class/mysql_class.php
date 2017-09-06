@@ -59,9 +59,7 @@ class Conexion {
         }
 
         $this->conexion($r);
-        echo "AA";
         $result = mysqli_query($sql);
-        echo "BB";
         $error_mysql = mysqli_error();
 
         if($error_mysql != ''){
@@ -88,13 +86,13 @@ class Conexion {
             }
         }
         $resultado['count'] = count($resultado['resultado']);	
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         return $resultado;
 
     }
 
     public function __destruct(){
-        @mysql_close($this->con);
+        @mysqli_close($this->con);
     }
 
 
