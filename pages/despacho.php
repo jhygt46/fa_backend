@@ -1,10 +1,14 @@
 <?php
 session_start();
 
+echo "AA";
 require_once("/var/www/html/fireapp.cl/public_html/admin/class/fireapp.php");
+echo "BB";
 $fireapp = new Fireapp();
+echo "CC";
 //$fireapp->seguridad(1);
 $claves = $fireapp->get_claves_llamados_cue();
+echo "DD";
 
 
 
