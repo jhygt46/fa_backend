@@ -29,24 +29,24 @@ class Conexion {
     public function sql($sql) {
         
         $res = mysqli_query($this->conn, $sql);
-
         if(!mysqli_connect_errno()){
             $resultado['estado'] = true;
             $resultado['query'] = $sql;
             
-            while($row = mysqli_fetch_assoc($res)){
-                $resultado['resultado'][] = $row;
-            }
-            
             if (preg_match("/select/i", $sql)){
-                //$resultado['insert_id'] = mysqli_insert_id();
-                $resultado['tipo'] = "Select";
+                $i=0;
+                while($row = mysqli_fetch_assoc($res)){
+                    $resultado['resultado'][] = $row;
+                    $i++;
+                }
+                $resultado['count'] = $i;
             }
             if (preg_match("/insert/i", $sql)){
-                //$resultado['insert_id'] = mysqli_insert_id();
-                $resultado['tipo'] = "insert";
+                $resultado['insert_id'] = mysqli_insert_id();
             }
-            
+            if (preg_match("/update/i", $sql)){
+                $resultado['update_rows'] = mysqli_affected_rows();
+            }
             mysqli_free_result($res);
             
         }else{
