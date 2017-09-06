@@ -26,10 +26,9 @@ class Conexion {
 
     private function conexion($r){
         echo $this->host[$r]." - ".$this->usuario[$r]." - ".$this->password[$r];
-        $this->con = @mysql_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
-        echo "con: ".$this->con;
+        $this->con = mysqli_connect($this->host[$r], $this->usuario[$r], $this->password[$r]);
         $error_mysql = mysql_error();
-
+        echo "AAA: ".$error_mysql;
         if($error_mysql != ''){
             $resultado['estado']	= false;
             $resultado['mensaje']	= 'Error en la conexion con servidor';
