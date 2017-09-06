@@ -38,6 +38,15 @@ class Conexion {
                 $resultado['resultado'][] = $row;
             }
             
+            if (preg_match("/select/i", $sql)){
+                //$resultado['insert_id'] = mysqli_insert_id();
+                $resultado['tipo'] = "Select";
+            }
+            if (preg_match("/insert/i", $sql)){
+                //$resultado['insert_id'] = mysqli_insert_id();
+                $resultado['tipo'] = "insert";
+            }
+            
             mysqli_free_result($res);
             
         }else{
@@ -48,9 +57,7 @@ class Conexion {
         
         return $resultado;
         /*
-        if (preg_match("/insert/i", $sql)){
-                $resultado['insert_id'] = mysqli_insert_id();
-        }
+        
         if (preg_match("/update/i", $sql)){
                 $resultado['update_rows'] = mysqli_affected_rows();
         }
