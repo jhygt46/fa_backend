@@ -34,9 +34,11 @@ class Conexion {
             $resultado['estado'] = true;
             $resultado['query'] = $sql;
             
-            while ($row = mysqli_fetch_row($res)){
-                echo $row;
+            while($row = mysqli_fetch_row($res)){
+                printf ("%s (%s)\n",$row[0],$row[1]);
             }
+            
+            mysqli_free_result($res);
             
         }else{
             $resultado['estado'] = false;
@@ -45,7 +47,7 @@ class Conexion {
         }
         
         exit;
-        
+        /*
         if (preg_match("/insert/i", $sql)){
                 $resultado['insert_id'] = mysqli_insert_id();
         }
@@ -62,8 +64,9 @@ class Conexion {
         }
         $resultado['count'] = count($resultado['resultado']);	
         @mysqli_free_result($result);
+        */
         return $resultado;
-
+        
     }
 
     public function __destruct(){
