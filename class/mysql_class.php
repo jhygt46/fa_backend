@@ -59,7 +59,7 @@ class Conexion {
         }
 
         $this->conexion($r);
-        $result = @mysql_query($sql);
+        $result = mysql_query($sql);
         $error_mysql = mysql_error();
 
         if($error_mysql != ''){
