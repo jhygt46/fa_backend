@@ -61,7 +61,7 @@ class Conexion {
         $this->conexion($r);
         $result = mysqli_query($sql);
         $error_mysql = mysqli_error();
-
+        print_r($result);
         if($error_mysql != ''){
             $resultado['estado'] = false;
             $resultado['query'] = $sql;
