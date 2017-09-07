@@ -133,7 +133,7 @@ class Services extends Core{
         $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
         $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.comuna, t1.lat, t1.lng, t1.id_cia, t1.fecha_creado FROM actos t1, claves t2 WHERE t1.id_act = '".$id."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
         print_r($actos);
-        
+        print_r($_GET);
         if($actos['count'] > 0){
             
             $lis_actos = $actos['resultado'];
