@@ -18,9 +18,14 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 require_once($path_class."services_class.php");
 $svc = new Services();
 $data = $svc->process();
-echo json_encode($data);
 
-/*
+echo "<pre>";
+print_r($data);
+echo "</pre>";
+
+//echo json_encode($data);
+
+
 ?>
 
 
