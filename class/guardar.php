@@ -144,7 +144,40 @@ class Guardar extends Core{
         if($_POST['accion'] == "eliminaractocue"){
             return $this->eliminaractocue();
         }
+        if($_POST['accion'] == "crearllamado"){
+            return $this->crearllamado();
+        }
 
+    }
+    
+    private function crearllamado(){
+        
+        if(!$this->seguridad_permiso(3)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $id = $_POST['id'];
+        $id_clave = $_POST['id_clave'];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
+        
+        $maquinas[0] = 14;
+        $maquinas[1] = 17;
+        
+        for($i=0; $i<count($maquinas); $i++){
+            
+        }
+        
+        $ids = 1;
+        $clave = "10-0-1";
+        $direccion = "Jose Tomas Rider 1185";
+        $secure = "Dkerbgerjf";
+        
+        $resp = file_get_contents("http://www.bridgeinformation.cl/crear_llamado?id=".$ids."&clave=".$clave."&direccion=".$direccion."&lat=".$lat."&lng=".$lng."&secure=".$secure);
+        
+        
     }
     
     private function crearactocia(){

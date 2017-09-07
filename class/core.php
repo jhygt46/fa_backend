@@ -6,29 +6,22 @@ require_once $path_class.'mysql_class.php';
 class Core{
     
     public $con = null;
-
     public function __construct(){
-        
         $this->id_cia = $this->getciaid();
         $this->id_cue = $this->getcueid();
         $this->con = new Conexion();
-        
     }
     public function seguridad_permiso($id_tar){
-        
         if(!in_array($id_tar, $_SESSION['user']['permisos'])){
             $this->riesgoseguridad();
         }
         return true;
-        
     }
     public function seguridad_usuario(){
-        
         if($_SESSION['user']['info']['id_user'] == 1){
             return true;
         }
         $this->riesgoseguridad();
-        
     }
     public function riesgoseguridad(){
         echo "<span style='font-size: 2em'>ERROR: NO TIENE PERMISOS</span>";
@@ -43,11 +36,6 @@ class Core{
     public function getcueid(){
         return $_SESSION['user']['info']['id_cue'];
     }
-    
-    
-    
-    
-    
     // CUERPO //
     public function get_cuerpos(){
         $cuerpos = $this->con->sql("SELECT * FROM cuerpos WHERE eliminado='0'");
@@ -64,9 +52,7 @@ class Core{
         $aux['gtareas'] = $gtareas['resultado'];
         return $aux;
     }
-    
     // COMPAÑIAS //
-    
     public function get_cias(){
         $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cue='".$this->id_cue."' AND eliminado='0' ORDER BY numero");
         return $cuerpos['resultado'];
@@ -75,112 +61,73 @@ class Core{
         $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cia='".$id."' AND id_cue='".$this->id_cia."'");
         return $cuerpos['resultado'][0];
     }
-    
-    // PERFIL //
+    // PERFILES //
     public function get_perfiles_cia(){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $perfiles['resultado'];
-        
     }
     public function get_perfil_cia($id){
-
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_per='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $perfiles['resultado'][0];
-        
     }
     public function get_perfiles_cue(){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_cia='0' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $perfiles['resultado'];
-        
     }
     public function get_perfil_cue($id){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_per='".$id."' AND id_cue='".$this->id_cue."' AND id_cia='0' AND eliminado='0'");
         return $perfiles['resultado'][0];
-        
     }
+    // PERFIL - CARGOS //
     public function get_perfiles_cargo_cia($id){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_cargos pc WHERE pc.id_carg='".$id."' AND pc.id_per=p.id_per AND p.id_cia='".$this->id_cia."' AND p.id_cue='".$this->id_cue."'");
         return $perfiles['resultado'];
-        
     }
     public function get_perfiles_cargo_cue($id){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_cargos pc WHERE pc.id_carg='".$id."' AND pc.id_per=p.id_per AND p.id_cia='0' AND p.id_cue='".$this->id_cue."'");
         return $perfiles['resultado'];
-        
     }
+    // PERFIL - USUARIOS //
     public function get_perfiles_user($id){
-        
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_usuarios pu WHERE pu.id_user='".$id."' AND pu.id_per=p.id_per");
         return $perfiles['resultado'];
-        
     }
-    
     // GET USUARIOS //
-    public function get_usuarios_cuartel(){
-        
-        $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE encuartel='1' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
-        return $usuarios['resultado'];
-        
-    }
     public function get_usuarios_cia(){
-        
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $usuarios['resultado'];
-        
-    }
-    public function get_usuarios_cue(){
-        
-        $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_cue='".$this->id_cue."' AND eliminado='0'");
-        return $usuarios['resultado'];
-        
     }
     public function get_usuario_cia($id){
-
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cia."'");
         return $usuarios['resultado'][0];
-        
+    }
+    public function get_usuarios_cue(){
+        $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_cue='".$this->id_cue."' AND eliminado='0'");
+        return $usuarios['resultado'];
     }
     public function get_usuario_cue($id){
-
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."' AND id_cue='".$this->id_cia."'");
         return $usuarios['resultado'][0];
-        
     }
-    
-    // GET BLOGS //
-    public function get_blog_data(){
-        
-        $blogs = $this->con->sql("SELECT * FROM blog WHERE iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
-        return $blogs['resultado'];
-        
+    public function get_usuarios_cuartel(){
+        $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE encuartel='1' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        return $usuarios['resultado'];
     }
-    
     // GET CARGOS //
     public function get_cargo_cia($id){
-        
         $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
         return $cuerpo['resultado'][0];
-        
     }
     public function get_cargo_cue($id){
-        
         $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND id_cia='0' AND iscia='0' AND id_cue='".$this->id_cue."'");
         return $cuerpo['resultado'][0];
-        
     }
+    // CLAVES //
     public function get_claves_cue(){
-        
         $claves = $this->con->sql("SELECT * FROM claves WHERE iscia='0' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $claves['resultado'];
-        
     }
     public function get_claves_llamados_cue(){
-        
         $claves = $this->con->sql("SELECT * FROM claves WHERE id_cia='0' AND id_cue='".$this->id_cue."' AND eliminado='0' AND tipo='1' ORDER BY grupo");
         $cla = $claves['resultado'];
         for($i=0; $i<count($cla); $i++){
@@ -188,13 +135,10 @@ class Core{
             $aux[$cla[$i]['grupo']]['claves'][] = $cla[$i];
         }
         return $aux;
-        
     }
     public function get_claves_cia(){
-        
         $claves = $this->con->sql("SELECT * FROM claves WHERE id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' || id_cia='0') AND iscia='1' AND eliminado='0'");
         return $claves['resultado'];
-        
     }
     
     public function get_clave_cue($id){
@@ -647,7 +591,11 @@ class Core{
         return $aux['resultado'][0];
         
     }
-    
+    // GET BLOGS //
+    public function get_blog_data(){
+        $blogs = $this->con->sql("SELECT * FROM blog WHERE iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
+        return $blogs['resultado'];
+    }
     function getBoundaries($lat, $lng, $distance = 1){
         
         $earthRadius = 6371;
