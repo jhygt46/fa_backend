@@ -103,7 +103,7 @@ class Services extends Core{
                     }
                 }
                 
-                $carros = $this->con->sql("SELECT t1.id_car, t2.nombre FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+                $carros = $this->con->sql("SELECT t1.id_car, t2.nombre, t2.id_cia, t2.id_cue FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
                 if($carros['count'] > 0){
                     
                     for($j=0; $j<$carros['count']; $j++){
