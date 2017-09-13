@@ -28,6 +28,32 @@ class Services extends Core{
         if($_GET['accion'] == "getLlamado"){
             return $this->getllamado($_GET['id']);
         }
+        if($_GET['accion'] == "find_user"){
+            return $this->find_user();
+        }
+        
+    }
+    
+    private function find_user(){
+        
+        $id = $_POST["id"];
+        $hash = $_POST["access"];
+        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id='".$id."'");
+        
+        if($sql['count'] == 1 && $sql['resultado'][0]['hash'] == $hash){
+            
+            $aux['in'] = true;
+            $aux['nombre'] = $sql['resultado'][0]['nombre'];
+            $aux['id_cia'] = $sql['resultado'][0]['id_cia'];
+            $aux['id_cue'] = $sql['resultado'][0]['id_cue'];
+            
+        }else{
+            
+            $aux['in'] = false;
+            
+        }
+        
+        return $aux;
         
     }
     
@@ -88,7 +114,7 @@ class Services extends Core{
                         unset($aux_carros);
                     }
                 }
-                
+
                 $voluntarios = $this->con->sql("SELECT t2.id_user, t2.nombre, t2.id_cia, t2.id_cue FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_user=t2.id_user");
                 if($voluntarios['count'] > 0){
                     for($j=0; $j<$voluntarios['count']; $j++){
@@ -106,10 +132,8 @@ class Services extends Core{
                 $aux['informacion']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
                 $llamados[] = $aux;
                 unset($aux);
-
             }
         }
-        
         return $llamados;
         
     }
