@@ -28,19 +28,13 @@ class Services extends Core{
         if($_GET['accion'] == "getLlamado"){
             return $this->getllamado($_GET['id']);
         }
-        if($_GET['accion'] == "find_user"){
-            $b['id'] = 1;
-            $b['msg'] = "WENA WEAN";
-            return $b;
+        if($_POST['accion'] == "find_user"){
+            return $this->find_user();
         }
         
     }
     
     private function find_user(){
-        
-        $b['id'] = 1;
-        $b['msg'] = "WENA WEAN";
-        return $b;
         
         $id = $_POST["id"];
         $hash = $_POST["access"];
