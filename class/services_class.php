@@ -29,7 +29,9 @@ class Services extends Core{
             return $this->getllamado($_GET['id']);
         }
         if($_GET['accion'] == "find_user"){
-            return $this->find_user();
+            $b['id'] = 1;
+            $b['msg'] = "WENA WEAN";
+            return $b;
         }
         
     }
