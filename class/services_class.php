@@ -38,8 +38,8 @@ class Services extends Core{
         
         $id = $_POST["id"];
         $hash = $_POST["access"];
-        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id='".$id."'");
-        
+        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+        return $sql;
         if($sql['count'] == 1 && $sql['resultado'][0]['hash'] == $hash){
             
             $aux['in'] = true;
