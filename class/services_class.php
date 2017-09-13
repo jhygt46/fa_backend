@@ -36,6 +36,10 @@ class Services extends Core{
     
     private function find_user(){
         
+        $b['id'] = 1;
+        $b['msg'] = "WENA WEAN";
+        return $b;
+        
         $id = $_POST["id"];
         $hash = $_POST["access"];
         $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
