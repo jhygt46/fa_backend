@@ -99,7 +99,7 @@ class Services extends Core{
                         $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
                         $aux_cias['acargo'] = "JUANITO PEREZ";
                         $aux_cias['cantidad'] = 12;
-                        $aux['informacion']['cias'][] = $aux_cias;
+                        $aux['info']['cias'][] = $aux_cias;
                         unset($aux_cias);
                     }
                 }
@@ -116,7 +116,7 @@ class Services extends Core{
                         $aux_carros['63'] = date("Y-m-d h:i:s");
                         $aux_carros['69'] = date("Y-m-d h:i:s");
                         $aux_carros['610'] = date("Y-m-d h:i:s");
-                        $aux['informacion']['carros'][] = $aux_carros;
+                        $aux['info']['carros'][] = $aux_carros;
                         unset($aux_carros);
                     }
                 }
@@ -130,12 +130,12 @@ class Services extends Core{
                         $aux_vol['antiguedad'] = 2134;
                         $aux_vol['id_cia'] = $voluntarios['resultado'][$j]['id_cia'];
                         $aux_vol['id_cue'] = $voluntarios['resultado'][$j]['id_cue'];
-                        $aux['informacion']['voluntarios'][] = $aux_vol;
+                        $aux['info']['voluntarios'][] = $aux_vol;
                         unset($aux_vol);
                     }
                 }
                 
-                $aux['informacion']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
+                $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
                 $llamados[] = $aux;
                 unset($aux);
             }
