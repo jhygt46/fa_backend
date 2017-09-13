@@ -4,8 +4,11 @@ session_start();
 header('Content-type: text/json');
 header('Content-type: application/json');
 
-$path = $_SERVER['DOCUMENT_ROOT'];
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
+$path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
     $path_class = $path."/fa_backend/class/";
