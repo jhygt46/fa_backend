@@ -1,10 +1,9 @@
 <?php
-session_start();
-
+header('Access-Control-Allow-Origin: *');
 header('Content-type: text/json');
 header('Content-type: application/json');
 
-header('Access-Control-Allow-Origin: *');
+
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
