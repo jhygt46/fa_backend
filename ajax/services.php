@@ -20,6 +20,7 @@ require_once($path_class."services_class.php");
 $svc = new Services();
 $data = $svc->process();
 echo json_encode($data);
+
 /*
 
 ?>
