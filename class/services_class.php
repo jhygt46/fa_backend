@@ -124,7 +124,7 @@ class Services extends Core{
                         $aux_pos_carros['icon'] = 1;
                         
                         $aux['pos'][] =  $aux_pos_carros;
-                        //$aux['info']['carros'][] = $aux_carros;
+                        $aux['info']['carros'][] = $aux_carros;
                         unset($aux_carros);
                         unset($aux_pos_carros);
                         
