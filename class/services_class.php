@@ -65,7 +65,7 @@ class Services extends Core{
     private function getllamados(){
         
         if($_POST['code'] != $this->secret){
-            return;
+            return "HOLA MUNDO";
         }
         
         
