@@ -38,22 +38,16 @@ class Services extends Core{
     private function find_user(){
         
         $id = $_POST["id"];
-        $hash = $_POST["access"];
+        $hash = $_POST["hash"];
         $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
-        
         if($sql['count'] == 1 && $sql['resultado'][0]['hash'] == $hash){
-            
             $aux['in'] = true;
             $aux['nombre'] = $sql['resultado'][0]['nombre'];
             $aux['id_cia'] = $sql['resultado'][0]['id_cia'];
             $aux['id_cue'] = $sql['resultado'][0]['id_cue'];
-            
         }else{
-            
             $aux['in'] = false;
-            
         }
-        
         return $aux;
         
     }
