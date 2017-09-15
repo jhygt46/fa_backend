@@ -91,7 +91,7 @@ class Services extends Core{
                         $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
                         $aux_cias['acargo'] = "JUANITO PEREZ";
                         $aux_cias['cantidad'] = 12;
-                        //$aux['info']['cias'][] = $aux_cias;
+                        $aux['info']['cias'][] = $aux_cias;
                         unset($aux_cias);
                     }
                 }
@@ -134,7 +134,7 @@ class Services extends Core{
                         $aux_vol['antiguedad'] = 2134;
                         $aux_vol['id_cia'] = $voluntarios['resultado'][$j]['id_cia'];
                         $aux_vol['id_cue'] = $voluntarios['resultado'][$j]['id_cue'];
-                        //$aux['info']['voluntarios'][] = $aux_vol;
+                        $aux['info']['voluntarios'][] = $aux_vol;
                         unset($aux_vol);
                     }
                 }
