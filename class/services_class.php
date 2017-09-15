@@ -69,7 +69,7 @@ class Services extends Core{
         }
         
         $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
-        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.comuna, t1.lat, t1.lng, t1.id_cia, t1.fecha_creado FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
+        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.comuna, t1.lat, t1.lng, t1.id_cia, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
         
         if($actos['count'] > 0){
             $lis_actos = $actos['resultado'];
@@ -83,6 +83,7 @@ class Services extends Core{
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
                 $aux['info']['fecha'] = $lis_actos[$i]['fecha_creado'];
                 $aux['info']['fecha_fin'] = 0;
+                $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
                 
                 $cias = $this->con->sql("SELECT t1.id_cia, t2.nombre FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
                 if($cias['count'] > 0){
