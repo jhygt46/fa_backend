@@ -81,7 +81,7 @@ class Services extends Core{
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
                 $aux['info']['fecha'] = $this->diffs(time(), strtotime($lis_actos[$i]['fecha_creado']));
                 
-                $aux['info']['fecha1'] = date("Y-m-d h:i:s");
+                $aux['info']['fecha1'] = date("Y-m-d h:i:s", time());
                 $aux['info']['fecha2'] = $lis_actos[$i]['fecha_creado'];
                 
                 $aux['info']['fecha_fin'] = 0;
