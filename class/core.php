@@ -140,7 +140,6 @@ class Core{
         $claves = $this->con->sql("SELECT * FROM claves WHERE id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' || id_cia='0') AND iscia='1' AND eliminado='0'");
         return $claves['resultado'];
     }
-    
     public function get_clave_cue($id){
         
         $claves = $this->con->sql("SELECT * FROM claves WHERE id_cla='".$id."' AND id_cia='0' AND id_cue='".$this->id_cue."'");
@@ -239,8 +238,6 @@ class Core{
         return $aux;
         
     }
-
-    
     public function get_claves_tipo(){
         
         $clave_id = $_POST["clave_id"];
@@ -249,8 +246,6 @@ class Core{
         return $tdc['resultado'];
         
     }
-    
-    
     public function distancia($lat1, $lat2, $lng1, $lng2){
         
         $degrees = rad2deg(acos((sin(deg2rad($lat1))*sin(deg2rad($lat2))) + (cos(deg2rad($lat1))*cos(deg2rad($lat2))*cos(deg2rad($lng1-$lng2)))));
@@ -258,7 +253,6 @@ class Core{
         return round($distance, 2);
         
     }
-
     public function get_grupos_cue($iscargo){
         
         $aux_sql = "";
@@ -287,7 +281,6 @@ class Core{
         return $grupos['resultado'];
         
     }
-    
     public function get_grupo_cue($id){
         
         $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id."' AND id_cue='".$this->id_cue."' AND id_cia='0'");
@@ -310,7 +303,6 @@ class Core{
         return $aux;
         
     }
-    
     public function get_grupo_cue_vol($id){
         
         $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id."' AND iscargo='0' AND id_cue='".$this->id_cue."' AND id_cia='0'");
@@ -333,7 +325,6 @@ class Core{
         return $aux;
         
     }
-    
     public function get_users_cargo_cue($id){
         // IMPORTANTE REVISAR QUERY
         $users = $this->con->sql("SELECT t2.fecha_creado, t2.id_ucar, t3.id_user, t3.nombre, t2.fecha_ini, t2.fecha_fin FROM cargos t1, usuarios_cargos t2, usuarios t3 WHERE t1.id_carg='".$id."' AND t1.id_carg=t2.id_carg AND t2.id_user=t3.id_user AND t3.id_cue='".$this->id_cue."' AND t1.id_cue='".$this->id_cue."' AND t1.iscia='0' ORDER BY t2.fecha_ini DESC");
@@ -364,7 +355,6 @@ class Core{
         return $cargos['resultado'];
         
     }
-    
     // GET TAREAS //
     public function get_tareas_cia($type){
         $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY grupoorder");
@@ -382,9 +372,7 @@ class Core{
         $tareas = $this->con->sql("SELECT * FROM tareas_grupos");
         return $tareas['resultado'];
     }
-    
     // CARROS //
-    
     public function get_carros(){
         
         $lat = $_POST["lat"];
@@ -569,15 +557,12 @@ class Core{
         $carros = $this->con->sql("SELECT * FROM tipos_de_carros WHERE id_tdc='".$id."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $carros['resultado'][0];
     }
-    
     // LLAMADOS //
-    
     public function get_llamado($id){
         
         $llamado = $this->con->sql("SELECT * FROM actos WHERE id_act='".$id."' AND  id_cue='".$this->id_cue."'");
         return $llamado['resultado'][0];
     }
-    
     // CONFIGURACION //
     public function get_config_cue(){
         
@@ -620,10 +605,7 @@ class Core{
         return $aux;
         
     }
-    
-    
     // PERMISOS //
-
     public function permisos_usuario(){
         
         $id_user = $this->getuserid();
@@ -646,7 +628,6 @@ class Core{
         return $aux;
         
     }
-    
     // ORDER //
     public function order_group($result, $id){
         
@@ -661,7 +642,6 @@ class Core{
         return $aux;
         
     }
-    
     public function actuales($list_user_cargo){
         
         $now = @time();
@@ -694,6 +674,11 @@ class Core{
         return false;
         
     }
-    
+    public function diff($time1, $time2){
+        
+        $diff = $time1 - $time2;
+        return $diff;
+        
+    }
     
 }
