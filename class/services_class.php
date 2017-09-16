@@ -81,12 +81,6 @@ class Services extends Core{
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
                 $aux['info']['fecha'] = $this->diffs(time(), strtotime($lis_actos[$i]['fecha_creado']));
                 
-                $aux['info']['fecha1'] = date("Y-m-d h:i:s", time());
-                $aux['info']['fecha2'] = $lis_actos[$i]['fecha_creado'];
-                
-                $aux['info']['fecha3'] = time();
-                $aux['info']['fecha4'] = strtotime($lis_actos[$i]['fecha_creado']);
-                
                 $aux['info']['fecha_fin'] = 0;
                 $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
                 
@@ -247,8 +241,31 @@ class Services extends Core{
     }
     public function diffs($time1, $time2){
         
+        $res = "Hace: ";
         $diff = $time1 - $time2;
-        return $diff;
+        
+        if($diff > 3600){
+            $horas = round($diff/3600, 0);
+            $diff = $diff % 3600;
+            if($horas == 1){
+                $res .= "1 hora";
+            }else{
+                $res .= $horas." horas";
+            }
+        }
+        if($diff > 60){
+            $minutos = round($diff, 0);
+            $diff = $diff % 60;
+            if($minutos == 1){
+                $res .= "1 minuto";
+            }else{
+                $res .= $minutos." minutos";
+            }
+        }else{
+            $res .= "menos de 1 minuto";
+        }
+
+        return $res;
         
     }
     
