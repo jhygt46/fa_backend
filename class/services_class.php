@@ -265,7 +265,7 @@ class Services extends Core{
             $mins = $diff - ($horas * 3600);
             if($mins > 60){
                 $m = floor($mins/60);
-                $res .= $m." minutos";
+                $res .= " ".$m." minutos";
             }
         }
         return $res;
