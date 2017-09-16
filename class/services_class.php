@@ -80,7 +80,7 @@ class Services extends Core{
                 $aux['info']['direccion'] = $lis_actos[$i]['direccion'];
                 $aux['info']['lat'] = $lis_actos[$i]['lat'];
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
-                $aux['info']['fecha'] = now() - strtotime($lis_actos[$i]['fecha_creado']);
+                $aux['info']['fecha'] = date() - strtotime($lis_actos[$i]['fecha_creado']);
                 $aux['info']['fecha_fin'] = 0;
                 $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
                 
