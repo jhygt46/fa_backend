@@ -79,7 +79,7 @@ class Services extends Core{
                 $aux['info']['direccion'] = $lis_actos[$i]['direccion'];
                 $aux['info']['lat'] = $lis_actos[$i]['lat'];
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
-                $aux['info']['fecha'] = diffs(time(),strtotime($lis_actos[$i]['fecha_creado']));
+                $aux['info']['fecha'] = diffs(time(), strtotime($lis_actos[$i]['fecha_creado']));
                 
                 $aux['info']['fecha1'] = date("Y-m-d h:i:s");
                 $aux['info']['fecha2'] = $lis_actos[$i]['fecha_creado'];
@@ -240,6 +240,12 @@ class Services extends Core{
         }
         
         return $return;
+        
+    }
+    public function diffs($time1, $time2){
+        
+        $diff = $time1 - $time2;
+        return $diff;
         
     }
     

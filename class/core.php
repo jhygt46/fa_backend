@@ -674,11 +674,6 @@ class Core{
         return false;
         
     }
-    public function diffs($time1, $time2){
-        
-        $diff = $time1 - $time2;
-        return $diff;
-        
-    }
+    
     
 }
