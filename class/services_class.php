@@ -246,7 +246,7 @@ class Services extends Core{
         
         if($diff > 3600){
             $horas = round($diff/3600, 0);
-            $diff = $diff % 3600;
+            $diff = $diff - $horas * 3600;
             if($horas == 1){
                 $res .= "1 hora";
             }else{
@@ -255,7 +255,7 @@ class Services extends Core{
         }
         if($diff > 60){
             $minutos = round($diff, 0);
-            $diff = $diff % 60;
+            $diff = $diff - $minutos * 60;
             if($minutos == 1){
                 $res .= "1 minuto";
             }else{
