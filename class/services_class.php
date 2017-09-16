@@ -244,27 +244,24 @@ class Services extends Core{
         $res = "Hace: ";
         $diff = $time1 - $time2;
         
+        if($diff < 60){
+            $res .= "menos de 1 minuto";
+        }
+        if($diff > 60 && $diff < 120){
+            $res .= "1 minuto";
+        }
+        if($diff > 120 && $diff < 3600){
+            $minutos = round($diff/60);
+            $res .= $minutos." minutos";
+        }
         if($diff > 3600){
-            $horas = round($diff/3600, 0);
-            $diff = $diff - $horas * 3600;
+            $horas = round($diff/3600);
             if($horas == 1){
                 $res .= "1 hora";
             }else{
                 $res .= $horas." horas";
             }
         }
-        if($diff > 60){
-            $minutos = round($diff, 0);
-            $diff = $diff - $minutos * 60;
-            if($minutos == 1){
-                $res .= "1 minuto";
-            }else{
-                $res .= $minutos." minutos";
-            }
-        }else{
-            $res .= "menos de 1 minuto";
-        }
-
         return $res;
         
     }
