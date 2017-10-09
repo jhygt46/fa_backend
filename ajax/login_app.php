@@ -16,11 +16,11 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-echo $path_class."services_class.php";
-exit;
-
 require_once($path_class."services_class.php");
+echo "1";
 $svc = new Services();
+echo "2";
 $data = $svc->login_app();
+echo "3";
 echo json_encode($data);
 

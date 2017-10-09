@@ -34,7 +34,7 @@ class Services extends Core{
         }
         
     }
-    private function login_app(){
+    public function login_app(){
         
         $correo = $_POST["email"];
         $pass = $_POST["pass"];
