@@ -40,39 +40,27 @@ class Services extends Core{
         $pass = $_POST["pass"];
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
             if($user['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
                 $info['op'] = 2;
                 $info['message'] = "Error: Usuario no existe";
-                
             }
             if($sql['count'] == 1){
-                
                 $id_user = $sql['resultado'][0]['id_user'];
                 $bloqueado = $sql['resultado'][0]['bloqueado'];
                 if($bloqueado == 1){
-                    
                     $fecha_block = $sql['resultado'][0]['fecha_bloqueado'];
                     if(strtotime($fecha_block) + 86400 < time()){
-                        
                         $info['op'] = 2;
                         $info['message'] = "Error:";
-                        
                     }else{
-                        
                         $bloqueado = 0;
                         $this->con->sql("UPDATE usuarios SET bloqueado='0' WHERE id_user='".$id_user."'");
-                        
                     }
-                    
                 }
-                
                 if($bloqueado == 0){
-                    
                     if($pass == md5($sql['resultado'][0]['pass']) && strlen($pass) >= 8){
-                        
                         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         $code = substr(str_shuffle($chars), 0, 32);
                         $info['op'] = true;
@@ -82,9 +70,7 @@ class Services extends Core{
                         $info['nombre'] = $sql['resultado'][0]['nombre'];
                         $info['code'] = $code;
                         $this->con->sql("UPDATE usuarios SET code_app='".$code."' WHERE id_user='".$id_user."'");
-                        
                     }else{
-                        
                         $intentos = $sql['resultado'][0]['intentos'] + 1;
                         $this->con->sql("UPDATE usuarios SET intentos='".$intentos."' WHERE id_user='".$id_user."'");
                         if($intentos >= 10){
@@ -95,18 +81,12 @@ class Services extends Core{
                             $info['op'] = 2;
                             $info['message'] = "Error: Password invalido";
                         }
-                        
                     }
-
                 }
-
             }
-            
         }else{
-            
             $info['op'] = false;
             $info['message'] = "Error:";
-            
         }
         return $info;
         
