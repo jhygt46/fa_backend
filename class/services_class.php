@@ -53,7 +53,7 @@ class Services extends Core{
                     $fecha_block = $sql['resultado'][0]['fecha_bloqueado'];
                     if(strtotime($fecha_block) + 86400 < time()){
                         $info['op'] = 2;
-                        $info['message'] = "Error:";
+                        $info['message'] = "Error: j2";
                     }else{
                         $bloqueado = 0;
                         $this->con->sql("UPDATE usuarios SET bloqueado='0' WHERE id_user='".$id_user."'");
@@ -86,7 +86,7 @@ class Services extends Core{
             }
         }else{
             $info['op'] = false;
-            $info['message'] = "Error:";
+            $info['message'] = "Error: j1";
         }
         return $info;
         
