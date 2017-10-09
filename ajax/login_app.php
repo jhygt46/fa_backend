@@ -4,7 +4,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Content-type: text/json');
 header('Content-type: application/json');
 
-exit;
+
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
@@ -15,6 +15,9 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_class = $path."admin/class/";
     $path_n = $path."admin/";
 }
+
+echo $path_class."services_class.php";
+exit;
 
 require_once($path_class."services_class.php");
 $svc = new Services();
