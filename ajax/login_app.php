@@ -4,6 +4,8 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Content-type: text/json');
 header('Content-type: application/json');
 
+exit;
+
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
