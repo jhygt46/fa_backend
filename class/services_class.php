@@ -39,6 +39,8 @@ class Services extends Core{
         $correo = $_POST["email"];
         $pass = $_POST["pass"];
         
+        $info['data'] = $correo." - ".$pass;
+        
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
             if($user['count'] == 0){
