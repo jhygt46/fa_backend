@@ -294,7 +294,7 @@ class Services extends Core{
         $id_cue = 1;
         $id_act = 1;
         
-        $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 WHERE t1.id_cia='".$id_cia."' LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user");
+        $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t1.id_cia='1'");
         
         echo "<pre>";
         print_r($users);
