@@ -39,8 +39,6 @@ class Services extends Core{
         $correo = $_POST["email"];
         $pass = $_POST["pass"];
         
-        $info['data'] = $_POST;
-        
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
             if($user['count'] == 0){
@@ -62,7 +60,7 @@ class Services extends Core{
                     }
                 }
                 if($bloqueado == 0){
-                    if($pass == md5($sql['resultado'][0]['pass']) && strlen($pass) >= 8){
+                    if($pass == md5($sql['resultado'][0]['pass'])){
                         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         $code = substr(str_shuffle($chars), 0, 32);
                         $info['op'] = true;
