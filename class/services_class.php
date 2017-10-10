@@ -20,7 +20,7 @@ class Services extends Core{
     }
     public function process(){
         
-        if($_GET['accion'] == "asistencia"){
+        if($_POST['accion'] == "asistencia"){
             return $this->getasistencia();
         }
         if($_GET['accion'] == "getGrifos"){
@@ -286,14 +286,11 @@ class Services extends Core{
     }
     private function getasistencia(){
         
-        $id_cia = $_GET["id_cia"];
-        $id_cue = $_GET["id_cue"];
-        $id_act = $_GET["id_act"];
+        $id_cia = $_POST["id_cia"];
+        $id_cue = $_POST["id_cue"];
+        $id_act = $_POST["id_act"];
 
-        
         $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t2.id_act='".$id_act."' WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."'");
-        
-
         
         for($i=0; $i<$users['count']; $i++){
             
@@ -309,9 +306,6 @@ class Services extends Core{
             unset($aux);
             
         }
-        echo "<pre>";
-        print_r($aux2);
-        echo "</pre>";
         return $aux2;
         
     }
