@@ -60,7 +60,7 @@ class Services extends Core{
                     }
                 }
                 if($bloqueado == 0){
-                    if($pass == md5($sql['resultado'][0]['pass'])){
+                    if(md5($pass) == $sql['resultado'][0]['pass'] && strlen($pass) >= 8){
                         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         $code = substr(str_shuffle($chars), 0, 32);
                         $info['op'] = true;
