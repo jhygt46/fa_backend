@@ -286,15 +286,12 @@ class Services extends Core{
     }
     private function getasistencia(){
         
-        $id_cia = $_POST["id_cia"];
-        $id_cue = $_POST["id_cue"];
-        $id_act = $_POST["id_act"];
+        $id_cia = $_GET["id_cia"];
+        $id_cue = $_GET["id_cue"];
+        $id_act = $_GET["id_act"];
+
         
-        $id_cia = 1;
-        $id_cue = 1;
-        $id_act = 1;
-        
-        $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t1.id_cia='1' AND t1.id_cue='1'");
+        $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t1.id_cia='1' AND t1.id_cue='1' AND t2.id_act='1'");
         
         echo "<pre>";
         print_r($users);
