@@ -293,21 +293,25 @@ class Services extends Core{
         
         $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t2.id_act='".$id_act."' WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."'");
         
-        echo "<pre>";
-        print_r($users);
-        echo "</pre>";
+
         
         for($i=0; $i<$users['count']; $i++){
             
             $aux['id'] = $users['resultado'][$i]['id_user'];
             $aux['nombre'] = $users['resultado'][$i]['nombre'];
-            $aux['checked'] = true;
+            if($users['resultado'][$i]['id_act'] == $id_act){
+                $aux['checked'] = true;
+            }else{
+                $aux['checked'] = false;
+            }
             $aux['disabled'] = false;
             $aux2[] = $aux;
             unset($aux);
             
         }
-        
+        echo "<pre>";
+        print_r($aux2);
+        echo "</pre>";
         return $aux2;
         
     }
