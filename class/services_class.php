@@ -290,7 +290,7 @@ class Services extends Core{
         $id_cue = $_POST["id_cue"];
         $id_act = $_POST["id_act"];
         
-        $users = $this->con->sql("SELECT * FROM usuarios t1 WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."' ");
+        $users = $this->con->sql("SELECT * FROM usuarios WHERE id_cia='".$id_cia."' AND id_cue='".$id_cue."'");
         
         for($i=0; $i<$users['count']; $i++){
             
@@ -298,7 +298,7 @@ class Services extends Core{
             $aux['nombre'] = $users['resultado'][$i]['nombre'];
             $aux['checked'] = true;
             $aux['disabled'] = false;
-            aux2[] = $aux;
+            $aux2[] = $aux;
             unset($aux);
             
         }
