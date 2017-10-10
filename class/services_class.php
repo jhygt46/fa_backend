@@ -287,29 +287,23 @@ class Services extends Core{
     private function getasistencia(){
         
         $id_cia = $_POST["id_cia"];
+        $id_cue = $_POST["id_cue"];
         $id_act = $_POST["id_act"];
         
-        $aux[0]['id'] = 1;
-        $aux[0]['nombre'] = "Diego Gomez B";
-        $aux[0]['checked'] = true;
-        $aux[0]['disabled'] = false;
+        $users = $this->con->sql("SELECT * FROM usuarios t1 WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."' ");
         
-        $aux[1]['id'] = 2;
-        $aux[1]['nombre'] = "Juan Perez B";
-        $aux[1]['checked'] = false;
-        $aux[1]['disabled'] = false;
+        for($i=0; $i<$users['count']; $i++){
+            
+            $aux['id'] = $users['resultado'][$i]['id_user'];
+            $aux['nombre'] = $users['resultado'][$i]['nombre'];
+            $aux['checked'] = true;
+            $aux['disabled'] = false;
+            aux2[] = $aux;
+            unset($aux);
+            
+        }
         
-        $aux[2]['id'] = 3;
-        $aux[2]['nombre'] = "Jorge Gonzalez J";
-        $aux[2]['checked'] = false;
-        $aux[2]['disabled'] = false;
-        
-        $aux[3]['id'] = 4;
-        $aux[3]['nombre'] = "Diego Mora T";
-        $aux[3]['checked'] = true;
-        $aux[3]['disabled'] = false;
-        
-        return $aux;
+        return $aux2;
         
     }
     // LO DEJO POR ACA//
