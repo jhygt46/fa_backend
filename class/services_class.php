@@ -56,7 +56,7 @@ class Services extends Core{
                         $info['message'] = "Error: j2";
                     }else{
                         $bloqueado = 0;
-                        $this->con->sql("UPDATE usuarios SET bloqueado='0' WHERE id_user='".$id_user."'");
+                        $this->con->sql("UPDATE usuarios SET bloqueado='0', intentos='0' WHERE id_user='".$id_user."'");
                     }
                 }
                 if($bloqueado == 0){
