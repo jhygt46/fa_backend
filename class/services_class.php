@@ -20,7 +20,7 @@ class Services extends Core{
     }
     public function process(){
         
-        if($_POST['accion'] == "asistencia"){
+        if($_GET['accion'] == "asistencia"){
             return $this->getasistencia();
         }
         if($_GET['accion'] == "getGrifos"){
@@ -289,6 +289,10 @@ class Services extends Core{
         $id_cia = $_POST["id_cia"];
         $id_cue = $_POST["id_cue"];
         $id_act = $_POST["id_act"];
+        
+        $id_cia = 1;
+        $id_cue = 1;
+        $id_act = 1;
         
         $users = $this->con->sql("SELECT * FROM usuarios WHERE id_cia='".$id_cia."' AND id_cue='".$id_cue."'");
         
