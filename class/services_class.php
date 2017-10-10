@@ -20,6 +20,9 @@ class Services extends Core{
     }
     public function process(){
         
+        if($_POST['accion'] == "asistencia"){
+            return $this->getasistencia();
+        }
         if($_GET['accion'] == "getGrifos"){
             return $this->getgrifos($_GET['lat'], $_GET['lng']);
         }
@@ -41,7 +44,7 @@ class Services extends Core{
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
-            if($user['count'] == 0){
+            if($sql['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
                 $info['op'] = 2;
                 $info['message'] = "Error: Usuario no existe";
@@ -53,7 +56,7 @@ class Services extends Core{
                     $fecha_block = $sql['resultado'][0]['fecha_bloqueado'];
                     if(strtotime($fecha_block) + 86400 < time()){
                         $info['op'] = 2;
-                        $info['message'] = "Error: j2";
+                        $info['message'] = "Error:";
                     }else{
                         $bloqueado = 0;
                         $this->con->sql("UPDATE usuarios SET bloqueado='0', intentos='0' WHERE id_user='".$id_user."'");
@@ -87,7 +90,7 @@ class Services extends Core{
             }
         }else{
             $info['op'] = false;
-            $info['message'] = "Error: j1";
+            $info['message'] = "Error:";
         }
         return $info;
         
@@ -279,6 +282,34 @@ class Services extends Core{
         }
         
         return $return;
+        
+    }
+    private function getasistencia(){
+        
+        $id_cia = $_POST["id_cia"];
+        $id_act = $_POST["id_act"];
+        
+        $aux[0]['id'] = 1;
+        $aux[0]['nombre'] = "Diego Gomez B";
+        $aux[0]['checked'] = true;
+        $aux[0]['disabled'] = false;
+        
+        $aux[1]['id'] = 2;
+        $aux[1]['nombre'] = "Juan Perez B";
+        $aux[1]['checked'] = false;
+        $aux[1]['disabled'] = false;
+        
+        $aux[2]['id'] = 3;
+        $aux[2]['nombre'] = "Jorge Gonzalez J";
+        $aux[2]['checked'] = false;
+        $aux[2]['disabled'] = false;
+        
+        $aux[3]['id'] = 4;
+        $aux[3]['nombre'] = "Diego Mora T";
+        $aux[3]['checked'] = true;
+        $aux[3]['disabled'] = false;
+        
+        return $aux;
         
     }
     // LO DEJO POR ACA//
