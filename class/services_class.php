@@ -296,6 +296,10 @@ class Services extends Core{
         
         $users = $this->con->sql("SELECT * FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user");
         
+        echo "<pre>";
+        print_r($users);
+        echo "</pre>";
+        
         for($i=0; $i<$users['count']; $i++){
             
             $aux['id'] = $users['resultado'][$i]['id_user'];
