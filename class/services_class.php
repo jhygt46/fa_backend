@@ -63,11 +63,12 @@ class Services extends Core{
                     if(md5($pass) == $sql['resultado'][0]['pass'] && strlen($pass) >= 8){
                         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                         $code = substr(str_shuffle($chars), 0, 32);
-                        $info['op'] = true;
+                        $info['op'] = 1;
                         $info['id_user'] = $sql['resultado'][0]['id_user'];
                         $info['id_cia'] = $sql['resultado'][0]['id_cia'];
                         $info['id_cue'] = $sql['resultado'][0]['id_cue'];
                         $info['nombre'] = $sql['resultado'][0]['nombre'];
+                        $info['message'] = "";
                         $info['code'] = $code;
                         $this->con->sql("UPDATE usuarios SET code_app='".$code."' WHERE id_user='".$id_user."'");
                     }else{
