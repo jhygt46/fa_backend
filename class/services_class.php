@@ -235,7 +235,7 @@ class Services extends Core{
         $aux['db'] = $perfil;
         $aux['nombre'] = $perfil['resultado'][0]['nombre'];
         $aux['edad'] = 33;
-        $aux['telefono'] = $perfil['resultado'][0]['telefono'];
+        $aux['telefono'] = "+56966166923";
         $aux['correo'] = $perfil['resultado'][0]['correo'];
         $aux['antiguedad'] = 2067;
         $aux['cargo'] = "Capitan";
