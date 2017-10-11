@@ -232,7 +232,7 @@ class Services extends Core{
         $code = $_POST["id_user"];
         
         $perfil = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
-        
+        $aux['db'] = $perfil;
         $aux['nombre'] = $perfil['resultado'][0]['nombre'];
         $aux['edad'] = 33;
         $aux['telefono'] = $perfil['resultado'][0]['telefono'];
