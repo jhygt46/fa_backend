@@ -122,7 +122,7 @@ class Services extends Core{
         $id_cia = 1;
         $id_cue = 1;
         
-        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t1.direccion, t1.fecha_creado FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=3");
+        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t1.direccion, t1.fecha_creado FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=3 AND t1.id_cue='".$id_cue."' AND (t1.id_cia='".$id_cia."' OR (t1.id_cia='0' AND t2.iscia='0'))");
         
         echo "<pre>";
         print_r($actos);
