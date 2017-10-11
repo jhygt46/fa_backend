@@ -38,7 +38,9 @@ class Services extends Core{
         if($_POST['accion'] == "find_user"){
             return $this->find_user();
         }
-        
+        if($_POST['accion'] == "setlibro"){
+            return $this->setlibro();
+        }
     }
     public function login_app(){
         
@@ -327,6 +329,15 @@ class Services extends Core{
         }
         
         return $info;
+        
+    }
+    private function setlibro(){
+        
+        $id_user = $_POST["id_user"];
+        $id_act = $_POST["id_act"];
+        $text = $_POST["text"];
+
+        $this->con->sql("INSERT INTO actos_libros (id_act, id_user, text) VALUES ('".$id_act."', '".$id_user."', '".$text."')");
         
     }
     // LO DEJO POR ACA//
