@@ -32,6 +32,9 @@ class Services extends Core{
         if($_POST['accion'] == "get_llamados"){
             return $this->getllamados();
         }
+        if($_GET['accion'] == "getcitaciones"){
+            return $this->getcitaciones();
+        }
         if($_GET['accion'] == "getLlamado"){
             return $this->getllamado($_GET['id']);
         }
@@ -109,6 +112,22 @@ class Services extends Core{
             $aux = $grifos['resultado'];
         }
         return $aux;
+    }
+    private function getcitaciones(){
+        
+        $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
+        $id_cia = $_POST["id_cia"];
+        $id_cue = $_POST["id_cue"];
+        
+        $id_cia = 1;
+        $id_cue = 1;
+        
+        $actos = $this->con->sql("SELECT * FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=3");
+        
+        echo "<pre>";
+        print_r($actos);
+        echo "</pre>";
+        
     }
     private function getllamados(){
         
