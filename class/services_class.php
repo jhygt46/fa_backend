@@ -20,8 +20,11 @@ class Services extends Core{
     }
     public function process(){
         
-        if($_POST['accion'] == "asistencia"){
+        if($_POST['accion'] == "getasistencia"){
             return $this->getasistencia();
+        }
+        if($_POST['accion'] == "setasistencia"){
+            return $this->setasistencia();
         }
         if($_GET['accion'] == "getGrifos"){
             return $this->getgrifos($_GET['lat'], $_GET['lng']);
@@ -307,6 +310,21 @@ class Services extends Core{
             
         }
         return $aux2;
+        
+    }
+    private function setasistencia(){
+        
+        $id_user = $_POST["id_user"];
+        $id_act = $_POST["id_act"];
+        $asist = $_POST["asist"];
+
+        $aux = $this->con->sql("SELECT * FROM  actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+        if($aux['count'] == 0 && $asist){
+            $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
+        }
+        if($aux['count'] == 1 && !asist){
+            $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+        }
         
     }
     // LO DEJO POR ACA//
