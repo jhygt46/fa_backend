@@ -123,9 +123,19 @@ class Services extends Core{
         $id_cue = 1;
         
         $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t1.direccion, t1.fecha_creado, t2.todos, t2.id_gru, t1.lat, t1.lng FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=3 AND t1.id_cue='".$id_cue."' AND (t1.id_cia='".$id_cia."' OR (t1.id_cia='0' AND t2.iscia='0'))");
+        for($i=0; $i<$actos['count']; $i++){
+            $aux['id'] = $actos['resultado'][$i]['id_act'];
+            $aux['titulo'] = $actos['resultado'][$i]['nombre'];
+            $aux['direccion'] = $actos['resultado'][$i]['direccion'];
+            $aux['fecha'] = $actos['resultado'][$i]['fecha_creado'];
+            $aux['vestuario'] = "Sport Formal";
+            $aux['user'][] = array();
+            $aux2[] = $aux;
+            unset($aux);
+        }
         
         echo "<pre>";
-        print_r($actos);
+        print_r($aux2);
         echo "</pre>";
         
     }
