@@ -318,11 +318,20 @@ class Services extends Core{
         $id_act = $_POST["id_act"];
         $asist = $_POST["asist"];
         
-        $info['w1'] = $id_user;
-        $info['w2'] = $id_act;
-        $info['w3'] = $asist;
+        $info['user'] = $id_user;
+        $info['act'] = $id_act;
+        $info['asist'] = $asist;
+        
+        if($asist){
+            $info['bool'] = true;
+        }
+        if(!$asist){
+            $info['bool'] = false;
+        }
         
         $aux = $this->con->sql("SELECT * FROM  actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+        $info['aux'] = $aux;
+        
         if($aux['count'] == 0 && $asist){
             $info['a'] = $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
         }
