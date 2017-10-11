@@ -317,27 +317,15 @@ class Services extends Core{
         $id_user = $_POST["id_user"];
         $id_act = $_POST["id_act"];
         $asist = $_POST["asist"];
-        
-        $info['user'] = $id_user;
-        $info['act'] = $id_act;
-        $info['asist'] = $asist;
-        
-        if($asist == "true"){
-            $info['bool'] = true;
-        }
-        if($asist == "false"){
-            $info['bool'] = false;
-        }
-        
         $aux = $this->con->sql("SELECT * FROM  actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
-        $info['aux'] = $aux;
         
-        if($aux['count'] == 0 && $asist){
-            $info['a'] = $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
+        if($aux['count'] == 0 && $asist == "true"){
+            $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
         }
-        if($aux['count'] == 1 && !asist){
-            $info['b'] = $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+        if($aux['count'] == 1 && $asist == "false"){
+            $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
         }
+        
         return $info;
         
     }
