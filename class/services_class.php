@@ -35,6 +35,9 @@ class Services extends Core{
         if($_POST['accion'] == "getcitaciones"){
             return $this->getcitaciones();
         }
+        if($_POST['accion'] == "getperfil"){
+            return $this->getperfil();
+        }
         if($_GET['accion'] == "getLlamado"){
             return $this->getllamado($_GET['id']);
         }
@@ -221,6 +224,32 @@ class Services extends Core{
             }
         }
         return $llamados;
+        
+    }
+    private function getperfil(){
+        
+        $id_user = $_POST["id_user"];
+        $code = $_POST["id_user"];
+        
+        $perfil = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+        
+        $aux['nombre'] = $perfil['resultado'][0]['nombre'];
+        $aux['edad'] = 33;
+        $aux['telefono'] = $perfil['resultado'][0]['telefono'];
+        $aux['correo'] = $perfil['resultado'][0]['correo'];
+        $aux['antiguedad'] = 2067;
+        $aux['cargo'] = "Capitan";
+        
+        if($code == $perfil['resultado'][0]['code_app']){
+            
+            // MI PERFIL
+            
+        }else{
+            
+            // OTRO PERFIL
+            
+        }
+        return $aux;
         
     }
     private function getllamado($id){
