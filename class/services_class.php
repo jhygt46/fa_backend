@@ -322,10 +322,10 @@ class Services extends Core{
         $info['act'] = $id_act;
         $info['asist'] = $asist;
         
-        if($asist){
+        if($asist == "true"){
             $info['bool'] = true;
         }
-        if(!$asist){
+        if($asist == "false"){
             $info['bool'] = false;
         }
         
