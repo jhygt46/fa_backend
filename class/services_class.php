@@ -29,7 +29,7 @@ class Services extends Core{
         if($_GET['accion'] == "getGrifos"){
             return $this->getgrifos($_GET['lat'], $_GET['lng']);
         }
-        if($_POST['accion'] == "get_llamados"){
+        if($_GET['accion'] == "get_llamados"){
             return $this->getllamados();
         }
         if($_POST['accion'] == "getcitaciones"){
@@ -140,7 +140,7 @@ class Services extends Core{
     private function getllamados(){
         
         if($_POST['code'] != $this->secret){
-            return;
+            //return;
         }
         
         $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
