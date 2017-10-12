@@ -223,6 +223,9 @@ class Services extends Core{
                 unset($aux);
             }
         }
+        echo "<pre>";
+        print_r($llamados);
+        echo "</pre>";
         return $llamados;
         
     }
