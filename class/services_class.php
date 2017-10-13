@@ -48,6 +48,23 @@ class Services extends Core{
             return $this->setlibro();
         }
     }
+    
+    private function find_user(){
+        
+        $id = $_POST["id"];
+        $hash = $_POST["hash"];
+        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id='".$id."'");
+        
+        if($sql['resultado'][0]['hash'] == $hash){
+            $aux['op'] = 1;
+            $aux['nombre'] = $sql['resultado'][0]['nombre'];
+            $aux['id_cia'] = $sql['resultado'][0]['id_cia'];
+            $aux['id_cue'] = $sql['resultado'][0]['id_cue'];
+            $aux['pos_cia'] = 1;
+            $aux['pos_cue'] = 1;
+        }
+        return $aux;
+    }
     public function login_app(){
         
         $correo = $_POST["email"];
