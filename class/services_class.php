@@ -21,13 +21,13 @@ class Services extends Core{
     public function process(){
         
         // NODEJS START INFO//
-        if($_GET['accion'] == "get_nodejs_llamados"){
+        if($_POST['accion'] == "get_nodejs_llamados"){
             return $this->get_nodejs_llamados();
         }
-        if($_GET['accion'] == "get_nodejs_cuarteles"){
+        if($_POST['accion'] == "get_nodejs_cuarteles"){
             return $this->get_nodejs_cuarteles();
         }
-        if($_GET['accion'] == "get_nodejs_usuarios"){
+        if($_POST['accion'] == "get_nodejs_usuarios"){
             return $this->get_nodejs_usuarios();
         }
         // NODEJS START INFO//
