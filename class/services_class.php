@@ -135,6 +135,7 @@ class Services extends Core{
                 $aux['lat'] = $lis_cias[$i]['lat'];
                 $aux['lng'] = $lis_cias[$i]['lng'];
                 $aux['id_cue'] = $lis_cias[$i]['id_cue'];
+                $aux['voluntarios'][] = array();
                 
                 $rcias[] = $aux;
                 unset($aux);
@@ -155,7 +156,7 @@ class Services extends Core{
             $lis_user = $users['resultado'];
             for($i=0; $i<$users['count']; $i++){
                 
-                $aux['id'] = $lis_user[$i]['id_user'];
+                $aux['id_user'] = $lis_user[$i]['id_user'];
                 $aux['hash'] = $lis_user[$i]['hash'];
                 $aux['nombre'] = $lis_user[$i]['nombre'];
                 $aux['id_cia'] = $lis_user[$i]['id_cia'];
