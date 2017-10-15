@@ -135,7 +135,7 @@ class Services extends Core{
                 $aux['lat'] = $lis_cias[$i]['lat'];
                 $aux['lng'] = $lis_cias[$i]['lng'];
                 $aux['id_cue'] = $lis_cias[$i]['id_cue'];
-                $aux['voluntarios'][] = array();
+                $aux['voluntarios'] = array();
                 
                 $rcias[] = $aux;
                 unset($aux);
