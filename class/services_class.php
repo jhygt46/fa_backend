@@ -163,6 +163,12 @@ class Services extends Core{
                 $aux['id_cue'] = $lis_user[$i]['id_cue'];
                 $aux['pos_cia'] = $lis_user[$i]['pos_cia'];
                 $aux['pos_cue'] = $lis_user[$i]['pos_cue'];
+                $aux['date'] = 0;
+                $aux['id_act'] = 0;
+                $aux['id_cua'] = 0;
+                $aux['id_car'] = 0;
+                $aux['act_pendiente'] = 0;
+                $aux['cua_pendiente'] = 0;                
                 
                 $ruser[] = $aux;
                 unset($aux);
