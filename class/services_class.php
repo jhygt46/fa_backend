@@ -69,7 +69,7 @@ class Services extends Core{
             return;
         }
         
-        $fecha = date("Y-m-d h:i:s", strtotime("-5 day"));
+        $fecha = date("Y-m-d h:i:s", strtotime("-15 day"));
         $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.lat, t1.lng, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
         
         if($actos['count'] > 0){
