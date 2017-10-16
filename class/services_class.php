@@ -97,20 +97,22 @@ class Services extends Core{
                 $carros = $this->con->sql("SELECT t1.id_car, t2.nombre, t2.id_cia, t2.id_cue, t2.lat, t2.lng, t2.id_user FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
                 if($carros['count'] > 0){
                     for($j=0; $j<$carros['count']; $j++){
+                        
                         $aux_carros['id_car'] = $carros['resultado'][$j]['id_car'];
                         $aux_carros['nombre'] = $carros['resultado'][$j]['nombre'];
                         $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
                         $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
-                        $aux_pos_carros['id'] = $carros['resultado'][$j]['id_user'];
-                        $aux_pos_carros['icon'] = 1;
+                        $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
+
                         $aux['info']['maquinas'] .= $carros['resultado'][$j]['nombre']." ";
-                        $aux['pos'][] =  $aux_pos_carros;
+
                         $aux['info']['carros'][] = $aux_carros;
                         unset($aux_carros);
                         unset($aux_pos_carros);
                     }
                 }
                 $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
+                
                 $llamados[] = $aux;
                 unset($aux);
             }
