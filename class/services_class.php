@@ -109,6 +109,9 @@ class Services extends Core{
                             $sql_user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$carros['resultado'][$j]['id_user']."'");
                             $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
                             $aux_carros['nombre'] = $sql_user['resultado'][0]['nombre'];
+                        }else{
+                            $aux_carros['id_user'] = 0;
+                            $aux_carros['nombre'] = "";
                         }
                         $aux_carros['cantidad'] = $carros['resultado'][$j]['cantidad'];
                         $aux['info']['carros'][] = $aux_carros;
@@ -150,7 +153,6 @@ class Services extends Core{
         }
         
         $cias = $this->con->sql("SELECT * FROM companias WHERE eliminado='0'");
-        
         if($cias['count'] > 0){
             $lis_cias = $cias['resultado'];
             for($i=0; $i<$cias['count']; $i++){
@@ -160,8 +162,29 @@ class Services extends Core{
                 $aux['lat'] = $lis_cias[$i]['lat'];
                 $aux['lng'] = $lis_cias[$i]['lng'];
                 $aux['id_cue'] = $lis_cias[$i]['id_cue'];
-                $aux['voluntarios'] = array();
                 
+                $vols = $this->con->sql("SELECT * FROM usuarios WHERE id_cua='".$lis_cias[$i]['id_cia']."'");
+                if($vols['count'] > 0){
+                    for($j=0; $j<$vols['count']; $j++){
+                        
+                        $aux_vols['id_user'] = $vols['resultado'][$j]['id_user'];
+                        $aux_vols['nombre'] = $vols['resultado'][$j]['nombre'];
+                        $aux_vols['id_cia'] = $vols['resultado'][$j]['id_cia'];
+                        $aux_vols['id_cue'] = $vols['resultado'][$j]['id_cue'];
+                        $aux_vols['estado'] = "En Cuartel";
+                        $aux_vols['distancia'] = 0;
+                        if($vols['resultado'][$j]['id_cia'] == $lis_cias[$i]['id_cia']){
+                            $aux_vols['pos_cia'] = $vols['resultado'][$j]['pos_cia'];
+                        }else{
+                            $aux_vols['pos_cia'] = 0;
+                        }
+                        $aux['voluntarios'][] = $aux_vols;
+                        unset($aux_vols);
+                        
+                    }
+                }else{
+                    $aux['voluntarios'] = array();
+                }
                 $rcias[] = $aux;
                 unset($aux);
             }
@@ -220,11 +243,6 @@ class Services extends Core{
         }
         return $aux;
     }
-    
-    
-    
-    
-    
     public function login_app(){
         
         $correo = $_POST["email"];
@@ -287,7 +305,7 @@ class Services extends Core{
         
         $aux = array();
         $coords = $this->getBoundaries($lat, $lng, 1);
-        $grifos = $this->con->sql("SELECT * FROM grifos WHERE lat>='".$coords["min_lat"]."' AND lat<='".$coords["max_lat"]."' AND lng>='".$coords["max_lng"]."' AND lng<='".$coords["min_lng"]."'");
+        $grifos = $this->con->sql("SELECT lat, lng FROM grifos WHERE lat>='".$coords["min_lat"]."' AND lat<='".$coords["max_lat"]."' AND lng>='".$coords["max_lng"]."' AND lng<='".$coords["min_lng"]."'");
         if($grifos['count'] > 0){
             $aux = $grifos['resultado'];
         }
@@ -314,7 +332,6 @@ class Services extends Core{
         return $aux2;
         
     }
-    
     private function getperfil(){
         
         $id_user = $_POST["id_user"];
