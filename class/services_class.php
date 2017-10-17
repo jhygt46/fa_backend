@@ -241,7 +241,7 @@ class Services extends Core{
         
         $id_act = $_POST['id_act'];
         $acto = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.lat, t1.lng, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
-        
+        return $acto;
         if($acto['count'] == 1){
             
             $aux['info']['id_act'] = $acto['resultado'][0]['id_act'];
