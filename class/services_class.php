@@ -134,7 +134,7 @@ class Services extends Core{
                 
                 $aux['info']['maquinas'] = implode(" ", $aux['info']['infomaq']);
                 $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
-                $aux['info']['posiciones'] = array();
+                $aux['posiciones'] = array();
                 
                 $llamados[] = $aux;
                 unset($aux);
