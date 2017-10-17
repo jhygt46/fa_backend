@@ -85,33 +85,56 @@ class Services extends Core{
                 $aux['info']['fecha'] = strtotime($lis_actos[$i]['fecha_creado']);
                 $aux['info']['fin'] = $lis_actos[$i]['fin'];;
                 $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
-                $cias = $this->con->sql("SELECT t1.id_cia, t2.nombre FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
+                
+                $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
                 if($cias['count'] > 0){
                     for($j=0; $j<$cias['count']; $j++){
                         $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
                         $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
+                        $aux_cias['id_cue'] = $cias['resultado'][$j]['id_cue'];
                         $aux['info']['cias'][] = $aux_cias;
                         unset($aux_cias);
                     }
                 }
-                $carros = $this->con->sql("SELECT t1.id_car, t2.nombre, t2.id_cia, t2.id_cue, t2.lat, t2.lng, t2.id_user FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+                
+                $carros = $this->con->sql("SELECT t1.id_car, t2.nombre, t2.id_cia, t2.id_cue, t2.cantidad, t2.id_user, t2.cantidad FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
                 if($carros['count'] > 0){
                     for($j=0; $j<$carros['count']; $j++){
-                        
+                        $aux['info']['infomaq'][] = $carros['resultado'][$j]['nombre'];
                         $aux_carros['id_car'] = $carros['resultado'][$j]['id_car'];
                         $aux_carros['nombre'] = $carros['resultado'][$j]['nombre'];
                         $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
                         $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
-                        $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
-
-                        $aux['info']['maquinas'] .= $carros['resultado'][$j]['nombre']." ";
-
+                        if($carros['resultado'][$j]['id_user'] != 0){
+                            $sql_user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$carros['resultado'][$j]['id_user']."'");
+                            $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
+                            $aux_carros['nombre'] = $sql_user['resultado'][0]['nombre'];
+                        }
+                        $aux_carros['cantidad'] = $carros['resultado'][$j]['cantidad'];
                         $aux['info']['carros'][] = $aux_carros;
                         unset($aux_carros);
-                        unset($aux_pos_carros);
                     }
                 }
+                 
+                $voluntarios = $this->con->sql("SELECT * FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_user=t2.id_user");
+                if($voluntarios['count'] > 0){
+                    for($j=0; $j<$voluntarios['count']; $j++){
+
+                        $aux_voluntarios['id_user'] = $voluntarios['resultado'][$j]['id_user'];
+                        $aux_voluntarios['nombre'] = $voluntarios['resultado'][$j]['nombre'];
+                        $aux_voluntarios['id_cia'] = $voluntarios['resultado'][$j]['id_cia'];
+                        $aux_voluntarios['id_cue'] = $voluntarios['resultado'][$j]['id_cue'];
+                        $aux_voluntarios['pos_cia'] = $voluntarios['resultado'][$j]['pos_cia'];
+                        $aux_voluntarios['pos_cue'] = $voluntarios['resultado'][$j]['pos_cue'];
+                        
+                        $aux['info']['voluntarios'][] = $aux_carros;
+                        unset($aux_carros);
+                    }
+                }
+                
+                $aux['info']['maquinas'] = implode(" ", $aux['info']['infomaq']);
                 $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
+                $aux['info']['posiciones'] = array();
                 
                 $llamados[] = $aux;
                 unset($aux);
@@ -197,6 +220,11 @@ class Services extends Core{
         }
         return $aux;
     }
+    
+    
+    
+    
+    
     public function login_app(){
         
         $correo = $_POST["email"];
