@@ -32,6 +32,13 @@ class Services extends Core{
         }
         // NODEJS START INFO//
         
+        // NODEJS ACTUALIZAR INFO //
+        if($_POST['accion'] == "find_llamado"){
+            return $this->find_llamado();
+        }
+        // NODEJS ACTUALIZAR INFO //
+        
+        
         
         
         
@@ -226,7 +233,66 @@ class Services extends Core{
         
     }
     
-    
+    private function find_llamado(){
+        
+        if($_POST['code'] != $this->secret){
+            return;
+        }
+        
+        $id_act = $_POST['id_act'];
+        $acto = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.lat, t1.lng, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.tipo=1");
+        
+        if($acto['count'] == 1){
+            
+            $aux['info']['id_act'] = $acto['resultado'][0]['id_act'];
+            $aux['info']['nombre'] = $acto['resultado'][0]['nombre'];
+            $aux['info']['clave'] = $acto['resultado'][0]['clave'];
+            $aux['info']['direccion'] = $acto['resultado'][0]['direccion'];
+            $aux['info']['lat'] = $acto['resultado'][0]['lat'];
+            $aux['info']['lng'] = $acto['resultado'][0]['lng'];
+            $aux['info']['fecha'] = strtotime($lis_actos[$i]['fecha_creado']);
+            $aux['info']['fin'] = $acto['resultado'][0]['fin'];;
+            $aux['info']['id_cue'] = $acto['resultado'][0]['id_cue'];
+            
+            $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
+            if($cias['count'] > 0){
+                for($j=0; $j<$cias['count']; $j++){
+                    $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
+                    $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
+                    $aux_cias['id_cue'] = $cias['resultado'][$j]['id_cue'];
+                    $aux['info']['cias'][] = $aux_cias;
+                    unset($aux_cias);
+                }
+            }
+
+            $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+            if($carros['count'] > 0){
+                for($j=0; $j<$carros['count']; $j++){
+                    $infomaquinas[] = $carros['resultado'][$j]['nombre'];
+                    $aux_carros['id_car'] = $carros['resultado'][$j]['id_car'];
+                    $aux_carros['nombre'] = $carros['resultado'][$j]['nombre'];
+                    $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
+                    $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
+                    if($carros['resultado'][$j]['id_user'] != 0){
+                        $sql_user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$carros['resultado'][$j]['id_user']."'");
+                        $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
+                        $aux_carros['nombre'] = $sql_user['resultado'][0]['nombre'];
+                    }else{
+                        $aux_carros['id_user'] = 0;
+                        $aux_carros['nombre'] = "";
+                    }
+                    $aux_carros['cantidad'] = $carros['resultado'][$j]['cantidad'];
+                    $aux['info']['carros'][] = $aux_carros;
+                    unset($aux_carros);
+                }
+                $aux['info']['maquinas'] = implode(" ", $infomaquinas);
+            }
+            
+            return $aux;
+            
+        }
+        
+    }
     
     private function find_user(){
         
