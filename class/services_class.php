@@ -127,8 +127,8 @@ class Services extends Core{
                         $aux_voluntarios['pos_cia'] = $voluntarios['resultado'][$j]['pos_cia'];
                         $aux_voluntarios['pos_cue'] = $voluntarios['resultado'][$j]['pos_cue'];
                         
-                        $aux['info']['voluntarios'][] = $aux_carros;
-                        unset($aux_carros);
+                        $aux['info']['voluntarios'][] = $aux_voluntarios;
+                        unset($aux_voluntarios);
                     }
                 }
                 
