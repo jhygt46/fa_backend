@@ -116,7 +116,7 @@ class Services extends Core{
                     }
                 }
                  
-                $voluntarios = $this->con->sql("SELECT * FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_user=t2.id_user");
+                $voluntarios = $this->con->sql("SELECT t2.id_user, t2.nombre, t2.id_cia, t2.id_cue, t2.pos_cia, t2.pos_cue FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_user=t2.id_user");
                 if($voluntarios['count'] > 0){
                     for($j=0; $j<$voluntarios['count']; $j++){
 
