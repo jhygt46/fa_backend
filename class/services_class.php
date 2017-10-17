@@ -236,7 +236,7 @@ class Services extends Core{
     private function find_llamado(){
         
         if($_POST['code'] != $this->secret){
-            //return;
+            return;
         }
         
         $id_act = $_POST['id_act'];
