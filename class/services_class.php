@@ -69,7 +69,7 @@ class Services extends Core{
             return $this->setlibro();
         }
     }
-    
+    // START NODEJS FUNCTION //
     private function get_nodejs_llamados(){
         
         if($_POST['code'] != $this->secret){
@@ -137,9 +137,11 @@ class Services extends Core{
                         $aux_voluntarios['pos_cia'] = $voluntarios['resultado'][$j]['pos_cia'];
                         $aux_voluntarios['pos_cue'] = $voluntarios['resultado'][$j]['pos_cue'];
                         
-                        $aux['info']['voluntarios'][] = $aux_voluntarios;
+                        $aux['voluntarios'][] = $aux_voluntarios;
                         unset($aux_voluntarios);
                     }
+                }else{
+                    $aux['voluntarios'] = array();
                 }
                 
                 $aux['info']['maquinas'] = implode(" ", $infomaquinas);
@@ -233,6 +235,7 @@ class Services extends Core{
         
     }
     
+    // CREAR ACTUALIZAR NODEJS //
     private function find_llamado(){
         
         if($_POST['code'] != $this->secret){
@@ -293,7 +296,6 @@ class Services extends Core{
         }
         
     }
-    
     private function find_user(){
         
         $id = $_POST["id"];
@@ -309,6 +311,8 @@ class Services extends Core{
         }
         return $aux;
     }
+    
+    
     public function login_app(){
         
         $correo = $_POST["email"];
