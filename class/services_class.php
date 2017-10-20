@@ -93,6 +93,8 @@ class Services extends Core{
                 $aux['info']['fin'] = $lis_actos[$i]['fin'];;
                 $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
                 
+                $aux['posiciones'] = array();
+                
                 $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
                 if($cias['count'] > 0){
                     for($j=0; $j<$cias['count']; $j++){
@@ -104,7 +106,7 @@ class Services extends Core{
                     }
                 }
                 
-                $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+                $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad, t2.lat, t2.lng FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
                 if($carros['count'] > 0){
                     for($j=0; $j<$carros['count']; $j++){
                         $infomaquinas[] = $carros['resultado'][$j]['nombre'];
@@ -113,12 +115,17 @@ class Services extends Core{
                         $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
                         $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                         if($carros['resultado'][$j]['id_user'] != 0){
-                            $sql_user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$carros['resultado'][$j]['id_user']."'");
-                            $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
-                            $aux_carros['nombre'] = $sql_user['resultado'][0]['nombre'];
-                        }else{
-                            $aux_carros['id_user'] = 0;
-                            $aux_carros['nombre'] = "";
+                            
+                            $aux_pos['id_user'] = $carros['resultado'][$j]['id_user'];
+                            $aux_pos['nombre'] = $carros['resultado'][$j]['nombre'];
+                            $aux_pos['lat'] = $carros['resultado'][$j]['lat'];
+                            $aux_pos['lng'] = $carros['resultado'][$j]['lng'];
+                            $aux_pos['icon'] = 1;
+                            $aux_pos['id_cia'] = $carros['resultado'][$j]['id_cia'];
+                            $aux_pos['id_cue'] = $carros['resultado'][$j]['id_cue'];
+                            $aux['posiciones'][] = $aux_pos;
+                            unset($aux_pos);
+                            
                         }
                         $aux_carros['cantidad'] = $carros['resultado'][$j]['cantidad'];
                         $aux['info']['carros'][] = $aux_carros;
@@ -146,7 +153,6 @@ class Services extends Core{
                 
                 $aux['info']['maquinas'] = implode(" ", $infomaquinas);
                 $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
-                $aux['posiciones'] = array();
                 
                 $llamados[] = $aux;
                 unset($aux);
@@ -257,6 +263,8 @@ class Services extends Core{
             $aux['info']['fin'] = $acto['resultado'][0]['fin'];;
             $aux['info']['id_cue'] = $acto['resultado'][0]['id_cue'];
             
+            $aux['posiciones'] = array();
+            
             $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
             if($cias['count'] > 0){
                 for($j=0; $j<$cias['count']; $j++){
@@ -268,7 +276,7 @@ class Services extends Core{
                 }
             }
 
-            $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+            $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad, t2.lat, t2.lng FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
             if($carros['count'] > 0){
                 for($j=0; $j<$carros['count']; $j++){
                     $infomaquinas[] = $carros['resultado'][$j]['nombre'];
@@ -277,12 +285,17 @@ class Services extends Core{
                     $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
                     $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                     if($carros['resultado'][$j]['id_user'] != 0){
-                        $sql_user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$carros['resultado'][$j]['id_user']."'");
-                        $aux_carros['id_user'] = $carros['resultado'][$j]['id_user'];
-                        $aux_carros['nombre'] = $sql_user['resultado'][0]['nombre'];
-                    }else{
-                        $aux_carros['id_user'] = 0;
-                        $aux_carros['nombre'] = "";
+                        
+                        $aux_pos['id_user'] = $carros['resultado'][$j]['id_user'];
+                        $aux_pos['nombre'] = $carros['resultado'][$j]['nombre'];
+                        $aux_pos['lat'] = $carros['resultado'][$j]['lat'];
+                        $aux_pos['lng'] = $carros['resultado'][$j]['lng'];
+                        $aux_pos['icon'] = 1;
+                        $aux_pos['id_cia'] = $carros['resultado'][$j]['id_cia'];
+                        $aux_pos['id_cue'] = $carros['resultado'][$j]['id_cue'];
+                        $aux['posiciones'][] = $aux_pos;
+                        unset($aux_pos);
+                        
                     }
                     $aux_carros['cantidad'] = $carros['resultado'][$j]['cantidad'];
                     $aux['info']['carros'][] = $aux_carros;
