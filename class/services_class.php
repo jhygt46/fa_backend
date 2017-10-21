@@ -1,6 +1,7 @@
 <?php
 session_start();
 date_default_timezone_set('America/Santiago');
+set_time_limit(0);
 
 require_once $path_class."core.php";
 
@@ -219,6 +220,15 @@ class Services extends Core{
             $lis_user = $users['resultado'];
             for($i=0; $i<$users['count']; $i++){
                 
+                $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$lis_user[$i]['id_user']."'");
+                if($sql2['count'] == 1){
+                    $aux['id_car'] = $sql2['resultado'][0]['id_car'];
+                    $aux['clave63'] = false;
+                    $aux['clave69'] = false;
+                }else{
+                    $aux['id_car'] = 0;
+                }
+                
                 $aux['id_user'] = $lis_user[$i]['id_user'];
                 $aux['hash'] = $lis_user[$i]['hash'];
                 $aux['nombre'] = $lis_user[$i]['nombre'];
@@ -229,7 +239,6 @@ class Services extends Core{
                 $aux['date'] = 0;
                 $aux['id_act'] = 0;
                 $aux['id_cua'] = 0;
-                $aux['id_car'] = 0;
                 $aux['act_pendiente'] = 0;
                 $aux['cua_pendiente'] = 0;                
                 
@@ -312,9 +321,19 @@ class Services extends Core{
     private function find_user(){
         
         $id = $_POST["id"];
-        $hash = $_POST["hash"];
+
         $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
-        if($sql['resultado'][0]['hash'] == $hash){
+        if($sql['count'] == 1){
+            
+            $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$id."'");
+            if($sql2['count'] == 1){
+                $aux['id_car'] = $sql2['resultado'][0]['id_car'];
+                $aux['clave63'] = false;
+                $aux['clave69'] = false;
+            }else{
+                $aux['id_car'] = 0;
+            }
+            
             $aux['op'] = 1;
             $aux['nombre'] = $sql['resultado'][0]['nombre'];
             $aux['id_cia'] = $sql['resultado'][0]['id_cia'];
