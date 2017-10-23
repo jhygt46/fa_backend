@@ -102,6 +102,7 @@ class Services extends Core{
                         $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
                         $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
                         $aux_cias['id_cue'] = $cias['resultado'][$j]['id_cue'];
+                        $aux_cias['checked'] = 0;
                         $aux['info']['cias'][] = $aux_cias;
                         unset($aux_cias);
                     }
@@ -114,6 +115,7 @@ class Services extends Core{
                         $aux_carros['id_car'] = $carros['resultado'][$j]['id_car'];
                         $aux_carros['nombre'] = $carros['resultado'][$j]['nombre'];
                         $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
+                        $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                         $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                         if($carros['resultado'][$j]['id_user'] != 0){
                             
@@ -179,7 +181,7 @@ class Services extends Core{
                 $aux['lng'] = $lis_cias[$i]['lng'];
                 $aux['id_cue'] = $lis_cias[$i]['id_cue'];
                 
-                $vols = $this->con->sql("SELECT * FROM usuarios WHERE id_cua='".$lis_cias[$i]['id_cia']."'");
+                $vols = $this->con->sql("SELECT * FROM usuarios WHERE id_cua='".$lis_cias[$i]['id_cia']."' AND id_cue='".$lis_cias[$i]['id_cue']."'");
                 if($vols['count'] > 0){
                     for($j=0; $j<$vols['count']; $j++){
                         
@@ -223,12 +225,12 @@ class Services extends Core{
                 $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$lis_user[$i]['id_user']."'");
                 if($sql2['count'] == 1){
                     $aux['id_car'] = $sql2['resultado'][0]['id_car'];
-                    $aux['clave63'] = false;
-                    $aux['clave69'] = false;
                 }else{
                     $aux['id_car'] = 0;
                 }
                 
+                $aux['clave63'] = false;
+                $aux['clave69'] = false;
                 $aux['id_user'] = $lis_user[$i]['id_user'];
                 $aux['hash'] = $lis_user[$i]['hash'];
                 $aux['nombre'] = $lis_user[$i]['nombre'];
@@ -240,7 +242,8 @@ class Services extends Core{
                 $aux['id_act'] = 0;
                 $aux['id_cua'] = 0;
                 $aux['act_pendiente'] = 0;
-                $aux['cua_pendiente'] = 0;                
+                $aux['cua_pendiente'] = 0;
+                $aux['autocuartel'] = 0;
                 
                 $ruser[] = $aux;
                 unset($aux);
@@ -280,6 +283,7 @@ class Services extends Core{
                     $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
                     $aux_cias['nombre'] = $cias['resultado'][$j]['nombre'];
                     $aux_cias['id_cue'] = $cias['resultado'][$j]['id_cue'];
+                    $aux_cias['checked'] = 0;
                     $aux['info']['cias'][] = $aux_cias;
                     unset($aux_cias);
                 }
@@ -328,16 +332,18 @@ class Services extends Core{
             $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$id."'");
             if($sql2['count'] == 1){
                 $aux['id_car'] = $sql2['resultado'][0]['id_car'];
-                $aux['clave63'] = false;
-                $aux['clave69'] = false;
+                
             }else{
                 $aux['id_car'] = 0;
             }
             
+            $aux['clave63'] = false;
+            $aux['clave69'] = false;
             $aux['op'] = 1;
             $aux['nombre'] = $sql['resultado'][0]['nombre'];
             $aux['id_cia'] = $sql['resultado'][0]['id_cia'];
             $aux['id_cue'] = $sql['resultado'][0]['id_cue'];
+            $aux['hash'] = $sql['resultado'][0]['hash'];
             $aux['pos_cia'] = 1;
             $aux['pos_cue'] = 1;
         }
