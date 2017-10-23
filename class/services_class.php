@@ -277,7 +277,7 @@ class Services extends Core{
             
             $aux['posiciones'] = array();
             
-            $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
+            $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[0]['id_act']."' AND t1.id_cia=t2.id_cia");
             if($cias['count'] > 0){
                 for($j=0; $j<$cias['count']; $j++){
                     $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
@@ -289,9 +289,7 @@ class Services extends Core{
                 }
             }
             
-            $aux['info']['sql'] = $cias;
-            
-            $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad, t2.lat, t2.lng FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_car=t2.id_car");
+            $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.id_cia, t2.id_cue, t1.id_user, t1.cantidad, t2.lat, t2.lng FROM actos_carros t1, carros t2 WHERE t1.id_act='".$lis_actos[0]['id_act']."' AND t1.id_car=t2.id_car");
             if($carros['count'] > 0){
                 for($j=0; $j<$carros['count']; $j++){
                     $infomaquinas[] = $carros['resultado'][$j]['nombre'];
