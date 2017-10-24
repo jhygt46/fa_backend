@@ -344,6 +344,7 @@ class Services extends Core{
                 $aux['id_car'] = 0;
             }
             
+            $aux['id_user'] = $sql['resultado'][0]['id_user'];
             $aux['clave63'] = false;
             $aux['clave69'] = false;
             $aux['op'] = 1;
