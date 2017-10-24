@@ -326,12 +326,13 @@ class Services extends Core{
     }
     private function find_user(){
         
-        $id = $_POST["id"];
+        $id_user = $_POST["id_user"];
 
-        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+        $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+        return $sql;
         if($sql['count'] == 1){
             
-            $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$id."'");
+            $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$id_user."'");
             if($sql2['count'] == 1){
                 $aux['id_car'] = $sql2['resultado'][0]['id_car'];
                 
