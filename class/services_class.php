@@ -326,7 +326,11 @@ class Services extends Core{
     }
     private function find_user(){
         
-        $id_user = $_POST["id_user"];
+        if($_POST['code'] != $this->secret){
+            return;
+        }
+        
+        $id_user = $_POST['id_user'];
 
         $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
         return $sql;
