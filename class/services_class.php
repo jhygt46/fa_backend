@@ -333,7 +333,7 @@ class Services extends Core{
         $id_user = $_POST['id_user'];
 
         $sql = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
-        return $sql;
+
         if($sql['count'] == 1){
             
             $sql2 = $this->con->sql("SELECT id_car FROM carros WHERE id_user='".$id_user."'");
@@ -353,8 +353,11 @@ class Services extends Core{
             $aux['hash'] = $sql['resultado'][0]['hash'];
             $aux['pos_cia'] = 1;
             $aux['pos_cue'] = 1;
+            
+            return $aux;
+            
         }
-        return $aux;
+        
     }
     
     
