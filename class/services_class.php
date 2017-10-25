@@ -271,7 +271,7 @@ class Services extends Core{
             $aux['info']['direccion'] = $acto['resultado'][0]['direccion'];
             $aux['info']['lat'] = $acto['resultado'][0]['lat'];
             $aux['info']['lng'] = $acto['resultado'][0]['lng'];
-            $aux['info']['fecha'] = strtotime($lis_actos[0]['fecha_creado']);
+            $aux['info']['fecha'] = strtotime($acto[0]['fecha_creado']);
             $aux['info']['fin'] = $acto['resultado'][0]['fin'];;
             $aux['info']['id_cue'] = $acto['resultado'][0]['id_cue'];
             
