@@ -420,11 +420,21 @@ class Services extends Core{
     }
     private function getgrifos($lat, $lng){
         
-        $aux = array();
-        $coords = $this->getBoundaries($lat, $lng, 1000);
+        $coords = $this->getBoundaries($lat, $lng, 10);
         $grifos = $this->con->sql("SELECT lat, lng FROM grifos WHERE lat>='".$coords["min_lat"]."' AND lat<='".$coords["max_lat"]."' AND lng>='".$coords["max_lng"]."' AND lng<='".$coords["min_lng"]."'");
         if($grifos['count'] > 0){
-            $aux = $grifos['resultado'];
+            for($i=0; $i<$grifos['count']; $i++){
+                $points[] = $grifos['resultado'][$i]['lat'].",".$grifos['resultado'][$i]['lng'];
+                $aux2['lat'] = $grifos['resultado'][$i]['lat'];
+                $aux2['lng'] = $grifos['resultado'][$i]['lng'];
+                $aux2['distancia'] = "";
+                $aux[] = $aux2;
+                unset($aux2);
+            }
+            $dist = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=".implode("|", $points)."&destinations=".$lat.",".$lng."&key=AIzaSyAq6hw0biMsUBdMBu5l-bai9d3sUI-f--g"));
+            for($i=0; $i<count($dist->rows); $i++){
+                $aux[$i]['distancia'] = $dist->rows[$i]->elements[0]->distance->value;
+            }
         }
         return $aux;
     }
@@ -614,39 +624,6 @@ class Services extends Core{
         $text = $_POST["text"];
 
         $this->con->sql("INSERT INTO actos_libros (id_act, id_user, text) VALUES ('".$id_act."', '".$id_user."', '".$text."')");
-        
-    }
-    // LO DEJO POR ACA//
-    public function diffs($time1, $time2){
-        
-        $res = "Hace: ";
-        $diff = $time1 - $time2;
-        
-        if($diff < 60){
-            $res .= "menos de 1 minuto";
-        }
-        if($diff > 60 && $diff < 120){
-            $res .= "1 minuto";
-        }
-        if($diff > 120 && $diff < 3600){
-            $minutos = floor($diff/60);
-            $res .= $minutos." minutos";
-        }
-        if($diff > 3600){
-            $horas = floor($diff/3600);
-            $res .= $horas;
-            if($horas == 1){
-                $res .= " hora";
-            }else{
-                $res .= " horas";
-            }
-            $mins = $diff - ($horas * 3600);
-            if($mins > 60){
-                $m = floor($mins/60);
-                $res .= " ".$m." minutos";
-            }
-        }
-        return $res;
         
     }
     
