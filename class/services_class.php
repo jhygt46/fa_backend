@@ -318,7 +318,7 @@ class Services extends Core{
                 }
                 $aux['info']['maquinas'] = implode(" ", $infomaquinas);
             }
-            
+            $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
             return $aux;
             
         }
