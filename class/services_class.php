@@ -423,7 +423,7 @@ class Services extends Core{
     private function getgrifos($lat, $lng){
         
         $aux = array();
-        $coords = $this->getBoundaries($lat, $lng, 1);
+        $coords = $this->getBoundaries($lat, $lng, 1000);
         $grifos = $this->con->sql("SELECT lat, lng FROM grifos WHERE lat>='".$coords["min_lat"]."' AND lat<='".$coords["max_lat"]."' AND lng>='".$coords["max_lng"]."' AND lng<='".$coords["min_lng"]."'");
         if($grifos['count'] > 0){
             $aux = $grifos['resultado'];
