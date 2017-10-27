@@ -441,7 +441,7 @@ class Services extends Core{
                 if ($a['distanciaval'] == $b['distanciaval']) {
                     return 0;
                 }
-                return ($a['distanciaval'] < $b['distanciaval']) ? -1 : 1;
+                return ($a['distanciaval'] > $b['distanciaval']) ? -1 : 1;
             });
             
         }
