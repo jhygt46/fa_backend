@@ -423,6 +423,7 @@ class Services extends Core{
         $coords = $this->getBoundaries($lat, $lng, 10);
         $grifos = $this->con->sql("SELECT lat, lng FROM grifos WHERE lat>='".$coords["min_lat"]."' AND lat<='".$coords["max_lat"]."' AND lng>='".$coords["max_lng"]."' AND lng<='".$coords["min_lng"]."'");
         if($grifos['count'] > 0){
+            
             for($i=0; $i<$grifos['count']; $i++){
                 $points[] = $grifos['resultado'][$i]['lat'].",".$grifos['resultado'][$i]['lng'];
                 $aux2['lat'] = $grifos['resultado'][$i]['lat'];
@@ -434,7 +435,15 @@ class Services extends Core{
             $dist = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=".implode("|", $points)."&destinations=".$lat.",".$lng."&key=AIzaSyAq6hw0biMsUBdMBu5l-bai9d3sUI-f--g"));
             for($i=0; $i<count($dist->rows); $i++){
                 $aux[$i]['distancia'] = $dist->rows[$i]->elements[0]->distance->value." mts";
+                $aux[$i]['distanciaval'] = $dist->rows[$i]->elements[0]->distance->value;
             }
+            usort($aux, function ($a, $b) {
+                if ($a['distanciaval'] == $b['distanciaval']) {
+                    return 0;
+                }
+                return ($a['distanciaval'] < $b['distanciaval']) ? -1 : 1;
+            });
+            
         }
         return $aux;
     }
