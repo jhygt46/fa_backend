@@ -433,7 +433,7 @@ class Services extends Core{
             }
             $dist = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?mode=walking&origins=".implode("|", $points)."&destinations=".$lat.",".$lng."&key=AIzaSyAq6hw0biMsUBdMBu5l-bai9d3sUI-f--g"));
             for($i=0; $i<count($dist->rows); $i++){
-                $aux[$i]['distancia'] = $dist->rows[$i]->elements[0]->distance->value;
+                $aux[$i]['distancia'] = $dist->rows[$i]->elements[0]->distance->value." mts";
             }
         }
         return $aux;
