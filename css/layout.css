@@ -127,10 +127,10 @@ body {
     background-position: -53px 6px;
 }
 .nav .navlist .lt .ti .ico2{
-    background-position: -592px -380px;
+    background-position: -471px -41px;
 }
 .nav .navlist .lt .ti .ico3{
-    background-position: -53px -330px;
+    background-position: 7px -185px;
 }
 .nav .navlist .lt .ti .ico4{
     background-position: -53px -380px;
@@ -269,44 +269,65 @@ body {
     color: #E06024;
     font-weight: bold;
 }
-.contenido .cont .contenedor .sock_cont{
+.contenido .cont .contenedor .notificaciones{
     position: fixed;
-    bottom: 10px;
-    width: 250px;
-    right: 30px;
+    bottom: -380px;
+    right: 10px;
     z-index: 9999;
+    background: rgba(255, 255, 255, 0.8);
 }
-.contenido .cont .contenedor .sock_cont li{
-    position: relative;
-    margin-bottom: 10px;
-    -webkit-box-shadow: 0px 0px 46px -9px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 46px -9px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 46px -9px rgba(0,0,0,0.75);
-}
-.contenido .cont .contenedor .sock_cont li h1{
-    display: block;
-    padding: 4px;
-    background: #ddd;
-    font-size: 14px;
-}
-.contenido .cont .contenedor .sock_cont li h2{
-    display: block;
-    padding: 4px;
-    background: #f4f4f4;
-    font-size: 14px;
-    height: 100px;
-}
-.contenido .cont .contenedor .sock_cont li .close{
+.contenido .cont .contenedor .notificaciones .notihide{
+    width: 24px;
+    height: 24px;
     position: absolute;
-    top: 7px;
-    right: 7px;
-    width: 15px;
-    height: 15px;
-    background: #666;
+    top: 3px;
+    right: 3px;
+    background: url('../images/icons-set.png') no-repeat;
+    background-position: -120px -338px;
+    cursor: pointer;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo{
+    
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado{
+    width: 330px;
+    padding: 10px;
+    cursor: pointer;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .titulo_noti{
+    padding-bottom: 10px;
+    background: #eee;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .titulo_noti .t1{
+    text-align: center;
+    font-size: 2.8em;
+    display: block;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .titulo_noti .t2{
+    text-align: center;
+    font-size: 1.4em;
+    display: block;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .mapa_noti{
+    height: 180px;
+    overflow: hidden;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .mapa_noti #mapa_noti{
+    height: 210px;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .detalle_noti{
+    height: 50px;
+    background: #eee;
+}
+.contenido .cont .contenedor .notificaciones .notiinfo .contnotificacionllamado .detalle_noti .t3{
+    text-align: center;
+    font-size: 2.6em;
+    display: block;
+    padding-top: 7px;
 }
 .contenido .cont .contenedor .conthtml{
     padding: 0px 30px;
-    min-height: 100%;
+    min-height: 0 !important;
 }
 .contenido .cont .contenedor .title{
     margin-top: 20px;
@@ -545,6 +566,11 @@ body {
 .listUser .user ul .agregaradmin{
     background: url('../images/icons-set.png') no-repeat;
     background-position: -586px -383px;
+    cursor: pointer;
+}
+.listUser .user ul .antiguedad{
+    background: url('../images/icons-set.png') no-repeat;
+    background-position: -466px -383px;
     cursor: pointer;
 }
 .listUser .user ul .prods{
@@ -1030,6 +1056,7 @@ body {
     .newform{
         background: #ddd;
         padding: 10px;
+        border: 1px solid #ccc;
     }
     .newform .grupo{
         font-size: 1.7em;
@@ -1042,6 +1069,60 @@ body {
         float: none;
     }
 
+    .muro{
+        display: block;
+        margin-top: 30px;
+    }
+    .muro .mu{
+        
+    }
+    .muro .mu .muro_detalle{
+        width: calc(100% - 250px);
+        float: left;
+    }
+    .muro .mu .muro_detalle .cont_detalle{
+        background: #bbb;
+        margin: 0px 0 0px 0px;
+    }
+    .muro .mu .muro_lateral{
+        width: 250px;
+        float: left;
+    }
+    .muro .mu .muro_lateral .cont_lateral{
+        background: #aaa;
+        height: 200px;
+        width: 240px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs{
+        display: block;
+        padding: 1px 10px;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs .blog{
+        display: block;
+        height: 200px;
+        background: #ddd;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs .blog .btnblog{
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        top: 5px;
+        background: #ccc;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs .blog .btnb1{
+        right: 5px;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs .blog .btnb2{
+        right: 34px;
+    }
+    .muro .mu .muro_detalle .cont_detalle .blogs .blog .btnb3{
+        right: 63px;
+    }
 @keyframes scale {
 	0% {
 		transform: scale(0);

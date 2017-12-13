@@ -1,6 +1,16 @@
 <?php
 session_start();
+date_default_timezone_set('America/Santiago');
 
+$path = $_SERVER['DOCUMENT_ROOT'];
+if($_SERVER['HTTP_HOST'] == "localhost"){
+    $path .= "/";
+    $path_class = $path."/fa_backend/class/";
+    $path_n = $path."/fa_backend/";
+}else{
+    $path_class = $path."admin/class/";
+    $path_n = $path."admin/";
+}
 require_once $path_class.'mysql_class.php';
 
 class Core{
@@ -12,20 +22,16 @@ class Core{
         $this->con = new Conexion();
     }
     public function seguridad_permiso($id_tar){
-        if(!in_array($id_tar, $_SESSION['user']['permisos'])){
-            $this->riesgoseguridad();
-        }
-        return true;
+        return in_array($id_tar, $_SESSION['user']['permisos']);
     }
     public function seguridad_usuario(){
         if($_SESSION['user']['info']['id_user'] == 1){
             return true;
         }
-        $this->riesgoseguridad();
+        return false;
     }
-    public function riesgoseguridad(){
-        echo "<span style='font-size: 2em'>ERROR: NO TIENE PERMISOS</span>";
-        exit;
+    public function permiso($id_tar){
+        return in_array($id_tar, $_SESSION['user']['permisos']);
     }
     public function getuserid(){
         return $_SESSION['user']['info']['id_user'];
@@ -36,6 +42,7 @@ class Core{
     public function getcueid(){
         return $_SESSION['user']['info']['id_cue'];
     }
+    
     // CUERPO //
     public function get_cuerpos(){
         $cuerpos = $this->con->sql("SELECT * FROM cuerpos WHERE eliminado='0'");
@@ -52,6 +59,8 @@ class Core{
         $aux['gtareas'] = $gtareas['resultado'];
         return $aux;
     }
+    
+    
     // COMPAÑIAS //
     public function get_cias(){
         $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cue='".$this->id_cue."' AND eliminado='0' ORDER BY numero");
@@ -61,6 +70,8 @@ class Core{
         $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cia='".$id."' AND id_cue='".$this->id_cia."'");
         return $cuerpos['resultado'][0];
     }
+    
+    
     // PERFILES //
     public function get_perfiles_cia(){
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
@@ -78,6 +89,8 @@ class Core{
         $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_per='".$id."' AND id_cue='".$this->id_cue."' AND id_cia='0' AND eliminado='0'");
         return $perfiles['resultado'][0];
     }
+    
+    
     // PERFIL - CARGOS //
     public function get_perfiles_cargo_cia($id){
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_cargos pc WHERE pc.id_carg='".$id."' AND pc.id_per=p.id_per AND p.id_cia='".$this->id_cia."' AND p.id_cue='".$this->id_cue."'");
@@ -87,14 +100,26 @@ class Core{
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_cargos pc WHERE pc.id_carg='".$id."' AND pc.id_per=p.id_per AND p.id_cia='0' AND p.id_cue='".$this->id_cue."'");
         return $perfiles['resultado'];
     }
+    
+    
     // PERFIL - USUARIOS //
     public function get_perfiles_user($id){
         $perfiles = $this->con->sql("SELECT * FROM perfiles p, perfiles_usuarios pu WHERE pu.id_user='".$id."' AND pu.id_per=p.id_per");
         return $perfiles['resultado'];
     }
+    
+    
     // GET USUARIOS //
+    public function is_usuario_cia($id_user){
+        $aux = $this->con->sql("SELECT id_user, nombre FROM usuarios WHERE id_user='".$id_user."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        return ($aux['count'] == 1) ? true : false ;
+    }
+    public function is_usuario_cue($id_user){
+        $aux = $this->con->sql("SELECT id_user, nombre FROM usuarios WHERE id_user='".$id_user."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        return ($aux['count'] == 1) ? true : false ;
+    }
     public function get_usuarios_cia(){
-        $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        $usuarios = $this->con->sql("SELECT id_user, nombre FROM usuarios WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $usuarios['resultado'];
     }
     public function get_usuario_cia($id){
@@ -105,6 +130,10 @@ class Core{
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_cue='".$this->id_cue."' AND eliminado='0'");
         return $usuarios['resultado'];
     }
+    public function get_antiguedad_usuario_cia($id){
+        $usuarios = $this->con->sql("SELECT t2.id_time, t1.id_user, t1.nombre, t2.fecha_ini, t2.fecha_fin  FROM usuarios t1, usuarios_cias t2 WHERE t2.id_user='".$id."' AND t2.id_user=t1.id_user AND t2.id_cia='".$this->id_cia."' AND t2.id_cue='".$this->id_cue."' ORDER BY fecha_ini DESC");
+        return $usuarios['resultado'];
+    }
     public function get_usuario_cue($id){
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."' AND id_cue='".$this->id_cia."'");
         return $usuarios['resultado'][0];
@@ -113,15 +142,27 @@ class Core{
         $usuarios = $this->con->sql("SELECT * FROM usuarios WHERE encuartel='1' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $usuarios['resultado'];
     }
+    
+    
     // GET CARGOS //
     public function get_cargo_cia($id){
-        $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
+        $cuerpo = $this->con->sql("SELECT id_carg, nombre, cantidad FROM cargos WHERE id_carg='".$id."' AND iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0') AND eliminado='0'");
         return $cuerpo['resultado'][0];
     }
     public function get_cargo_cue($id){
         $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND id_cia='0' AND iscia='0' AND id_cue='".$this->id_cue."'");
         return $cuerpo['resultado'][0];
     }
+    public function is_cargo_cia($id_carg){
+        $aux = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id_carg."' AND iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
+        return ($aux['count'] == 1) ? true : false ;
+    }
+    public function is_cargo_cue($id_carg){
+        $aux = $this->con->sql("SELECT id_user, nombre FROM usuarios WHERE id_user='".$id_user."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        return ($aux['count'] == 1) ? true : false ;
+    }
+    
+    
     // CLAVES //
     public function get_claves_cue(){
         $claves = $this->con->sql("SELECT * FROM claves WHERE iscia='0' AND id_cue='".$this->id_cue."' AND eliminado='0'");
@@ -333,13 +374,13 @@ class Core{
     }
     public function get_users_cargo_cia($id){
         // IMPORTANTE REVISAR QUERY
-        $users = $this->con->sql("SELECT * FROM cargos t1, usuarios_cargos t2, usuarios t3 WHERE t1.id_carg='".$id."' AND t1.id_carg=t2.id_carg AND t2.id_user=t3.id_user");
+        $users = $this->con->sql("SELECT t3.id_user, t3.nombre, t2.fecha_ini, t2.fecha_fin FROM cargos t1, usuarios_cargos t2, usuarios t3 WHERE t1.id_carg='".$id."' AND t1.id_carg=t2.id_carg AND t2.id_user=t3.id_user AND t3.id_cia='".$this->id_cia."' AND t3.id_cue='".$this->id_cue."' ORDER BY t2.fecha_ini DESC");
         return $users['resultado'];
         
     }
     public function get_user_cargo_cue($id){
         
-        $users = $this->con->sql("SELECT * FROM usuarios_cargos WHERE id_ucar='".$id."' AND fecha_fin!='0000-00-00 00:00:00'");
+        $users = $this->con->sql("SELECT * FROM usuarios_cargos WHERE id_ucar='".$id."'");
         return $users['resultado'][0];
         
     }
@@ -355,13 +396,15 @@ class Core{
         return $cargos['resultado'];
         
     }
+    
+    
     // GET TAREAS //
     public function get_tareas_cia($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY grupoorder");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY grupoorder, orders");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function get_tareas_cue($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY grupoorder");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY grupoorder, orders");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function tareas_perfil_cia($id_per){
@@ -372,6 +415,8 @@ class Core{
         $tareas = $this->con->sql("SELECT * FROM tareas_grupos");
         return $tareas['resultado'];
     }
+    
+    
     // CARROS //
     public function get_carros(){
         
@@ -524,11 +569,6 @@ class Core{
         return $e;
         
     }
-    public function pre($pre){
-        echo "<pre>";
-        print_r($pre);
-        echo "</pre>";
-    }
     public function get_carros_cue(){        
         $carros = $this->con->sql("SELECT t2.id_car, t2.nombre, t2.lat, t2.lng, t2.encuartel, t2.id_cia FROM cuerpo_cias_despacho t1, carros t2 WHERE t1.id_cue='".$this->id_cue."' AND (t1.id_cia=t2.id_cia OR t2.id_cia='0') AND t2.eliminado='0'");
         return $carros['resultado'];
@@ -557,12 +597,16 @@ class Core{
         $carros = $this->con->sql("SELECT * FROM tipos_de_carros WHERE id_tdc='".$id."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $carros['resultado'][0];
     }
+    
+    
     // LLAMADOS //
     public function get_llamado($id){
         
         $llamado = $this->con->sql("SELECT * FROM actos WHERE id_act='".$id."' AND  id_cue='".$this->id_cue."'");
         return $llamado['resultado'][0];
     }
+    
+    
     // CONFIGURACION //
     public function get_config_cue(){
         
@@ -576,6 +620,8 @@ class Core{
         return $aux['resultado'][0];
         
     }
+    
+    
     // GET BLOGS //
     public function get_blog_data(){
         $blogs = $this->con->sql("SELECT * FROM blog WHERE iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
@@ -605,6 +651,8 @@ class Core{
         return $aux;
         
     }
+    
+    
     // PERMISOS //
     public function permisos_usuario(){
         
@@ -628,11 +676,12 @@ class Core{
         return $aux;
         
     }
+    
+    
     // ORDER //
     public function order_group($result, $id){
         
         for($i=0; $i<$result['count']; $i++){
-            
             $aux_ini = $result['resultado'][$i];
             $aux[$aux_ini['grupoorder']]['grupo'] = $aux_ini['grupo'];
             $aux2[$id] = $aux_ini[$id];
@@ -648,7 +697,7 @@ class Core{
         for($i=0; $i<count($list_user_cargo); $i++){
             $f_ini = @strtotime($list_user_cargo[$i]['fecha_ini']);
             $f_fin = @strtotime($list_user_cargo[$i]['fecha_fin']);
-            if($f_fin == "" || $f_fin > $now){
+            if($f_fin == 0 || $f_fin > $now){
                 if($f_ini < $now){
                     if($f_fin == ""){
                         $act['f_fin'] = "Actualidad";
@@ -664,6 +713,70 @@ class Core{
             }
         }
         return $actual;
+        
+    }
+    public function diffdates($fecha1, $fecha2, $type = 1){
+        
+        $date1 = new DateTime($fecha1);
+        $date2 = new DateTime($fecha2);
+        $diff = $date1->diff($date2);
+        
+        if($diff->y > 0){
+            $aux = $diff->y;
+            if($diff->y == 1){
+                $aux .= " a&ntilde;o";
+            }else{
+                $aux .= " a&ntilde;os";
+            }
+            $difftxt[] = $aux;
+        }
+        if($diff->m > 0){
+            $aux = $diff->m;
+            if($diff->m == 1){
+                $aux .= " mes";
+            }else{
+                $aux .= " meses";
+            }
+            $difftxt[] = $aux;
+        }
+        if($diff->d > 0){
+            $aux = $diff->d;
+            if($diff->d == 1){
+                $aux .= " dia";
+            }else{
+                $aux .= " dias";
+            }
+            $difftxt[] = $aux;
+        }
+        if($diff->h > 0){
+            $aux = $diff->h;
+            if($diff->h == 1){
+                $aux .= " hora";
+            }else{
+                $aux .= " horas";
+            }
+            $difftxt[] = $aux;
+        }
+        if($diff->i > 0){
+            $aux = $diff->i;
+            if($diff->i == 1){
+                $aux .= " minuto";
+            }else{
+                $aux .= " minutos";
+            }
+            $difftxt[] = $aux;
+        }
+        if($diff->s > 0){
+            $aux = $diff->s;
+            if($diff->s == 1){
+                $aux .= " segundo";
+            }else{
+                $aux .= " segundos";
+            }
+            $difftxt[] = $aux;
+        }
+        
+        return implode(", ", $difftxt);
         
     }
     public function permiso_cia($result){

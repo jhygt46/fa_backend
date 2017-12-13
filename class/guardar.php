@@ -147,6 +147,15 @@ class Guardar extends Core{
         if($_POST['accion'] == "crearllamado"){
             return $this->crearllamado();
         }
+        if($_POST['accion'] == "asignarcargousuarioscia"){
+            return $this->asignarcargousuarioscia();
+        }
+        if($_POST['accion'] == "configcia"){
+            return $this->configcia();
+        }
+        if($_POST['accion'] == "configcue"){
+            return $this->configcue();
+        }
 
     }
     
@@ -179,10 +188,9 @@ class Guardar extends Core{
         
         
     }
-    
     private function crearactocia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(10)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -204,7 +212,7 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "actos_cia.php";
+        $info['page'] = "cia/actos.php";
         return $info;
         
     }
@@ -238,7 +246,7 @@ class Guardar extends Core{
     }
     private function eliminaractocia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(10)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -251,7 +259,7 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Acto ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "actos_cia.php";
+        $info['page'] = "cia/actos.php";
 
         return $info;
         
@@ -276,15 +284,9 @@ class Guardar extends Core{
         return $info;
         
     }
-    
-    
-    
-    
-    
-    
     private function eliminarclavecia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(9)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -297,12 +299,11 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Clave ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_claves_cia.php";
+        $info['page'] = "cia/tipos_de_claves.php";
 
         return $info;
         
     }
-    
     private function eliminarclavecue(){
         
         if(!$this->seguridad_permiso(3)){
@@ -323,10 +324,9 @@ class Guardar extends Core{
         return $info;
         
     }
-    
     private function crearclavecia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(9)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -357,7 +357,7 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_claves_cia.php";
+        $info['page'] = "cia/tipos_de_claves.php";
         return $info;
         
     }
@@ -402,7 +402,6 @@ class Guardar extends Core{
         return $info;
         
     }
-    
     private function creargrupovolcue(){
         
         if(!$this->seguridad_permiso(3)){
@@ -465,7 +464,7 @@ class Guardar extends Core{
     }
     private function creargrupovolcia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(7)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -500,13 +499,13 @@ class Guardar extends Core{
         }
 
         $info['reload'] = 1;
-        $info['page'] = "grupos_cia_vol.php";
+        $info['page'] = "cia/grupo_vols.php";
         return $info;
         
     }
     private function eliminargrupovolcia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(7)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -518,7 +517,7 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Grupo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "grupos_cia_vol.php";
+        $info['page'] = "cia/grupo_vols.php";
 
         return $info;
         
@@ -586,7 +585,7 @@ class Guardar extends Core{
     }
     private function creargrupocia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(8)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -621,13 +620,13 @@ class Guardar extends Core{
         }
 
         $info['reload'] = 1;
-        $info['page'] = "grupos_cia.php";
+        $info['page'] = "cia/grupo_cargos.php";
         return $info;
         
     }
     private function eliminargrupocia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(8)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -639,15 +638,44 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Grupo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "grupos_cia.php";
+        $info['page'] = "cia/grupo_cargos.php";
 
         return $info;
         
     }
-    
-    private function asignartareascargocia(){
+    private function asignarcargousuarioscia(){
         
         if(!$this->seguridad_permiso(3)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $id_ucar = $_POST['id_ucar'];
+        
+        if($id_ucar == 0){
+            // AGREGAR HISTORICO
+            // REEMPLAZAR
+        }
+        if($id_ucar > 0){
+            
+            $id_user = $_POST['h_id_user'];
+            $id_carg = $_POST['id_cargo'];
+            $f_ini = $_POST['h_f_ini'];
+            $f_fin = $_POST['h_f_fin'];
+            
+            if($this->is_usuario_cia($id_user)){
+                if($this->is_cargo_cia($id_carg)){
+                    $info['sql'] = $this->con->sql("UPDATE usuarios_cargos SET fecha_ini='".$f_ini."', fecha_fin='".$f_fin."' WHERE id_ucar='".$id_ucar."' AND id_user='".$id_user."'");
+                }
+            }                
+            
+        }
+        return $info;
+    }
+    private function asignartareascargocia(){
+        
+        if(!$this->seguridad_permiso(6)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -668,7 +696,7 @@ class Guardar extends Core{
         $info['op'] = 1;
         $info['mensaje'] = "Perfiles asociados exitosamente";
         $info['reload'] = 1;
-        $info['page'] = "cargos_cia.php";
+        $info['page'] = "cia/cargos.php";
         return $info;
         
     }
@@ -699,10 +727,9 @@ class Guardar extends Core{
         return $info;
         
     }
-    
     private function asignarperfilusuariocia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(6)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -723,13 +750,13 @@ class Guardar extends Core{
         $info['op'] = 1;
         $info['mensaje'] = "Perfiles asociados exitosamente";
         $info['reload'] = 1;
-        $info['page'] = "usuarios_cia.php";
+        $info['page'] = "cia/usuarios.php";
         return $info;
         
     }
     private function asignarperfilusuariocue(){
         
-        if(!$this->seguridad_permiso(6)){
+        if(!$this->seguridad_permiso(16)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -750,11 +777,10 @@ class Guardar extends Core{
         $info['op'] = 1;
         $info['mensaje'] = "Perfiles asociados exitosamente";
         $info['reload'] = 1;
-        $info['page'] = "usuarios_cue.php";
+        $info['page'] = "cue/usuarios.php";
         return $info;
         
     }
-    
     private function crearcarrocia(){
         
         if(!$this->seguridad_permiso(9)){
@@ -819,7 +845,6 @@ class Guardar extends Core{
         return $info;
         
     }
-    
     private function creartipomaquina(){
         
         if(!$this->seguridad_permiso(8)){
@@ -867,10 +892,9 @@ class Guardar extends Core{
         return $info;
         
     }
-    
     private function asignartareascia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(5)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -894,7 +918,7 @@ class Guardar extends Core{
         $info['op'] = 1;
         $info['mensaje'] = "Cuerpo creada exitosamente";
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cia.php";
+        $info['page'] = "cia/perfiles.php";
         return $info;
         
     }
@@ -927,6 +951,7 @@ class Guardar extends Core{
         
     }
     
+    
     // CUERPOS //
     private function crearcuerpo(){
         
@@ -939,17 +964,28 @@ class Guardar extends Core{
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $sigla = $_POST['sigla'];
-
-        if($id == 0){
-            $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, sigla) VALUES ('".$nombre."', now(), '".$sigla."')");
-            $info['op'] = 1;
-            $info['mensaje'] = "Cuerpo creada exitosamente";
-        }
+        
         if($id > 0){
             $this->con->sql("UPDATE cuerpos SET nombre='".$nombre."', sigla='".$sigla."' WHERE id_cue='".$id."'");
             $info['op'] = 1;
             $info['mensaje'] = "Categoria modificada exitosamente";
         }
+        if($id == 0){
+            
+            $cue = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, sigla) VALUES ('".$nombre."', now(), '".$sigla."')");
+            $info['op'] = 1;
+            $info['mensaje'] = "Cuerpo creada exitosamente";
+            $id = $cue['insert_id'];
+            
+            $nadmin = $_POST['nombreadmin'];
+            $cadmin = $_POST['correoadmin'];
+            
+            $user = $this->con->sql("INSERT INTO usuarios (nombre, correo, pass, fecha_creado, id_cue) VALUES ('".$nadmin."', '".$cadmin."', '25d55ad283aa400af464c76d713c07ad', now(), '".$id."')");
+            $id_user = $user['insert_id'];
+            $this->con->sql("INSERT INTO perfiles_usuarios (id_user, id_per) VALUES ('".$id_user."', '10')");
+            
+        }
+        
         
         $gtar = $this->get_grupos_tareas();
         for($i=0; $i<count($gtar); $i++){
@@ -965,7 +1001,6 @@ class Guardar extends Core{
         return $info;
         
     }
-    // CUERPOS //
     public function eliminarcuerpo(){
         
         if(!$this->seguridad_usuario()){
@@ -986,6 +1021,7 @@ class Guardar extends Core{
         return $info;
         
     }
+    
     // COMPANIAS //
     private function crearcia(){
         
@@ -1015,7 +1051,6 @@ class Guardar extends Core{
         return $info;
         
     }
-    // COMPANIAS //
     public function eliminarcia(){
         
         if(!$this->seguridad_permiso(7)){
@@ -1036,6 +1071,7 @@ class Guardar extends Core{
         return $info;
         
     }
+    
     // USUARIOS //
     private function crearusuariocia(){
         
@@ -1048,44 +1084,65 @@ class Guardar extends Core{
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $correo = $_POST['correo'];
-        $exist = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
         
-        if($id == 0){
+        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             
-            
-            if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-                if($exist['count'] == 0){
+            $exist = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
+            if($exist['count'] == 0){
+                // NO EXISTE
+                if($id == 0){
                     $this->con->sql("INSERT INTO usuarios (nombre, correo, fecha_creado, id_cia, id_cue) VALUES ('".$nombre."', '".$correo."', now(), '".$this->id_cia."', '".$this->id_cue."')");
                     $info['op'] = 1;
-                    $info['mensaje'] = "Usuario creada exitosamente";
-                }else{
-                    $info['op'] = 2;
-                    $info['mensaje'] = "Error: Correo ya Existe";
+                    $info['mensaje'] = "Usuario creado exitosamente";
                 }
-            }else{
-                $info['op'] = 2;
-                $info['mensaje'] = "Error: Correo Invalido";
+                if($id > 0){
+                    $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', correo='".$correo."' WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND id_user='".$id."' AND eliminado='0'");
+                    $info['op'] = 1;
+                    $info['mensaje'] = "Usuario modificado exitosamente";
+                }
+                $info['reload'] = 1;
+                $info['page'] = "cia/usuarios.php";
+                
+            }
+            if($exist['count'] == 1){
+                // SI EXISTE
+                if($id == 0){
+                    
+                    $info['op'] = 2;
+                    $info['mensaje'] = "Error: Correo ya existe";
+                    
+                }
+                if($id > 0){
+                    
+                    // MODIFICAR NORMAL
+                    if($exist['resultado'][0]['eliminado'] == 0 && $id == $exist['resultado'][0]['id_user']){
+                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."' WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0' AND id_user='".$id."'");
+                        $info['op'] = 1;
+                        $info['mensaje'] = "Usuario modificado exitosamente";
+                        $info['reload'] = 1;
+                        $info['page'] = "cia/usuarios.php";
+                    }
+                    // REINGRESAR USUARIO EXISTENTE
+                    if($exist['resultado'][0]['eliminado'] == 1){
+                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', id_cia='".$this->id_cia."', id_cue='".$this->id_cue."', eliminado='0' WHERE id_user='".$exist['resultado'][0]['id_user']."'");
+                        $info['op'] = 1;
+                        $info['mensaje'] = "Usuario ingresado exitosamente";
+                        $info['reload'] = 1;
+                        $info['page'] = "cia/usuarios.php";
+                    }
+                    
+                }
             }
             
-        }
-        if($id > 0){
-            if(filter_var($correo, FILTER_VALIDATE_EMAIL) && $exist['count'] == 0){
-                $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', correo='".$correo."' WHERE id_user='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."'");
-                $info['op'] = 1;
-                $info['mensaje'] = "Usuario modificada exitosamente";
-            }else{
-                $info['op'] = 2;
-                $info['mensaje'] = "Error: Correo Invalido";
-            }
-
+        }else{
+            $info['op'] = 2;
+            $info['mensaje'] = "Error: Correo Invalido";
         }
         
-        $info['reload'] = 1;
-        $info['page'] = "usuarios_cia.php";
+        
         return $info;
         
     }
-    // USUARIOS //
     public function eliminarusuariocia(){
         
         if(!$this->seguridad_permiso(1)){
@@ -1095,21 +1152,21 @@ class Guardar extends Core{
         }
         
         $id = $_POST['id'];
-        $this->con->sql("UPDATE usuarios SET fecha_eliminado=now(), eliminado='1' WHERE id_user='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cia."'");
+        $this->con->sql("UPDATE usuarios SET fecha_eliminado=now(), eliminado='1' WHERE id_user='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."'");
         
         $info['tipo'] = "success";
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Usuario ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "usuarios_cia.php";
+        $info['page'] = "cia/usuarios.php";
 
         return $info;
         
     }
-    // USUARIOS //
+    
     private function crearusuariocue(){
         
-        if(!$this->seguridad_permiso(4)){
+        if(!$this->seguridad_permiso(12)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1119,67 +1176,90 @@ class Guardar extends Core{
         $nombre = $_POST['nombre'];
         $correo = $_POST['correo'];
         $id_cia = $_POST['id_cia'];
-        $exist = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
         
-        if($id == 0){
+        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             
-            if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-                if($exist['count'] == 0){
+            $exist = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
+            if($exist['count'] == 0){
+                // NO EXISTE
+                if($id == 0){
                     $this->con->sql("INSERT INTO usuarios (nombre, correo, fecha_creado, id_cia, id_cue) VALUES ('".$nombre."', '".$correo."', now(), '".$id_cia."', '".$this->id_cue."')");
                     $info['op'] = 1;
-                    $info['mensaje'] = "Usuario creada exitosamente";
-                }else{
-                    $info['op'] = 2;
-                    $info['mensaje'] = "Error: Correo ya Existe";
+                    $info['mensaje'] = "Usuario creado exitosamente";
                 }
-            }else{
-                $info['op'] = 2;
-                $info['mensaje'] = "Error: Correo Invalido";
+                if($id > 0){
+                    $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', correo='".$correo."', id_cia='".$id_cia."' WHERE id_cue='".$this->id_cue."' AND id_user='".$id."' AND eliminado='0'");
+                    $info['op'] = 1;
+                    $info['mensaje'] = "Usuario modificado exitosamente";
+                }
+                $info['reload'] = 1;
+                $info['page'] = "cue/usuarios.php";
+                
+            }
+            if($exist['count'] == 1){
+                // SI EXISTE
+                if($id == 0){
+                    
+                    $info['op'] = 2;
+                    $info['mensaje'] = "Error: Correo ya existe";
+                    
+                }
+                if($id > 0){
+                    
+                    // MODIFICAR NORMAL
+                    if($exist['resultado'][0]['eliminado'] == 0 && $id == $exist['resultado'][0]['id_user']){
+                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', id_cia='".$id_cia."' WHERE id_cue='".$this->id_cue."' AND eliminado='0' AND id_user='".$id."'");
+                        $info['op'] = 1;
+                        $info['mensaje'] = "Usuario modificado exitosamente";
+                        $info['reload'] = 1;
+                        $info['page'] = "cue/usuarios.php";
+                    }
+                    // REINGRESAR USUARIO EXISTENTE
+                    if($exist['resultado'][0]['eliminado'] == 1){
+                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', id_cia='".$id_cia."', id_cue='".$this->id_cue."', eliminado='0' WHERE id_user='".$exist['resultado'][0]['id_user']."'");
+                        $info['op'] = 1;
+                        $info['mensaje'] = "Usuario ingresado exitosamente";
+                        $info['reload'] = 1;
+                        $info['page'] = "cue/usuarios.php";
+                    }
+                    
+                }
             }
             
-        }
-        if($id > 0){
-            if(filter_var($correo, FILTER_VALIDATE_EMAIL) && $exist['count'] == 0){
-                $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', correo='".$correo."' WHERE id_user='".$id."' AND id_cia='".$id_cia."' AND id_cue='".$this->id_cue."'");
-                $info['op'] = 1;
-                $info['mensaje'] = "Usuario modificada exitosamente";
-            }else{
-                $info['op'] = 2;
-                $info['mensaje'] = "Error: Correo Invalido";
-            }
-
+        }else{
+            $info['op'] = 2;
+            $info['mensaje'] = "Error: Correo Invalido";
         }
         
-        $info['reload'] = 1;
-        $info['page'] = "usuarios_cue.php";
+        
         return $info;
         
     }
-    // USUARIOS //
     public function eliminarusuariocue(){
         
-        if(!$this->seguridad_permiso(4)){
+        if(!$this->seguridad_permiso(12)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
         }
         
         $id = $_POST['id'];
-        $this->con->sql("UPDATE usuarios SET fecha_eliminado=now(), eliminado='1' WHERE id_user='".$id."' AND id_cia='0' AND id_cue='".$this->id_cia."'");
+        $this->con->sql("UPDATE usuarios SET fecha_eliminado=now(), eliminado='1' WHERE id_user='".$id."' AND id_cue='".$this->id_cue."'");
         
         $info['tipo'] = "success";
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Usuario ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "usuarios_cue.php";
+        $info['page'] = "cue/usuarios.php";
 
         return $info;
         
     }
+    
     // PERFIL //
     private function crearperfilcia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(5)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1200,14 +1280,13 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cia.php";
+        $info['page'] = "cia/perfiles.php";
         return $info;
         
     }
-    // PERFIL //
     public function eliminarperfilcia(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(5)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1220,12 +1299,11 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Perfil ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cia.php";
+        $info['page'] = "cia/perfiles.php";
 
         return $info;
         
     }
-    // PERFIL //
     private function crearperfilcue(){
         
         if(!$this->seguridad_permiso(6)){
@@ -1253,7 +1331,6 @@ class Guardar extends Core{
         return $info;
         
     }
-    // PERFIL //
     public function eliminarperfilcue(){
         
         if(!$this->seguridad_permiso(6)){
@@ -1274,10 +1351,11 @@ class Guardar extends Core{
         return $info;
         
     }
+    
     // CARGOS //
     private function crearcargoscia(){
         
-        if(!$this->seguridad_permiso(2)){
+        if(!$this->seguridad_permiso(3)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1293,20 +1371,19 @@ class Guardar extends Core{
             $info['mensaje'] = "Cargo creado exitosamente";
         }
         if($id > 0){
-            $this->con->sql("UPDATE cargos SET nombre='".$nombre."', cantidad='".$cantidad."' WHERE id_carg='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."'");
+            $this->con->sql("UPDATE cargos SET nombre='".$nombre."', cantidad='".$cantidad."' WHERE id_carg='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
             $info['op'] = 1;
             $info['mensaje'] = "Cargo modificado exitosamente";
         }
         
         $info['reload'] = 1;
-        $info['page'] = "cargos_cia.php";
+        $info['page'] = "cia/cargos.php";
         return $info;
         
     }
-    // CARGOS //
     public function eliminarcargoscia(){
         
-        if(!$this->seguridad_permiso(2)){
+        if(!$this->seguridad_permiso(3)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1319,15 +1396,14 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Cargo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "cargos_cia.php";
+        $info['page'] = "cia/cargos.php";
 
         return $info;
         
     }
-    // CARGOS //
     private function crearcargoscue(){
         
-        if(!$this->seguridad_permiso(5)){
+        if(!$this->seguridad_permiso(13)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1351,28 +1427,64 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "cargos_cia.php";
+        $info['page'] = "cue/cargos.php";
         return $info;
         
     }
-    // CARGOS //
     public function eliminarcargoscue(){
         
-        if(!$this->seguridad_permiso(5)){
+        if(!$this->seguridad_permiso(13)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
         }
         
         $id = $_POST['id'];
-        $this->con->sql("UPDATE cargos SET fecha_eliminado=now(), eliminado='1' WHERE id_carg='".$id."' AND id_cia='".$this->id_cia."' AND id_cue='".$this->id_cia."'");
+        $this->con->sql("UPDATE cargos SET fecha_eliminado=now(), eliminado='1' WHERE id_carg='".$id."' AND id_cue='".$this->id_cue."'");
         
         $info['tipo'] = "success";
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Cargo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "cargos_cia.php";
+        $info['page'] = "cue/cargos.php";
 
+        return $info;
+        
+    }
+    
+    private function configcia(){
+        
+        if(!$this->seguridad_permiso(11)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $nombre = $_POST["nombre"];
+        $this->con->sql("UPDATE companias SET nombre='".$nombre."' WHERE id_cia='".$this->id_cia."'");
+        
+        $info['op'] = 1;
+        $info['mensaje'] = "Datos modificados Exitosamente";
+        $info['reload'] = 1;
+        $info['page'] = "cia/config.php";
+        return $info;
+        
+    }
+    private function configcue(){
+        
+        if(!$this->seguridad_permiso(21)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $nombre = $_POST["nombre"];
+        $this->con->sql("UPDATE cuerpos SET nombre='".$nombre."' WHERE id_cue='".$this->id_cue."'");
+        
+        $info['op'] = 1;
+        $info['mensaje'] = "Datos modificados Exitosamente";
+        $info['reload'] = 1;
+        $info['page'] = "cue/config.php";
         return $info;
         
     }

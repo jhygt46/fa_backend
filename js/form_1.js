@@ -100,7 +100,7 @@ function form(){
     
     
     if(send){
-        
+        $('.loading').show();
         $.ajax({
             url: "ajax/index.php",
             type: "POST",
@@ -109,18 +109,12 @@ function form(){
             processData:false,
             cache:false,
             success: function(data){
-                
-                console.log(data);
                 if(data != null){
-                    
                     if(data.reload)
                         navlinks('pages/'+data.page);
-
                     if(data.op != null)
                         mensaje(data.op, data.mensaje);
-
                 }
-
             },
             error: function(e){
                 console.log(e);

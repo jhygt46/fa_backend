@@ -18,66 +18,58 @@ class Conexion {
         global $db_password;
         global $db_database;
 
-        $this->host	= $db_host;
-        $this->usuario = $db_user;
-        $this->password = $db_password;
-        $this->base_datos = $db_database;
-        $this->conn = mysqli_connect($this->host[0], $this->usuario[0], $this->password[0], $this->base_datos[0]);
-
+        $rand = rand(0, count($db_host) - 1);
+        
+        $this->host = $db_host[$rand];
+        $this->usuario = $db_user[$rand];
+        $this->password = $db_password[$rand];
+        $this->base_datos = $db_database[0];
+        //$this->conn = mysqli_connect($this->host, $this->usuario, $this->password, $this->base_datos);
+        $this->conn = new mysqli($this->host, $this->usuario, $this->password, $this->base_datos);
+        
     }
 
-    public function sql($sql) {
+    public function sql($sql){
         
-        $res = mysqli_query($this->conn, $sql);
-        if(!mysqli_connect_errno()){
-            $resultado['estado'] = true;
-            $resultado['query'] = $sql;
+        $resultado['query'] = $sql;
+        
+        if ($this->conn->connect_error){
             
+            $resultado['estado'] = false;
+            $resultado['error'] = "Failed1: ".$this->conn->connect_error;
+            
+        } 
+        
+        $res = $this->conn->query($sql);
+
+        if ($res == TRUE){
+            
+            $resultado['estado'] = true;
             if (preg_match("/select/i", $sql)){
-                $i=0;
-                while($row = mysqli_fetch_assoc($res)){
+                while($row = $res->fetch_assoc()){
                     $resultado['resultado'][] = $row;
-                    $i++;
                 }
-                $resultado['count'] = $i;
+                $resultado['count'] = $res->num_rows;
+                $res->free();
             }
             if (preg_match("/insert/i", $sql)){
-                $resultado['insert_id'] = mysqli_insert_id();
+                $resultado['insert_id'] = $this->conn->insert_id;
             }
-            if (preg_match("/update/i", $sql)){
-                $resultado['update_rows'] = mysqli_affected_rows();
-            }
-            mysqli_free_result($res);
+            $resultado['affected_rows'] = $this->conn->affected_rows;
             
         }else{
+            
             $resultado['estado'] = false;
-            $resultado['query'] = $sql;
-            $resultado['error'] = "Failed: ".mysqli_connect_error();
+            $resultado['error'] = "Failed2: ".$this->conn->error;
+            
         }
-        
-        return $resultado;
-        /*
-        
-        if (preg_match("/update/i", $sql)){
-                $resultado['update_rows'] = mysqli_affected_rows();
-        }
-        if (preg_match("/delete/i", $sql)){
 
-        }
-        if (preg_match("/select/i", $sql)){
-            while($row = @mysqli_fetch_array($result, MYSQL_ASSOC)){
-                $resultado['resultado'][] = $row;
-            }
-        }
-        $resultado['count'] = count($resultado['resultado']);	
-        @mysqli_free_result($result);
-        */
-        
+        return $resultado;
         
     }
 
     public function __destruct(){
-        mysqli_close($this->conn);
+        $this->conn->close();
     }
 
 

@@ -46,6 +46,11 @@ $(document).ready(function(){
         
     });
     localStorage.setItem("history", null);
+    
+    $('.contnotificacionllamado').click(function(){
+        var rel = $(this).attr('rel');
+        console.log(rel);
+    });
     /*
     $('.claves').sortable({
         stop: function(e, ui){
@@ -302,8 +307,6 @@ function setadmin(id_sis){
     return false;
     
 }
-
-
 function salir(){
     
     var send = {accion: "salir"};
@@ -318,4 +321,19 @@ function salir(){
         }
     });
     return false;
+}
+
+function shownotificaciones(){
+    $('.notificaciones').animate({ bottom: "10px" }, 500);
+}
+function hidenotificaciones(){
+    $('.notificaciones').animate({ bottom: "-380px" }, 500);
+}
+function notificacion(id){
+    $('.contnotificacionllamado').attr('rel', id);
+    var map = initMap('mapa_noti', -33.439797, -70.616939, 16);
+    shownotificaciones();
+}
+function initMap(variable, lat, lng, zoom = 8) {
+    return new google.maps.Map(document.getElementById(variable), { center: { lat: lat, lng: lng }, zoom: zoom, disableDefaultUI: true } );
 }

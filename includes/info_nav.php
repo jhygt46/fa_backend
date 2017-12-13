@@ -1,201 +1,192 @@
 <?php
     
-    /*
-    if(in2_arr()){
-        $arrays["nombre"] = "Cuerpos";
-        $arrays["link"] = "pages/crear_cuerpo.php";
+    // MI CUENTA 
+    if(in_arr(1)){
+        $arrays["nombre"] = "Inicio";
+        $arrays["link"] = "pages/muro.php";
         $array[] = $arrays;
     }
-    if(in2_arr()){
-        $arrays["nombre"] = "Despacho";
-        $arrays["link"] = "pages/despacho.php";
+    if(in_arr(1)){
+        $arrays["nombre"] = "Perfil";
+        $arrays["link"] = "pages/muro.php";
         $array[] = $arrays;
     }
-    if(in2_arr()){
-        $arrays["nombre"] = "Actos Cia";
-        $arrays["link"] = "pages/actos_cia.php";
+    if(in_arr(1)){
+        $arrays["nombre"] = "Cuartel";
+        $arrays["link"] = "pages/muro.php";
         $array[] = $arrays;
     }
-    if(in2_arr()){
-        $arrays["nombre"] = "Actos Cue";
-        $arrays["link"] = "pages/actos_cue.php";
+    if(in_arr(1)){
+        $arrays["nombre"] = "Informacion Medica";
+        $arrays["link"] = "pages/info_medica.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(1)){
+        $arrays["nombre"] = "Ver Llamados";
+        $arrays["link"] = "pages/ver_llamados.php";
+        $array[] = $arrays;
+    }
+    if(isset($array)){
+        $aux["ico"] = 3;
+        $aux["show"] = true;
+        $aux["categoria"] = "Mi Cuenta";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+    
+    
+    
+    
+    // ADMIN CIA //
+    if(in_arr(1)){
+        $arrays["nombre"] = "Usuarios";
+        $arrays["link"] = "pages/cia/usuarios.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(3)){
+        $arrays["nombre"] = "Cargos";
+        $arrays["link"] = "pages/cia/cargos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(5)){
+        $arrays["nombre"] = "Perfiles";
+        $arrays["link"] = "pages/cia/perfiles.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(7)){
+        $arrays["nombre"] = "Grupos de Usuarios";
+        $arrays["link"] = "pages/cia/grupo_vols.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(8)){
+        $arrays["nombre"] = "Grupos de Cargos";
+        $arrays["link"] = "pages/cia/grupo_cargos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(9)){
+        $arrays["nombre"] = "Tipos de Claves";
+        $arrays["link"] = "pages/cia/tipos_de_claves.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(10)){
+        $arrays["nombre"] = "Actos";
+        $arrays["link"] = "pages/cia/actos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(11)){
+        $arrays["nombre"] = "Configuracion";
+        $arrays["link"] = "pages/cia/config.php";
         $array[] = $arrays;
     }
     if(isset($array)){
         $aux["ico"] = 4;
+        $aux["categoria"] = "Admin Compa&ntilde;ia";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+    
+    // ADMIN CUERPO //
+    if(in_arr(12)){
+        $arrays["nombre"] = "Usuarios";
+        $arrays["link"] = "pages/cue/usuarios.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Cargos";
+        $arrays["link"] = "pages/cue/cargos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Perfiles";
+        $arrays["link"] = "pages/cue/perfiles.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Grupos de Usuarios";
+        $arrays["link"] = "pages/cue/grupo_vols.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Grupos de Cargos";
+        $arrays["link"] = "pages/cue/grupo_cargos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Actos";
+        $arrays["link"] = "pages/cue/actos.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Configuracion";
+        $arrays["link"] = "pages/cue/config.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Tipos de Claves";
+        $arrays["link"] = "pages/cue/tipos_de_claves.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Tipos de Maquinas";
+        $arrays["link"] = "pages/cue/tipos_de_maquina.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Carros";
+        $arrays["link"] = "pages/cue/carros.php?id=0&nombre=Comandancia";
+        $array[] = $arrays;
+    }
+    if(in_arr(12)){
+        $arrays["nombre"] = "Compa&ntilde;ias";
+        $arrays["link"] = "pages/cue/crear_cias.php";
+        $array[] = $arrays;
+    }
+    if(isset($array)){
+        $aux["ico"] = 4;
+        $aux["categoria"] = "Admin Cuerpo";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+    
+    if(in_arr(12)){
+        $arrays["nombre"] = "Despacho";
+        $arrays["link"] = "pages/cue/despacho.php";
+        $array[] = $arrays;
+    }
+    if(isset($array)){
+        $aux["ico"] = 2;
+        $aux["categoria"] = "Despacho";
+        $aux["subcategoria"] = $array;
+        $menu[] = $aux;
+        unset($aux);
+        unset($array);
+    }
+    
+    // SUPER ADMIN //
+    if(in2_arr()){
+        
+        $arrays["nombre"] = "Cuerpos";
+        $arrays["link"] = "pages/crear_cuerpo.php";
+        $array[] = $arrays;
+        
+    }
+    
+    if(isset($array)){
+        $aux["ico"] = 1;
         $aux["categoria"] = "SuperAdministrador";
         $aux["subcategoria"] = $array;
         $menu[] = $aux;
         unset($aux);
         unset($array);
     }
-    */
-    if(in_arr(3)){
-        $arrays["nombre"] = "Inicio";
-        $arrays["link"] = "pages/muro.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(3)){
-        $arrays["nombre"] = "Mi Perfil";
-        $arrays["link"] = "pages/mi_perfil.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(3)){
-        $arrays["nombre"] = "Mi Informacion";
-        $arrays["link"] = "pages/mi_informacion.php";
-        $array[] = $arrays;
-    }
     
-    if(isset($array)){
-        $aux["ico"] = 4;
-        $aux["categoria"] = "Voluntarios";
-        $aux["subcategoria"] = $array;
-        $menu[] = $aux;
-        unset($aux);
-        unset($array);
-    }
 
-    if(in_arr(1)){
-        $arrays["nombre"] = "Usuarios";
-        $arrays["link"] = "pages/usuarios_cia.php";
-        $array[] = $arrays;
-    }
-    
-    if(in_arr(10)){
-        $arrays["nombre"] = "Configuracion";
-        $arrays["link"] = "pages/config_cia.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Grupos Cargos";
-        $arrays["link"] = "pages/grupos_cia.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Grupos Usuarios";
-        $arrays["link"] = "pages/grupos_cia_vol.php";
-        $array[] = $arrays;
-    }
-    
-    if(isset($array)){
-        $aux["ico"] = 1;
-        $aux["categoria"] = "Administrador Cia";
-        $aux["subcategoria"] = $array;
-        $menu[] = $aux;
-        unset($aux);
-        unset($array);
-    }
-    
-    if(in_arr(3)){
-        $arrays["nombre"] = "Perfiles";
-        $arrays["link"] = "pages/perfiles_cia.php";
-        $array[] = $arrays;
-    }
-    if(isset($array)){
-        $aux["ico"] = 2;
-        $aux["categoria"] = "Permisos";
-        $aux["subcategoria"] = $array;
-        $menu[] = $aux;
-        unset($aux);
-        unset($array);
-    }
-
-    if(in_arr(10)){
-        $arrays["nombre"] = "Claves Cia";
-        $arrays["link"] = "pages/tipos_de_claves_cia.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(2)){
-        $arrays["nombre"] = "Cargos";
-        $arrays["link"] = "pages/cargos_cia.php";
-        $array[] = $arrays;
-    }
-    if(isset($array)){
-        $aux["ico"] = 3;
-        $aux["categoria"] = "Configuracion Base";
-        $aux["subcategoria"] = $array;
-        $menu[] = $aux;
-        unset($aux);
-        unset($array);
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    
-    if(in_arr(4)){
-        $arrays["nombre"] = "Usuarios";
-        $arrays["link"] = "pages/usuarios_cue.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(6)){
-        $arrays["nombre"] = "Perfiles";
-        $arrays["link"] = "pages/perfiles_cue.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(5)){
-        $arrays["nombre"] = "Cargos";
-        $arrays["link"] = "pages/cargos_cue.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(7)){
-        $arrays["nombre"] = "Compa&ntilde;ia";
-        $arrays["link"] = "pages/crear_cias.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(8)){
-        $arrays["nombre"] = "Tipos de Maquinas";
-        $arrays["link"] = "pages/tipos_de_maquina.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(9)){
-        $arrays["nombre"] = "Carros";
-        $arrays["link"] = "pages/carros.php?id=0&nombre=Comandancia";
-        $array[] = $arrays;
-    }
-    if(in_arr(11)){
-        $arrays["nombre"] = "Configuracion";
-        $arrays["link"] = "pages/config_cue.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Grupos Cargos";
-        $arrays["link"] = "pages/grupos_cue.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Grupos Usuarios";
-        $arrays["link"] = "pages/grupos_cue_vol.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(10)){
-        $arrays["nombre"] = "Claves Cue";
-        $arrays["link"] = "pages/tipos_de_claves_cue.php";
-        $array[] = $arrays;
-    }
-    if(isset($array)){
-        $aux["ico"] = 2;
-        $aux["categoria"] = "Administrador Cuerpo";
-        $aux["subcategoria"] = $array;
-        $menu[] = $aux;
-        unset($aux);
-        unset($array);
-    }
-    
-    */
     
     
     
@@ -204,10 +195,7 @@
     
     
     function in_arr($id_tar){
-        if(in_array($id_tar, $_SESSION['user']['permisos'])){
-            return true;
-        }
-        return false;
+        return in_array($id_tar, $_SESSION['user']['permisos']);
     }
     function in2_arr(){
         if($_SESSION['user']['info']['id_user'] == 1){

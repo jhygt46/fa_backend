@@ -1,16 +1,16 @@
 <?php
 session_start();
 date_default_timezone_set('America/Santiago');
-/*
+
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
 }
 $path_ = $path."fa_backend/class";
-include($path_."/fireapp.php");
-$fireapp = new Fireapp();
+include($path_."/core.php");
+$fireapp = new Core();
 $_SESSION['user']['permisos'] = $fireapp->permisos_usuario($_SESSION['user']['info']['id_user']);
-*/
+
 if(isset($_SESSION['user']['info']['id_user'])){
         
     $page = "layout";
@@ -24,7 +24,6 @@ if(isset($_SESSION['user']['info']['id_user'])){
                 <div class="contenedor">
                     <div class='load error'>
                         <div class='msgloading'>
-
                             <div class='textload'>Error porfavor vuelva a intentarlo mas tarde</div>
                         </div>
                     </div>
@@ -36,7 +35,20 @@ if(isset($_SESSION['user']['info']['id_user'])){
                             <div class='textload'>Cargando...</div>
                         </div>
                     </div>
-                    <ul class="sock_cont"></ul>
+                    <div class="notificaciones">
+                        <div class="notihide" onclick="hidenotificaciones()"></div>
+                        <div class="notiinfo">
+                            
+                            <div class="contnotificacionllamado" rel="0">
+                                <div class="titulo_noti"><span class="t1">10-0-1</span><span class="t2">Jose Tomas Rider 1185</span></div>
+                                <div class="mapa_noti">
+                                    <div id="mapa_noti"></div>
+                                </div>
+                                <div class="detalle_noti"><span class="t3">B13 - B14 - Q15</span></div>
+                            </div>
+                            
+                        </div>
+                    </div>
                     <div class='conthtml'>
                         
                         <?php
@@ -44,7 +56,8 @@ if(isset($_SESSION['user']['info']['id_user'])){
                             echo "<pre>";
                             print_r($_SESSION);
                             echo "</pre>";
-                        
+                            
+                            $include = true;
                             include("pages/muro.php");
                         
                         ?>
