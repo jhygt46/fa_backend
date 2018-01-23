@@ -8,9 +8,9 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 }else{
     $path .= "admin";
 }
-
+echo "B1";
 require_once ($path."/class/mysql_class.php");
-
+echo "B2";
 class Core{
     
     public $con = null;
