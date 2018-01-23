@@ -974,7 +974,8 @@ class Guardar extends Core{
             
         }else{
             
-            
+            $info['msga'] = "NO AUN";
+            $info['msgb'] = "WENA WEAN";
             
         }
 
