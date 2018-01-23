@@ -950,6 +950,10 @@ class Guardar extends Core{
         
     }
     
+    private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel){
+        
+    }
+    
     public function crear_cuerpo_pagina(){
           
         $cue_nom = $_POST['cue_nom'];
@@ -959,15 +963,27 @@ class Guardar extends Core{
         $adm_tel = $_POST['adm_tel'];
         
         $ip = $this->get_client_ip_env();
+        $sql_ip = $this->con->sql("SELECT * FROM ip WHERE ip='".$ip."'");
         
-        $info['msg1'] = "";
-        $info['msg2'] = "";
-        $info['ip'] = $ip;
-        
+        if($sql_ip['count'] == 0){
+            
+            $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
+            $this->con->sql("INSERT INTO ip (ip, date, id_cue) VALUES ('".$ip."', now(), '".$id_cue."')");
+            $info['msg1'] = "Cuerpo creado exitosamente";
+            $info['msg2'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+            
+        }else{
+            
+            
+            
+        }
+
         return $info;
         
     }
-    function get_client_ip_env() {
+    
+    function get_client_ip_env(){
+        
         $ipaddress = '';
         if (getenv('HTTP_CLIENT_IP'))
             $ipaddress = getenv('HTTP_CLIENT_IP');
@@ -984,6 +1000,7 @@ class Guardar extends Core{
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
+        
     }
     
     // CUERPOS //

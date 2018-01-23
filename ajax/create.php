@@ -17,7 +17,6 @@ $guardar = new Guardar();
 if($_GET['accion'] == "crear_cuerpo_pagina"){
     $data = $guardar->crear_cuerpo_pagina();
     echo json_encode($data);
-    exit;
 }
 
 ?>
