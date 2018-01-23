@@ -17,7 +17,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 $info['path'] = $path;
 $info['path_class'] = $path_class;
 $info['path_n'] = $path_n;
-
+print_r($info);
 
 require_once($path_class."guardar.php");
 $guardar = new Guardar();
