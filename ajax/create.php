@@ -10,15 +10,13 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 }else{
     $path .= "admin";
 }
-
+echo "A";
 require_once($path."/class/guardar.php");
 $guardar = new Guardar();
-
+echo "B";
 if($_GET['accion'] == "crear_cuerpo_pagina"){
-    echo "A";
     $data = $guardar->crear_cuerpo_pagina();
     echo json_encode($data);
-    echo "b";
     exit;
 }
 
