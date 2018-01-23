@@ -950,7 +950,7 @@ class Guardar extends Core{
         
     }
     
-    private function crear_cuerpo_pagina(){
+    public function crear_cuerpo_pagina(){
           
         $cue_nom = $_POST['cue_nom'];
         $cue_reg = $_POST['cue_reg'];
