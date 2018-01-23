@@ -1,7 +1,16 @@
 <?php
 
-require_once $path_n."db_config.php";
-require_once $path."config/config.php";
+$path = $_SERVER['DOCUMENT_ROOT'];
+if($_SERVER['HTTP_HOST'] == "localhost"){
+    $pathb = $path;
+    $path .= "/fa_backend";
+}else{
+    $pathb = $path;
+    $path .= "admin";
+}
+
+require_once ($path."/db_config.php");
+require_once ($pathb."/config/config.php");
 
 class Conexion {
     

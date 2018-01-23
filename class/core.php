@@ -4,14 +4,12 @@ date_default_timezone_set('America/Santiago');
 
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/";
-    $path_class = $path."/fa_backend/class/";
-    $path_n = $path."/fa_backend/";
+    $path .= "/fa_backend";
 }else{
-    $path_class = $path."admin/class/";
-    $path_n = $path."admin/";
+    $path .= "admin";
 }
-require_once $path_class.'mysql_class.php';
+
+require_once ($path."/class/mysql_class.php");
 
 class Core{
     
