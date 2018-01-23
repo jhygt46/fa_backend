@@ -15,8 +15,10 @@ require_once($path."/class/guardar.php");
 $guardar = new Guardar();
 
 if($_GET['accion'] == "crear_cuerpo_pagina"){
+    echo "A";
     $data = $guardar->crear_cuerpo_pagina();
     echo json_encode($data);
+    echo "b";
     exit;
 }
 
