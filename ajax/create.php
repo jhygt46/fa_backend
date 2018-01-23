@@ -12,8 +12,9 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 }
 echo "A";
 require_once($path."/class/guardar.php");
-$guardar = new Guardar();
 echo "B";
+$guardar = new Guardar();
+echo "C";
 if($_GET['accion'] == "crear_cuerpo_pagina"){
     $data = $guardar->crear_cuerpo_pagina();
     echo json_encode($data);
