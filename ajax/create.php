@@ -14,7 +14,9 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-echo $path;
+echo $path."<br/>";
+echo $path_class."<br/>";
+echo $path_n."<br/>";
 
 require_once($path_class."guardar.php");
 $guardar = new Guardar();
