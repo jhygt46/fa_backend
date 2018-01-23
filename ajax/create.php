@@ -16,11 +16,11 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-print_r($_POST);
-exit;
-
 require_once($path_class."guardar.php");
 $guardar = new Guardar();
+
+print_r($_POST);
+exit;
 
 if($_POST['accion'] == "crear_cuerpo_pagina"){
     $data = $guardar->crear_cuerpo_pagina();
