@@ -7,6 +7,8 @@ header('Content-type: application/json');
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/fa_bakend/";
+}else{
+    $path .= "admin/";
 }
 
 $info['path'] = $path;
