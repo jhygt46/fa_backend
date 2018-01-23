@@ -963,7 +963,7 @@ class Guardar extends Core{
         $adm_tel = $_POST['adm_tel'];
         
         $ip = $this->get_client_ip_env();
-        $sql_ip = $this->con->sql("SELECT * FROM ip WHERE ip='".$ip."'");
+        $sql_ip = $this->con->sql("SELECT * FROM ip WHERE ip='".$ip."' ORDER BY date DESC");
         
         if($sql_ip['count'] == 0){
             
@@ -974,8 +974,23 @@ class Guardar extends Core{
             
         }else{
             
-            $info['msga'] = "NO AUN";
-            $info['msgb'] = "WENA WEAN";
+            $time = time() - strtotime($sql_ip['resultado'][0]['date']);
+            $aux_time = ($sql_ip['count'] - 1) * 1800;
+            $aux = $time - $aux_time;
+            
+            if($aux < 0){
+                
+                $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
+                $this->con->sql("INSERT INTO ip (ip, date, id_cue) VALUES ('".$ip."', now(), '".$id_cue."')");
+                $info['msga'] = "Cuerpo creado exitosamente";
+                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+                
+            }else{
+                
+                $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
+                $info['msgb'] = "Debe esperar ".$aux." segundos";
+                
+            }
             
         }
 
