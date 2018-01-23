@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-echo "A1";
 require_once $path."/class/core.php";
-echo "A2";
 
 class Guardar extends Core{
     

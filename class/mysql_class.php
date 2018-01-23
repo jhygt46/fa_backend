@@ -9,13 +9,9 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "admin";
 }
 
-
-echo "C1";
-echo $path."/db_config.php";
 require_once ($path."/db_config.php");
-echo "C2";
 require_once ($pathb."/config/config.php");
-echo "C3";
+
 
 class Conexion {
     
