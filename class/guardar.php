@@ -16,7 +16,6 @@ class Guardar extends Core{
     }
     public function process(){
         
-        // CRAER //
         if($_POST['accion'] == "crearcuerpo"){
             return $this->crearcuerpo();
         }
@@ -951,6 +950,41 @@ class Guardar extends Core{
         
     }
     
+    private function crear_cuerpo_pagina(){
+          
+        $cue_nom = $_POST['cue_nom'];
+        $cue_reg = $_POST['cue_reg'];
+        $adm_nom = $_POST['adm_nom'];
+        $adm_cor = $_POST['adm_cor'];
+        $adm_tel = $_POST['adm_tel'];
+        
+        $ip = $this->get_client_ip_env();
+        
+        $info['msg1'] = "";
+        $info['msg2'] = "";
+        $info['ip'] = $ip;
+        
+        return $info;
+        
+    }
+    function get_client_ip_env() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+            $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
     
     // CUERPOS //
     private function crearcuerpo(){
