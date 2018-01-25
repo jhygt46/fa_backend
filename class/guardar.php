@@ -984,6 +984,9 @@ class Guardar extends Core{
             $info['time'] = $time;
             $info['aux_time'] = $aux_time;
             
+            $info['fecha_time'] = date("dd-mm-YY H:i:s", $time);
+            $info['fecha_aux_time'] = date("dd-mm-YY H:i:s", $aux_time);
+            
             if($aux < 0){
                 
                 $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
