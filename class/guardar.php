@@ -1005,7 +1005,7 @@ class Guardar extends Core{
             
         }
 
-        //enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
+        $thi->enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
         
     }
     
