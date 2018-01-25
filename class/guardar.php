@@ -993,7 +993,7 @@ class Guardar extends Core{
             }else{
                 
                 $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
-                $info['msgb'] = "Debe esperar ".$aux." segundos";
+                $info['msgb'] = "Debe esperar ".abs($aux)." segundos";
                 
             }
             
