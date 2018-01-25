@@ -950,7 +950,61 @@ class Guardar extends Core{
         
     }
     
+    private function enviar_email($correo, $code, $id, $nombre){
+        
+        $url[0] = "http://www.usinox.cl/jbmks/tsm.php";
+        $url[1] = "http://www.jardinvalleencantado.cl/jbmks/tsm.php";
+
+        $rand = rand(0, count($url)-1);
+        $urls = $url[$rand];
+
+        $post['accion'] = "reset";
+        $post['id'] = $id;
+        $post['code'] = $code;
+        $post['nombre'] = $nombre;
+        $post['correo'] = $correo;
+        $post['url'] = "http://www.fireapp.cl";
+
+        $ch = curl_init($urls);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+    }
+    
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel){
+        
+        $arr_perfil = array();
+        
+        // CREA CUERPO Y EL ASIGNA EL GRUPO DE TAREAS BASICO //
+        $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
+        $id_cue = $cuerpo['insert_id'];
+        $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('1', '".$id_cue."')");
+
+        // CREAR USUARIOS Y ASIGNAR PERFIL DE ADMINISTRADOR //
+        $usuario = $this->con->sql("INSERT INTO usuarios (nombre, correo, telefono, id_cue) VALUES ('".$adm_nom."', '".$adm_cor."', '".$adm_tel."', '".$id_cue."')");
+        $id_user = $usuario['id_user'];
+        
+        $arr_perfil[0]['nombre'] = "Administrador";
+        $arr_perfil[0]['asignar'] = true;
+        $arr_perfil[0]['tareas'][0] = 1;
+        $arr_perfil[0]['tareas'][1] = 2;
+                
+        for($i=0; $i<count($arr_perfil); $i++){
+            
+            $perfil = $this->con->sql("INSERT INTO perfiles (nombre, fecha_creado, id_cue) VALUES ('".$arr_perfil[$i]['nombre']."', '".date("Y-m-d H:i:s")."', '".$id_cue."')");
+            $id_per = $perfile['insert_id'];
+            for($j=0; $j<count($arr_perfil[$i]['tareas']); $j++){
+                $this->con->sql("INSERT INTO perfiles_tareas (id_tar, id_per) VALUES ('".$arr_perfil[$i]['tareas'][$j]."', '".$id_per."')");
+            }
+            if($arr_perfil[$i]['asignar']){
+                $this->con->sql("INSERT INTO perfiles_usuarios (id_user, id_per) VALUES ('".$id_user."', '".$id_per."')");
+            }
+            
+        }
+
+        enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
         
     }
     
@@ -976,6 +1030,9 @@ class Guardar extends Core{
             
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
+            if($aux_time > 6000){
+                $aux_time = 6000;
+            }
             $aux = $time - $aux_time;
             
             $info['time'] = $time;
