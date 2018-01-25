@@ -978,6 +978,11 @@ class Guardar extends Core{
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
             $aux = $time - $aux_time;
             
+            $info['time'] = $time;
+            $info['time_func'] = $time;
+            $info['time_last'] = strtotime($sql_ip['resultado'][0]['date']);
+            $info['time_aux'] = $aux_time;
+            
             if($aux < 0){
                 
                 $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
