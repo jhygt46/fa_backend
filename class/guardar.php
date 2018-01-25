@@ -964,13 +964,14 @@ class Guardar extends Core{
         $post['nombre'] = $nombre;
         $post['correo'] = $correo;
         $post['url'] = "http://www.fireapp.cl";
-
+        
+        /*
         $ch = curl_init($urls);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
         curl_close($ch);
-        
+        */
     }
     
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel){
