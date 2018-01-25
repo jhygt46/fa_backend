@@ -965,13 +965,13 @@ class Guardar extends Core{
         $post['correo'] = $correo;
         $post['url'] = "http://www.fireapp.cl";
         
-        /*
+        
         $ch = curl_init($urls);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         $response = curl_exec($ch);
         curl_close($ch);
-        */
+        
     }
     
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel){
@@ -1005,7 +1005,7 @@ class Guardar extends Core{
             
         }
 
-        enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
+        //enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
         
     }
     
