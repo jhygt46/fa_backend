@@ -986,7 +986,7 @@ class Guardar extends Core{
             if($aux > 0){
                 
                 $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
-                $this->con->sql("INSERT INTO ip (ip, date, id_cue) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."', '".$id_cue."')");
+                $this->con->sql("INSERT INTO ip (ip, date) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."')");
                 $info['msga'] = "Cuerpo creado exitosamente";
                 $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
                 
