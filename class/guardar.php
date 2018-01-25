@@ -984,8 +984,8 @@ class Guardar extends Core{
             $info['time'] = $time;
             $info['aux_time'] = $aux_time;
             
-            $info['fecha_time'] = date("d-m-Y H:i:s", $time);
-            $info['fecha_aux_time'] = date("d-m-Y H:i:s", $aux_time);
+            $info['fecha_time'] = date("d-m-Y H:i:s", $info['time_func']);
+            $info['fecha_aux_time'] = date("d-m-Y H:i:s", $info['time_last']);
             
             if($aux < 0){
                 
