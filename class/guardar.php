@@ -1034,7 +1034,7 @@ class Guardar extends Core{
         
         if($sql_ip['count'] == 0){
             
-            if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel)){
+            if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                 $info['estado'] = 1;
             }
             $info['msga'] = "Cuerpo creado exitosamente";
@@ -1051,7 +1051,7 @@ class Guardar extends Core{
             
             if($aux > 0){
                 
-                if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel)){
+                if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                     $info['estado'] = 1;
                 }
                 $info['msga'] = "Cuerpo creado exitosamente";
