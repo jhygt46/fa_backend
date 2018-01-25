@@ -975,17 +975,8 @@ class Guardar extends Core{
         }else{
             
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
-            $aux_time = ($sql_ip['count'] - 1) * 1800;
+            $aux_time = (($sql_ip['count'] * $sql_ip['count'] * $sql_ip['count']) - 1) * 100;
             $aux = $time - $aux_time;
-            
-            $info['time_func'] = time();
-            $info['time_last'] = strtotime($sql_ip['resultado'][0]['date']);
-            
-            $info['time'] = $time;
-            $info['aux_time'] = $aux_time;
-            
-            $info['fecha_time'] = date("d-m-Y H:i:s", $info['time_func']);
-            $info['fecha_aux_time'] = date("d-m-Y H:i:s", $info['time_last']);
             
             if($aux < 0){
                 
