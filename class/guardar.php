@@ -972,11 +972,18 @@ class Guardar extends Core{
         $response = curl_exec($ch);
         curl_close($ch);
         
+        if($response == "OK"){
+            return true;
+        }
+        if($response == "NO"){
+            return false;
+        }
+        
     }
     
-    private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel){
+    private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip){
         
-        $arr_perfil = array();
+        $this->con->sql("INSERT INTO ip (ip, date) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."')");
         
         // CREA CUERPO Y EL ASIGNA EL GRUPO DE TAREAS BASICO //
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
@@ -1005,7 +1012,11 @@ class Guardar extends Core{
             
         }
 
-        $this->enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom);
+        if($this->enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom)){
+            return true;
+        }else{
+            return false;
+        }
         
     }
     
@@ -1016,14 +1027,16 @@ class Guardar extends Core{
         $adm_nom = $_POST['adm_nom'];
         $adm_cor = $_POST['adm_cor'];
         $adm_tel = $_POST['adm_tel'];
+        $info['estado'] = 0;
         
         $ip = $this->get_client_ip_env();
         $sql_ip = $this->con->sql("SELECT * FROM ip WHERE ip='".$ip."' ORDER BY date DESC");
         
         if($sql_ip['count'] == 0){
             
-            $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
-            $this->con->sql("INSERT INTO ip (ip, date, id_cue) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."', '".$id_cue."')");
+            if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel)){
+                $info['estado'] = 1;
+            }
             $info['msga'] = "Cuerpo creado exitosamente";
             $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
             
@@ -1036,15 +1049,11 @@ class Guardar extends Core{
             }
             $aux = $time - $aux_time;
             
-            $info['time'] = $time;
-            $info['time_func'] = $time;
-            $info['time_last'] = strtotime($sql_ip['resultado'][0]['date']);
-            $info['time_aux'] = $aux_time;
-            
             if($aux > 0){
                 
-                $id_cue = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel);
-                $this->con->sql("INSERT INTO ip (ip, date) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."')");
+                if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel)){
+                    $info['estado'] = 1;
+                }
                 $info['msga'] = "Cuerpo creado exitosamente";
                 $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
                 
