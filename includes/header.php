@@ -30,7 +30,7 @@
         <?php for($i=0; $i<count($header[$page]['js']); $i++){?>
         <script type="text/javascript" src="<?php echo $header[$page]['js'][$i]; ?>"></script>
         <?php } ?>
-        <link rel="stylesheet" href="css/reset.css" type="text/css" media="all">
+        <link rel="stylesheet" href="http://www.fireapp.cl/admin/css/reset.css" type="text/css" media="all">
         <?php for($i=0; $i<count($header[$page]['css']); $i++){?>
         <link rel="stylesheet" href="<?php echo $header[$page]['css'][$i]; ?>" type="text/css" media="all">
         <?php } ?>
