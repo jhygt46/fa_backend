@@ -1,7 +1,9 @@
 <?php 
     
-    $header['password']['js'][0] = "js/password.js";
-    $header['password']['css'][0] = "css/login.css";
+    
+
+    $header['password']['js'][0] = "../../../admin/js/password.js";
+    $header['password']['css'][0] = "../css/login.css";
 
     $header['login']['js'][0] = "js/login.js";
     $header['login']['css'][0] = "css/login.css";

@@ -992,7 +992,7 @@ class Guardar extends Core{
 
         // CREAR USUARIOS Y ASIGNAR PERFIL DE ADMINISTRADOR //
         $usuario = $this->con->sql("INSERT INTO usuarios (nombre, correo, telefono, id_cue) VALUES ('".$adm_nom."', '".$adm_cor."', '".$adm_tel."', '".$id_cue."')");
-        $id_user = $usuario['id_user'];
+        $id_user = $usuario['insert_id'];
         
         $arr_perfil[0]['nombre'] = "Administrador";
         $arr_perfil[0]['asignar'] = true;
