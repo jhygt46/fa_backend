@@ -1,9 +1,16 @@
 <?php 
     
-    
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    if($_SERVER['HTTP_HOST'] == "localhost"){
+        $pathb = $path;
+        $path .= "/fa_backend";
+    }else{
+        $pathb = $path;
+        $path .= "admin";
+    }
 
-    $header['password']['js'][0] = "../../../admin/js/password.js";
-    $header['password']['css'][0] = "../css/login.css";
+    $header['password']['js'][0] = "/js/password.js";
+    $header['password']['css'][0] = "/css/login.css";
 
     $header['login']['js'][0] = "js/login.js";
     $header['login']['css'][0] = "css/login.css";
@@ -24,16 +31,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="shortcut icon" type="image/x-icon" href="images/fire.ico" />
         <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="<?php echo $path; ?>/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="<?php echo $path; ?>js/jquery-ui.js"></script>
         <!--<script src='http://localhost:3000/socket.io/socket.io.js'></script>-->
         <!--<script type="text/javascript" src="js/sockets.js"></script>-->
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <?php for($i=0; $i<count($header[$page]['js']); $i++){?>
-        <script type="text/javascript" src="<?php echo $header[$page]['js'][$i]; ?>"></script>
+        <script type="text/javascript" src="<?php echo $path; ?>/<?php echo $header[$page]['js'][$i]; ?>"></script>
         <?php } ?>
         <link rel="stylesheet" href="css/reset.css" type="text/css" media="all">
         <?php for($i=0; $i<count($header[$page]['css']); $i++){?>
-        <link rel="stylesheet" href="<?php echo $header[$page]['css'][$i]; ?>" type="text/css" media="all">
+        <link rel="stylesheet" href="<?php echo $path; ?>/<?php echo $header[$page]['css'][$i]; ?>" type="text/css" media="all">
         <?php } ?>
     </head>
