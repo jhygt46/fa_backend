@@ -8,7 +8,7 @@ $(document).ready(function(){
         var pass2 = $('#pass2').val();
         
         $.ajax({
-            url: "ajax/ingreso.php",
+            url: "http://www.fireapp.cl/admin/ajax/ingreso.php",
             type: "POST",
             data: "accion=recuperar_password&id="+id+"&code="+code+"&pass1="+pass1+"&pass2="+pass2,
             success: function(data){
