@@ -2,16 +2,15 @@
 session_start();
 date_default_timezone_set('America/Santiago');
 
-
-print_r($_SESSION);
-exit;
-
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
-    $path .= "/";
+    $path .= "/fa_backend";
+}else{
+    $path .= "admin";
 }
-$path_ = $path."fa_backend/class";
-include($path_."/core.php");
+
+
+include($path."/class/core.php");
 $fireapp = new Core();
 $_SESSION['user']['permisos'] = $fireapp->permisos_usuario($_SESSION['user']['info']['id_user']);
 
