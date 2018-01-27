@@ -22,6 +22,10 @@ $(document).ready(function(){
                     setTimeout(function() {
                         $(location).attr('href',"http://www.fireapp.cl/admin/index.php?user="+data.user);
                     }, 2000);
+                    
+                }
+                if(data.op == 2){
+                    $('.msg').html(data.msg);
                 }
                 
 

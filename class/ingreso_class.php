@@ -32,21 +32,37 @@ class Ingreso {
         }
         
     }
+    private function randstring($n){
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $code = substr(str_shuffle($chars), 0, $n);
+        return $code;
+    }
     public function recuperar(){
         
-        if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
+        $correo = $_POST['user'];
+        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             
-            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST["user"]."' AND eliminado='0'");
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
             
             if($user['count'] == 1){
                 
-                $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                $code = substr(str_shuffle($chars), 0, 30);
-                $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$user["resultado"][0]["id_user"]."'");
-                $url = "http://www.jardinvalleencantado.cl/send_fireapp.php?id=".$user['resultado'][0]['id_user']."&correo=".$user['resultado'][0]['correo']."&code=".$code;
-                $a = file_get_contents($url);
-                $info["op"] = 1;
-                $info["message"] = $a;
+                $id_user = $user["resultado"][0]["id_user"];
+                $correo = $user["resultado"][0]["correo"];
+                $nombre = $user["resultado"][0]["nombre"];
+                $code = $this->randstring(30);
+                
+                $this->con->sql("UPDATE usuarios SET code='".$code."', date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
+                if($this->send_correo($id_user, $code, $correo, $nombre)){
+                    
+                    $info["op"] = 1;
+                    $info["message"] = "Su correo ha sido enviado";
+                    
+                }else{
+                    
+                    $info["op"] = 2;
+                    $info["message"] = "No se pudo enviar el correo, intentelo mas tarde";
+                    
+                }
                 
             }else{
                 
@@ -177,14 +193,82 @@ class Ingreso {
         $pass2 = $_POST['pass2'];
         
         $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
-        if($user['resultado'][0]['code'] == $code && $pass1 == $pass2 && strlen($pass1) >= 8){
-            $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
-            $info['op'] = 1;
-            $info['user'] = $user['resultado'][0]['correo'];
+        $code_user = $user['resultado'][0]['code'];
+        $date_code = time() - strtotime($user['resultado'][0]['date_code']);
+        
+        if($date_code <= 86400){
+        
+            if(strlen($code) == 30 && $code == $code_user){
+                if($pass1 == $pass2){
+                    if(strlen($pass1) >= 8){
+                        $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
+                        $info['op'] = 1;
+                        $info['user'] = $user['resultado'][0]['correo'];
+                    }else{
+                        $info['op'] = 2;
+                        $info['msg'] = "La contrase&ntilde;a debe tener al menos 8 caracteres";
+                    }
+                }else{
+                    $info['op'] = 2;
+                    $info['msg'] = "La contrase&ntilde;a son diferentes";
+                }
+            }else{
+                $info['op'] = 2;
+                $info['msg'] = "Error: ";
+            }
+        
+        }else{
+            
+            $info['op'] = 2;
+            $info['msg'] = "El correo tiene una duracion de 24 horas";
+            
         }
+
         return $info;
         
     }
+    
+    private function send_correo($id_user, $code, $correo, $nombre){
+        
+        $url[0] = "http://www.usinox.cl/jbmks/tsm.php";
+        $url[1] = "http://www.jardinvalleencantado.cl/jbmks/tsm.php";
+        $url[2] = "http://www.carinspect.cl/jbmks/tsm.php";
+
+        $rand = rand(0, count($url)-1);
+        $urls = $url[$rand];
+
+        $post['accion'] = "hJmdX6yI9sDmA";
+
+        // BODY //
+        $post['id'] = $id_user;
+        $post['code'] = $code;
+        $post['nombre'] = $nombre;
+        $post['url'] = "http://www.fireapp.cl";
+        $post['title'] = "Fireapp";
+        $post['title2'] = "Bomberos";
+        // FIN BODY //
+
+        $post['topic'] = "FireApp";
+
+        $post['from_name'] = "FireApp";
+        $post['from_mail'] = "fireappcl@gmail.com";
+        $post['correo'] = $correo;
+
+        $ch = curl_init($urls);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        if($response == "OK"){
+            return true;
+        }
+        if($response == "NO"){
+            return false;
+        }
+        
+    } 
+    
 
     
 }
