@@ -357,6 +357,11 @@ body {
     background-position: -586px -329px;
     cursor: pointer;
 }
+.contenido .cont .contenedor .install{
+    display: block;
+    height: 200px;
+    background: #ddd;
+}
 .contenido .cont .contenedor .info{
     display:block;
     padding: 3px;
