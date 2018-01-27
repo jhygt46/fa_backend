@@ -2,6 +2,10 @@
 session_start();
 date_default_timezone_set('America/Santiago');
 
+
+print_r($_SESSION);
+exit;
+
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
