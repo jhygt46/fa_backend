@@ -9,7 +9,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "admin";
 }
 
-
+// ACTUALIZA PERMISOS CADA VEZ QUE SE ACTUALICE //
 include($path."/class/core.php");
 $fireapp = new Core();
 $_SESSION['user']['permisos'] = $fireapp->permisos_usuario($_SESSION['user']['info']['id_user']);
@@ -55,10 +55,6 @@ if(isset($_SESSION['user']['info']['id_user'])){
                     <div class='conthtml'>
                         
                         <?php
-                            
-                            echo "<pre>";
-                            print_r($_SESSION);
-                            echo "</pre>";
                             
                             $include = true;
                             include("pages/muro.php");
