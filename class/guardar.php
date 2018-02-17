@@ -958,7 +958,7 @@ class Guardar extends Core{
         $rand = rand(0, count($url)-1);
         $urls = $url[$rand];
 
-        $post['accion'] = "reset";
+        $post['accion'] = "hJmdX6yI9sDmA";
         $post['id'] = $id;
         $post['code'] = $code;
         $post['nombre'] = $nombre;
@@ -994,15 +994,15 @@ class Guardar extends Core{
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
         
-        return $cuerpo;
-        
+        $info['cue'] = $cuerpo;
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
         
         for($i=0; $i<count($grupo_tareas); $i++){
-            $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
+            $info['gtar'][] = $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
         }
         
         $res = $this->ing_mod_user(0, $adm_cor, 0, $id_cue);
+        $info['res'] = $res;
         if($res['op'] == 1){
             
             $code = $this->randstring(30);
@@ -1015,7 +1015,7 @@ class Guardar extends Core{
             
             $per = $this->con->sql("SELECT * FROM perfiles_tareas t1, perfiles t2 WHERE t1.id_tar='".$id_tar."' AND t1.id_per=t2.id_per AND t2.id_cue='".$id_cue."'");
             for($i=0; $i<$per['count']; $i++){
-                $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
+                $info['perfiles'][] = $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
             }
             /*
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
@@ -1024,7 +1024,9 @@ class Guardar extends Core{
                 return false;
             }
             */
-        }        
+        }
+        
+        return $info;
 
     }
     
@@ -1043,12 +1045,10 @@ class Guardar extends Core{
         if($sql_ip['count'] == 0){
             
             $a = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-            $info['a'] = $a;
-            /*
+            $info['a1'] = $a;
             $info['estado'] = 1;
             $info['msga'] = "Cuerpo creado exitosamente";
             $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
-            */
             
         }else{
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
@@ -1058,11 +1058,13 @@ class Guardar extends Core{
             }
             $aux = $time - $aux_time;
             if($aux > 0){
-                if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
-                    $info['estado'] = 1;
-                    $info['msga'] = "Cuerpo creado exitosamente";
-                    $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
-                }
+                
+                $a = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
+                $info['a2'] = $a;
+                $info['estado'] = 1;
+                $info['msga'] = "Cuerpo creado exitosamente";
+                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+            
             }else{
                 $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
                 $info['msgb'] = "Debe esperar ".abs($aux)." segundos";
