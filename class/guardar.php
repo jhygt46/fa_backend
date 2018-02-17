@@ -994,8 +994,6 @@ class Guardar extends Core{
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
         
-        print_r($cuerpo);
-        
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
         
         for($i=0; $i<count($grupo_tareas); $i++){
@@ -1041,11 +1039,13 @@ class Guardar extends Core{
         
         if($sql_ip['count'] == 0){
             
-            if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
-                $info['estado'] = 1;
-                $info['msga'] = "Cuerpo creado exitosamente";
-                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
-            }
+            $a = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
+            $info['a'] = $a;
+            /*
+            $info['estado'] = 1;
+            $info['msga'] = "Cuerpo creado exitosamente";
+            $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+            */
             
         }else{
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
