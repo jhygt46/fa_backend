@@ -994,6 +994,8 @@ class Guardar extends Core{
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
         
+        print_r($cuerpo);
+        
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
         
         for($i=0; $i<count($grupo_tareas); $i++){
