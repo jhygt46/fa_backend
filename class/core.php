@@ -961,7 +961,7 @@ class Core{
                 }
                 $sqls = "INSERT INTO ".$db_copy." (".implode(",", $final_keys).") VALUES (".implode(",", $values).")";
                 $res = $this->con->sql($sqls);
-                echo "<div style='font-size:1.8em'>".$sqls."</div>";
+                //echo "<div style='font-size:1.8em'>".$sqls."</div>";
                 if($llave !== null){
                     $id['nid'][] = $res['insert_id'];
                     $id['oid'][] = $sql['resultado'][$i][$llave];
