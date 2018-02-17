@@ -984,7 +984,7 @@ class Guardar extends Core{
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip){
         
         // CONFIG //
-        $grupo_tareas = array(1, 2); // GRUPOS DE TAREAS
+        $grupo_tareas = array(1); // GRUPOS DE TAREAS
         $id_tar = 1; // TAREA ADMINISTRADOR
         $cp_cuerpo = 1; // COPIAR CUERPO ID 1
         
@@ -994,11 +994,10 @@ class Guardar extends Core{
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
         
-        $info['cue'] = $cuerpo;
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
         
         for($i=0; $i<count($grupo_tareas); $i++){
-            $info['gtar'][] = $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
+            $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
         }
         
         $res = $this->ing_mod_user(0, $adm_cor, 0, $id_cue);

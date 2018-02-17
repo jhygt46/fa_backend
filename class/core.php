@@ -440,6 +440,9 @@ class Core{
             $info['op'] = 2;
             $info['mensaje'] = "Correo inv&aacute;lido";
         }
+        
+        return $info;
+        
     }
     
     
