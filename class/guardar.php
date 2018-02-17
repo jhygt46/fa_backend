@@ -983,41 +983,46 @@ class Guardar extends Core{
     
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip){
         
+        // CONFIG //
+        $grupo_tareas = array(1, 2); // GRUPOS DE TAREAS
+        $id_tar = 1; // TAREA ADMINISTRADOR
+        $cp_cuerpo = 1; // COPIAR CUERPO ID 1
+        
         $this->con->sql("INSERT INTO ip (ip, date) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."')");
         
-        // CREA CUERPO Y EL ASIGNA EL GRUPO DE TAREAS BASICO //
+        // CREA CUERPO //
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
-        $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('1', '".$id_cue."')");
-
-        // CREAR USUARIOS Y ASIGNAR PERFIL DE ADMINISTRADOR //
-        $usuario = $this->con->sql("INSERT INTO usuarios (nombre, correo, telefono, id_cue) VALUES ('".$adm_nom."', '".$adm_cor."', '".$adm_tel."', '".$id_cue."')");
-        $id_user = $usuario['insert_id'];
         
-        $arr_perfil[0]['nombre'] = "Administrador";
-        $arr_perfil[0]['asignar'] = true;
-        $arr_perfil[0]['tareas'][0] = 1;
-        $arr_perfil[0]['tareas'][1] = 2;
-                
-        for($i=0; $i<count($arr_perfil); $i++){
-            
-            $perfil = $this->con->sql("INSERT INTO perfiles (nombre, fecha_creado, id_cue) VALUES ('".$arr_perfil[$i]['nombre']."', '".date("Y-m-d H:i:s")."', '".$id_cue."')");
-            $id_per = $perfile['insert_id'];
-            for($j=0; $j<count($arr_perfil[$i]['tareas']); $j++){
-                $this->con->sql("INSERT INTO perfiles_tareas (id_tar, id_per) VALUES ('".$arr_perfil[$i]['tareas'][$j]."', '".$id_per."')");
-            }
-            if($arr_perfil[$i]['asignar']){
-                $this->con->sql("INSERT INTO perfiles_usuarios (id_user, id_per) VALUES ('".$id_user."', '".$id_per."')");
-            }
-            
-        }
-
-        if($this->enviar_email($adm_cor, 'fctfcjrcj', $id_user, $adm_nom)){
-            return true;
-        }else{
-            return false;
+        // ASIGNAR GRUPOS DE TAREAS BASICOS//
+        
+        for($i=0; $i<count($grupo_tareas); $i++){
+            $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
         }
         
+        $res = $this->ing_mod_user(0, $adm_cor, 0, $id_cue);
+        if($res['op'] == 1){
+            
+            $code = $this->randstring(30);
+            
+            $this->con->sql("UPDATE usuarios SET nombre='".$adm_nom."' WHERE id_user='".$res['id']."'");
+            $this->con->sql("UPDATE usuarios SET telefono='".$adm_tel."' WHERE id_user='".$res['id']."'");
+            $this->con->sql("UPDATE usuarios SET code='".$code."' WHERE id_user='".$res['id']."'");
+            $this->con->sql("UPDATE usuarios SET date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$res['id']."'");
+            $this->copy_cuerpo($cp_cuerpo, $id_cue);
+            
+            $per = $this->con->sql("SELECT * FROM perfiles_tareas t1, perfiles t2 WHERE t1.id_tar='".$id_tar."' AND t1.id_per=t2.id_per AND t2.id_cue='".$id_cue."'");
+            for($i=0; $i<$per['count']; $i++){
+                $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
+            }
+            if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
+                return true;
+            }else{
+                return false;
+            }
+            
+        }        
+
     }
     
     public function crear_cuerpo_pagina(){
@@ -1036,34 +1041,27 @@ class Guardar extends Core{
             
             if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                 $info['estado'] = 1;
+                $info['msga'] = "Cuerpo creado exitosamente";
+                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
             }
-            $info['msga'] = "Cuerpo creado exitosamente";
-            $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
             
         }else{
-            
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
             if($aux_time > 6000){
                 $aux_time = 6000;
             }
             $aux = $time - $aux_time;
-            
             if($aux > 0){
-                
                 if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                     $info['estado'] = 1;
+                    $info['msga'] = "Cuerpo creado exitosamente";
+                    $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
                 }
-                $info['msga'] = "Cuerpo creado exitosamente";
-                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
-                
             }else{
-                
                 $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
                 $info['msgb'] = "Debe esperar ".abs($aux)." segundos";
-                
             }
-            
         }
 
         return $info;
@@ -1211,6 +1209,11 @@ class Guardar extends Core{
         
     }
     
+    
+    
+    
+    
+    
     // USUARIOS //
     private function crearusuariocia(){
         
@@ -1222,62 +1225,32 @@ class Guardar extends Core{
         
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
+        $telefono = $_POST['telefono'];
         $correo = $_POST['correo'];
         
-        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-            
-            $exist = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
-            if($exist['count'] == 0){
-                // NO EXISTE
-                if($id == 0){
-                    $this->con->sql("INSERT INTO usuarios (nombre, correo, fecha_creado, id_cia, id_cue) VALUES ('".$nombre."', '".$correo."', now(), '".$this->id_cia."', '".$this->id_cue."')");
-                    $info['op'] = 1;
-                    $info['mensaje'] = "Usuario creado exitosamente";
-                }
-                if($id > 0){
-                    $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', correo='".$correo."' WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND id_user='".$id."' AND eliminado='0'");
-                    $info['op'] = 1;
-                    $info['mensaje'] = "Usuario modificado exitosamente";
-                }
-                $info['reload'] = 1;
-                $info['page'] = "cia/usuarios.php";
-                
-            }
-            if($exist['count'] == 1){
-                // SI EXISTE
-                if($id == 0){
-                    
-                    $info['op'] = 2;
-                    $info['mensaje'] = "Error: Correo ya existe";
-                    
-                }
-                if($id > 0){
-                    
-                    // MODIFICAR NORMAL
-                    if($exist['resultado'][0]['eliminado'] == 0 && $id == $exist['resultado'][0]['id_user']){
-                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."' WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0' AND id_user='".$id."'");
-                        $info['op'] = 1;
-                        $info['mensaje'] = "Usuario modificado exitosamente";
-                        $info['reload'] = 1;
-                        $info['page'] = "cia/usuarios.php";
-                    }
-                    // REINGRESAR USUARIO EXISTENTE
-                    if($exist['resultado'][0]['eliminado'] == 1){
-                        $this->con->sql("UPDATE usuarios SET nombre='".$nombre."', id_cia='".$this->id_cia."', id_cue='".$this->id_cue."', eliminado='0' WHERE id_user='".$exist['resultado'][0]['id_user']."'");
-                        $info['op'] = 1;
-                        $info['mensaje'] = "Usuario ingresado exitosamente";
-                        $info['reload'] = 1;
-                        $info['page'] = "cia/usuarios.php";
-                    }
-                    
-                }
-            }
-            
-        }else{
-            $info['op'] = 2;
-            $info['mensaje'] = "Error: Correo Invalido";
-        }
+        $user = $this->ing_mod_user($id, $correo);
         
+        if($user['op'] == 1){
+            
+            if($nombre != ""){
+                $this->con->sql("UPDATE usuarios SET nombre='".$nombre."' WHERE id_user='".$user['id']."'");
+            }
+            if($telefono != ""){
+                $this->con->sql("UPDATE usuarios SET telefono='".$telefono."' WHERE id_user='".$user['id']."'");
+            }
+            
+            $info['op'] = 1;
+            $info['mensaje'] = $user['mensaje'];
+            $info['reload'] = 1;
+            $info['page'] = "cia/usuarios.php";
+            
+        }
+        if($user['op'] == 2){
+            
+            $info['op'] = 2;
+            $info['mensaje'] = $user['mensaje'];
+            
+        }
         
         return $info;
         

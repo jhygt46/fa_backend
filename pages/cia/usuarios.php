@@ -32,11 +32,14 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
 
 }
 
+//echo $fireapp->copy_cuerpo(1, 2);
+//echo $fireapp->copy_compania(1, 2);
 
-
-
+$this['id_ins'] = 2;
+if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
+    include("../../includes/install.php");
+}
 ?>
-<div class="install"></div>
 <div class="title">
     <h1><?php echo $titulo; ?></h1>
     <ul class="clearfix">

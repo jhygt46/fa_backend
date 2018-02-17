@@ -394,14 +394,63 @@ class Core{
         
     }
     
+    public function ing_mod_user($id, $correo, $id_cia, $id_cue){
+        
+        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
+            if($user['count'] == 0){
+                if($id == 0){
+                    $sql = $this->con->sql("INSERT INTO usuarios (correo, fecha_creado, id_cia, id_cue) VALUES ('".$correo."', now(), '".$id_cia."', '".$id_cue."')");
+                    $info['op'] = 1;
+                    $info['id'] = $sql['insert_id'];
+                    $info['mensaje'] = "Usuario Ingresado Exitosamente";
+                }
+                if($id > 0){
+                    $this->con->sql("UPDATE usuarios SET correo='".$correo."' WHERE id_cia='".$id_cia."' AND id_cue='".$id_cue."' AND id_user='".$id."' AND eliminado='0'");
+                    $info['op'] = 1;
+                    $info['id'] = $id;
+                    $info['mensaje'] = "Usuario Modificado Exitosamente";
+                }
+            }
+            if($user['count'] == 1){
+                if($id == 0){
+                    if($user['resultado'][0]['eliminado'] == 1){
+                        $this->con->sql("UPDATE usuarios SET eliminado='0', id_cia='".$id_cia."', id_cue='".$id_cue."' WHERE id_user='".$user['resultado'][0]['id_user']."'");
+                        $info['op'] = 1;
+                        $info['id'] = $user['resultado'][0]['id_user'];
+                        $info['mensaje'] = "Usuario Ingresado Exitosamente";
+                    }else{
+                        $info['op'] = 2;
+                        $info['mensaje'] = "Usuario ya Existe";
+                    }
+                }
+                if($id > 0){
+                    if($id != $user['resultado'][0]['id_user']){
+                        $info['op'] = 2;
+                        $info['mensaje'] = "Usuario no Corresponde";
+                    }else{
+                        $info['op'] = 1;
+                        $info['id'] = $id;
+                        $info['mensaje'] = "Usuario Modificado Exitosamente";
+                    }
+                }
+                
+            }
+        }else{
+            $info['op'] = 2;
+            $info['mensaje'] = "Correo inv&aacute;lido";
+        }
+    }
+    
+    
     
     // GET TAREAS //
     public function get_tareas_cia($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY grupoorder, orders");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY t1.orden, t1.id_tar");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function get_tareas_cue($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY grupoorder, orders");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY t1.orden, t1.id_tar");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function tareas_perfil_cia($id_per){
@@ -603,6 +652,72 @@ class Core{
         return $llamado['resultado'][0];
     }
     
+    // INSTALL CUE CIA //
+    
+    public function install_cue(){
+        
+        $cue = $this->con->sql("SELECT * FROM cuerpos WHERE id_cue='".$this->id_cue."'");
+        if($cue['resultado'][0]['install'] == 0){
+                
+            $install_sql = $this->con->sql("SELECT *  FROM install_cuerpo t1, install_pasos t2 WHERE t1.id_cue='".$this->id_cue."' AND t1.id_ins=t2.id_ins AND t2.iscia='0'");
+            $install = false;
+            for($i=0; $i<$install_sql['count']; $i++){
+
+                if($install_sql['resultado'][$i]['estado'] == 0){
+                    $install = true;
+                }
+                $aux['id_ins'] = $install_sql['resultado'][$i]['id_ins'];
+                $aux['estado'] = $install_sql['resultado'][$i]['estado'];
+                $aux['txt'] = $install_sql['resultado'][$i]['txt'];
+                $aux['image'] = $install_sql['resultado'][$i]['image'];
+                $aux['video'] = $install_sql['resultado'][$i]['video'];
+                $aux['page'] = $install_sql['resultado'][$i]['page'];
+
+                $ins_session[] = $aux;
+                unset($aux);
+            }
+            if($install){
+                return $ins_session;
+            }else{
+                $this->con->sql("UPDATE cuerpos SET install='1' WHERE id_cue='".$this->id_cue."'");
+            }
+
+        }
+        
+    }
+    public function install_cia(){
+        
+        $cia = $this->con->sql("SELECT * FROM companias WHERE id_cia='".$this->id_cia."'");
+        if($cia['resultado'][0]['install'] == 0){
+                
+            $install_sql = $this->con->sql("SELECT *  FROM install_cuerpo t1, install_pasos t2 WHERE t1.id_cue='".$this->id_cue."' AND t1.id_ins=t2.id_ins AND t2.iscia='1'");
+            $install = false;
+            for($i=0; $i<$install_sql['count']; $i++){
+
+                if($install_sql['resultado'][$i]['estado'] == 0){
+                    $install = true;
+                }
+                $aux['id_ins'] = $install_sql['resultado'][$i]['id_ins'];
+                $aux['estado'] = $install_sql['resultado'][$i]['estado'];
+                $aux['txt'] = $install_sql['resultado'][$i]['txt'];
+                $aux['image'] = $install_sql['resultado'][$i]['image'];
+                $aux['video'] = $install_sql['resultado'][$i]['video'];
+                $aux['page'] = $install_sql['resultado'][$i]['page'];
+
+                $ins_session[] = $aux;
+                unset($aux);
+            }
+            if($install){
+                return $ins_session;
+            }else{
+                $this->con->sql("UPDATE compania SET install='1' WHERE id_cia='".$this->id_cia."'");
+                return null;
+            }
+
+        }
+        
+    }
+    
     
     // CONFIGURACION //
     public function get_config_cue(){
@@ -712,6 +827,156 @@ class Core{
         return $actual;
         
     }
+    public function tabla_intermedia($ids, $tabla, $key){
+        
+        for($i=0; $i<count($ids['nid']); $i++){
+            
+            echo $tabla."<br>";
+            $black[0] = $key;
+            $add[$key] = $ids['nid'][$i];
+            $this->copy_table("SELECT * FROM ".$tabla." WHERE ".$key."='".$ids['oid'][$i]."'", $black, $add, $tabla, $key);
+            
+        }
+        
+    }
+    
+    public function tabla_index($arr1, $arr2, $info){
+        
+        $aux = array();
+        for($i=0; $i<count($arr1['nid']); $i++){
+           for($j=0; $j<count($arr2['nid']); $j++){
+                $res = $this->con->sql("SELECT * FROM ".$info['db']." WHERE ".$info['key1']."='".$arr1['oid'][$i]."' AND ".$info['key2']."='".$arr2['oid'][$j]."'");
+                if($res['count'] == 1){
+                   if(isset($info['add'])){
+                       
+                       $aux = array($info['key1'], $info['key2']);
+                       $in1 = array_merge($aux, $info['add']);
+                       
+                       $in2 = array("'".$arr1['nid'][$i]."'", "'".$arr2['nid'][$j]."'");
+                       for($m=0; $m<count($info['add']); $m++){
+                           $in2[] = "'".$res['resultado'][0][$info['add'][$m]]."'";
+                       }
+                       $aux[] = $this->con->sql("INSERT INTO ".$info['db']." (".implode(",", $in1).") VALUES (".implode(",", $in2).")");
+                       
+                    }else{
+                        $aux[] = $this->con->sql("INSERT INTO ".$info['db']." (".$info['key1'].", ".$info['key2'].") VALUES ('".$arr1['nid'][$i]."', '".$arr2['nid'][$j]."')");
+                    }
+                }
+            } 
+        }
+        return $aux;
+    }
+    
+    public function copy_cuerpo($id_cue1, $id_cue2){
+        
+        // ## LISTO TIPOS DE CARROS
+        $black = array("id_cue", "id_tdc", "fecha_creado");
+        $add['id_cue'] = $id_cue2;
+        $add['fecha_creado'] = date("Y-m-d H:i:s");
+        $tdc = $this->copy_table("SELECT * FROM tipos_de_carros WHERE id_cue='".$id_cue1."'", $black, $add, "tipos_de_carros", null);        
+        
+        // ## LISTO CARGOS
+        $black = array("id_cue", "id_carg", "fecha_creado");
+        $add['id_cue'] = $id_cue2;
+        $add['fecha_creado'] = date("Y-m-d H:i:s");
+        $cargos = $this->copy_table("SELECT * FROM cargos WHERE id_cue='".$id_cue1."' AND id_cia='0'", $black, $add, "cargos", "id_carg");        
+
+        // ## LISTO PERFILES Y PERFILES_TAREAS
+        $black = array("id_cue", "id_per", "fecha_creado");
+        $add['id_cue'] = $id_cue2;
+        $add['fecha_creado'] = date("Y-m-d H:i:s");
+        $ids = $this->copy_table("SELECT * FROM perfiles WHERE id_cue='".$id_cue1."' AND id_cia='0'", $black, $add, "perfiles", "id_per");
+        $this->tabla_intermedia($ids, "perfiles_tareas", "id_per");
+        
+        // ## LISTO CLAVES
+        $black = array("id_cue", "id_cla", "fecha_creado");
+        $add['id_cue'] = $id_cue2;
+        $add['fecha_creado'] = date("Y-m-d H:i:s");
+        $claves = $this->copy_table("SELECT * FROM claves WHERE id_cue='".$id_cue1."' AND id_cia='0'", $black, $add, "claves", null);
+        
+        // ## LISTO GRUPOS
+        $black = array("id_cue", "id_gru", "fecha_creado");
+        $add['id_cue'] = $id_cue2;
+        $add['fecha_creado'] = date("Y-m-d H:i:s");
+        $grupos = $this->copy_table("SELECT * FROM grupos WHERE iscargo='1' AND id_cue='".$id_cue1."' AND id_cia='0'", $black, $add, "grupos", "id_gru");     
+        
+        // ## LISTO GRUPOS/CARGOS
+        unset($info);
+        $info['db'] = "grupos_cargos";
+        $info['key1'] = "id_carg";
+        $info['key2'] = "id_gru";
+        $this->tabla_index($cargos, $grupos, $info);
+        
+        // ## LISTO CLAVES/TIPO DE MAQUINA
+        unset($info);
+        $info['db'] = "claves_tipo";
+        $info['key1'] = "id_cla";
+        $info['key2'] = "id_tdc";
+        $info['add'][0] = "cantidad";
+        $this->tabla_index($claves, $tdc, $info);
+        
+        
+    }
+    
+    public function copy_compania($id_cia1, $id_cia2){
+        /*
+        $black1[0] = "id_cia";
+        $black1[1] = "id_per";
+        $add1['id_cia'] = $id_cia2;
+        $ids = $this->copy_table("SELECT * FROM perfiles WHERE id_cia='".$id_cia1."'", $black1, $add1, "perfiles", "id_per");
+        
+        $this->tabla_intermedia($ids, "perfiles_tareas", "id_per");
+        */
+    }
+    
+    public function copy_table($sql_txt, $black, $add, $db_copy, $llave){
+        
+        $keys = array();
+        $id = array();
+        $values = array();
+        $sql = $this->con->sql($sql_txt);
+        
+        if($sql['count'] > 0){
+        
+            $aux_keys = array_keys($sql['resultado'][0]);
+
+            for($i=0; $i<count($aux_keys); $i++){
+                if(!in_array($aux_keys[$i], $black)){
+                    $keys[] = $aux_keys[$i];
+                }
+            }
+
+            $add_keys = array_keys($add);
+            $final_keys = array_merge($keys, $add_keys);
+
+            for($i=0; $i<count($sql['resultado']); $i++){
+                for($j=0; $j<count($keys); $j++){
+                    $values[] = "'".$sql['resultado'][$i][$keys[$j]]."'";
+                }
+                for($j=0; $j<count($add_keys); $j++){
+                    $values[] = "'".$add[$add_keys[$j]]."'";
+                }
+                $sqls = "INSERT INTO ".$db_copy." (".implode(",", $final_keys).") VALUES (".implode(",", $values).")";
+                $res = $this->con->sql($sqls);
+                echo "<div style='font-size:1.8em'>".$sqls."</div>";
+                if($llave !== null){
+                    $id['nid'][] = $res['insert_id'];
+                    $id['oid'][] = $sql['resultado'][$i][$llave];
+                }
+                unset($values);
+            }
+            return $id;
+        
+        }
+        
+    }
+    
+    public function delete_cuerpo($id_cue){
+        
+        $this->con->sql("DELETE FROM cuerpos WHERE id_cue='".$id_cue."'");
+        
+    }
+    
     public function diffdates($fecha1, $fecha2, $type = 1){
         
         $date1 = new DateTime($fecha1);
@@ -783,6 +1048,11 @@ class Core{
         }
         return false;
         
+    }
+    public function randstring($n){
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $code = substr(str_shuffle($chars), 0, $n);
+        return $code;
     }
     
     

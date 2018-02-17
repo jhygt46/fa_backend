@@ -93,6 +93,7 @@ class Ingreso {
         
         if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
             
+            
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST['user']."' AND eliminado='0'");
             if($user['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
@@ -102,6 +103,8 @@ class Ingreso {
             }
             if($user['count'] == 1){
                 
+                $id_cue = $user['resultado'][0]['id_cue'];
+                $id_cia = $user['resultado'][0]['id_cia'];
                 $block = $user['resultado'][0]['block'];
                 
                 if($block == 1){
@@ -123,7 +126,16 @@ class Ingreso {
                     $pass = $user['resultado'][0]['pass'];
                     if($pass == md5($_POST['pass'])){
                         
+                        $cue = $this->con->sql("SELECT * FROM cuerpos WHERE id_cue='".$id_cue."'");
+                        if($cue['count'] == 1 && $cue['resultado'][0]['install'] == 0){
+                            $_SESSION['install_cue'] = true;
+                        }
+                        $cia = $this->con->sql("SELECT * FROM companias WHERE id_cia='".$id_cia."'");
+                        if($cia['count'] == 1 && $cia['resultado'][0]['install'] == 0){
+                            $_SESSION['install_cia'] = true;
+                        }
                         $_SESSION['user'] = $this->session($user['resultado'][0]);
+
                         // ATENCION ACA SE CREAN LOS PERMISOS //
                         $info['op'] = 1;
                         $info['message'] = "Ingreso Exitoso";

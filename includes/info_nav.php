@@ -90,57 +90,57 @@
     }
     
     // ADMIN CUERPO //
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Usuarios";
         $arrays["link"] = "pages/cue/usuarios.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Cargos";
         $arrays["link"] = "pages/cue/cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Perfiles";
         $arrays["link"] = "pages/cue/perfiles.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Grupos de Usuarios";
         $arrays["link"] = "pages/cue/grupo_vols.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Grupos de Cargos";
         $arrays["link"] = "pages/cue/grupo_cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Actos";
         $arrays["link"] = "pages/cue/actos.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Configuracion";
         $arrays["link"] = "pages/cue/config.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Tipos de Claves";
         $arrays["link"] = "pages/cue/tipos_de_claves.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Tipos de Maquinas";
         $arrays["link"] = "pages/cue/tipos_de_maquina.php";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Carros";
         $arrays["link"] = "pages/cue/carros.php?id=0&nombre=Comandancia";
         $array[] = $arrays;
     }
-    if(in_arr(12)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Compa&ntilde;ias";
         $arrays["link"] = "pages/cue/crear_cias.php";
         $array[] = $arrays;

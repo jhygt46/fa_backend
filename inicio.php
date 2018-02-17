@@ -52,10 +52,19 @@ if(isset($_SESSION['user']['info']['id_user'])){
                             
                         </div>
                     </div>
+                    <div class="video_install">
+                        <div class="video_titulo">
+                            <div class="video_nombre">Ingreso de Voluntarios</div>
+                            <div class="video_close" onclick="close_video(this)"></div>
+                        </div>
+                        <div class="video_yt" visible="1">
+                            <iframe id="video_yt_if" type="text/html" src="" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
                     <div class='conthtml'>
                         
                         <?php
-                            
+                        
                             $include = true;
                             include("pages/muro.php");
                         

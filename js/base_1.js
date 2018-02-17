@@ -51,20 +51,9 @@ $(document).ready(function(){
         var rel = $(this).attr('rel');
         console.log(rel);
     });
-    /*
-    $('.claves').sortable({
-        stop: function(e, ui){
-            var order = [];
-            $(this).find('.clave').each(function(){
-                order.push($(this).find('h2').html());
-            });
-        }
-    });
-    $('.claves').disableSelection();
-    */
    
 });
-
+var video_name = "";
 function mascoord(){
     
     var cant = parseInt($('#cantpts').val())+1;
@@ -322,6 +311,38 @@ function salir(){
     });
     return false;
 }
+function close_video(that){
+    var video_yt = $(that).parents('.video_install').find('.video_yt');
+    
+    if(video_yt.attr('visible') == 1){
+        video_yt.slideUp();
+        video_yt.attr('visible', 0);
+        stop_video();
+    }else{
+        video_yt.slideDown();
+        video_yt.attr('visible', 1);
+        play_video(0);
+    }
+}
+function stop_video(){
+    $('#video_yt_if').attr("src", "");
+}
+function play_video(video){
+    
+    if(video == 0){
+        video = video_name;
+    }
+    var src = "";
+    var ttl = "";
+    if(video == "cia/usuarios"){
+        src = "//www.youtube.com/embed/mcixldqDIEQ?rel=0&controls=1&hd=1&showinfo=0&enablejsapi=1&autoplay=1";
+        ttl = "Ingreasar Usuarios";
+        video_name = video;
+    }
+    $('#video_yt_if').attr("src", src);
+    $('.video_nombre').html(ttl);
+    
+}
 
 function shownotificaciones(){
     $('.notificaciones').animate({ bottom: "10px" }, 500);
@@ -336,4 +357,17 @@ function notificacion(id){
 }
 function initMap(variable, lat, lng, zoom = 8) {
     return new google.maps.Map(document.getElementById(variable), { center: { lat: lat, lng: lng }, zoom: zoom, disableDefaultUI: true } );
+}
+function over_paso(that){
+    var rel = $(that).attr('rel');
+    $(that).css({ background: '#888' });
+    $(that).parents('.install').find('.show_paso').html(rel);
+}
+function out_paso(that){
+    if(!$(that).hasClass('pmark')){
+        $(that).css({ background: '#bbb' });
+    }else{
+        $(that).css({ background: '#666' });
+    }
+    $(that).parents('.install').find('.show_paso').html($(that).parents('.install').find('.show_paso').attr('rel'));
 }

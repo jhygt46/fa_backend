@@ -269,6 +269,38 @@ body {
     color: #E06024;
     font-weight: bold;
 }
+.contenido .cont .contenedor .video_install{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 9998;
+    background: rgba(180, 180, 180, 0.8);
+    width: 320px;
+}
+.contenido .cont .contenedor .video_install .video_titulo{
+    background: #777;
+    position: relative;
+}
+.contenido .cont .contenedor .video_install .video_titulo .video_nombre{
+    font-size: 1.5em;
+    color: #fff;
+    padding: 8px 0 8px 8px;
+}
+.contenido .cont .contenedor .video_install .video_titulo .video_close{
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    background: #000;
+    right: 6px;
+    top: 6px;
+}
+.contenido .cont .contenedor .video_install .video_yt{
+    height: 240px;
+}
+.contenido .cont .contenedor .video_install .video_yt #video_yt_if{
+    width: 320px;
+    height: 240px;
+}
 .contenido .cont .contenedor .notificaciones{
     position: fixed;
     bottom: -380px;
@@ -359,8 +391,53 @@ body {
 }
 .contenido .cont .contenedor .install{
     display: block;
-    height: 200px;
-    background: #ddd;
+    margin-top: 20px;
+}
+.contenido .cont .contenedor .install h1{
+    display: block;
+    font-size: 2.2em;
+}
+.contenido .cont .contenedor .install .pasos{
+    
+}
+.contenido .cont .contenedor .install .pasos .paso{
+    height: 100px;
+    width: 120px;
+    float: left;
+    margin-right: 4px;
+    background: #bbb;
+    position: relative;
+    cursor: pointer;
+}
+.contenido .cont .contenedor .install .pasos .pmark{
+    background: #666;
+}
+.contenido .cont .contenedor .install .pasos .paso .number{
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    color: #fff;
+    font-size: 2.2em;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    text-align: center;
+    background: #ccc;
+}
+.contenido .cont .contenedor .install .pasos .paso .check{
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    width: 32px;
+    height: 32px;
+    background: url('../images/check.png') no-repeat;
+}
+.contenido .cont .contenedor .install .pasos .paso .mark{
+    background: #999;
+}
+.contenido .cont .contenedor .install .show_paso{
+    font-size: 1.5em;
+    height: 20px;
 }
 .contenido .cont .contenedor .info{
     display:block;
