@@ -994,6 +994,8 @@ class Guardar extends Core{
         $cuerpo = $this->con->sql("INSERT INTO cuerpos (nombre, fecha_creado, id_reg) VALUES ('".$cue_nom."', '".date("Y-m-d H:i:s")."', '".$cue_reg."')");
         $id_cue = $cuerpo['insert_id'];
         
+        return $cuerpo;
+        
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
         
         for($i=0; $i<count($grupo_tareas); $i++){
@@ -1015,12 +1017,13 @@ class Guardar extends Core{
             for($i=0; $i<$per['count']; $i++){
                 $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
             }
+            /*
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
                 return true;
             }else{
                 return false;
             }
-            
+            */
         }        
 
     }
