@@ -1001,7 +1001,6 @@ class Guardar extends Core{
         }
         
         $res = $this->ing_mod_user(0, $adm_cor, 0, $id_cue);
-
         if($res['op'] == 1){
             
             $code = $this->randstring(30);
@@ -1014,7 +1013,7 @@ class Guardar extends Core{
             
             $per = $this->con->sql("SELECT * FROM perfiles_tareas t1, perfiles t2 WHERE t1.id_tar='".$id_tar."' AND t1.id_per=t2.id_per AND t2.id_cue='".$id_cue."'");
             for($i=0; $i<$per['count']; $i++){
-                $info['perfiles'][] = $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
+                $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
             }
             
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
@@ -1045,12 +1044,12 @@ class Guardar extends Core{
         
         if($sql_ip['count'] == 0){
             
-            $a = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-            $info['a1'] = $a;
-            $info['estado'] = 1;
-            $info['msga'] = "Cuerpo creado exitosamente";
-            $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
-            
+            $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
+            if($r['op'] == 1){
+                $info['estado'] = 1;
+                $info['msga'] = "Cuerpo creado exitosamente";
+                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+            }
         }else{
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
@@ -1060,11 +1059,12 @@ class Guardar extends Core{
             $aux = $time - $aux_time;
             if($aux > 0){
                 
-                $a = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-                $info['a2'] = $a;
-                $info['estado'] = 1;
-                $info['msga'] = "Cuerpo creado exitosamente";
-                $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+                $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
+                if($r['op'] == 1){
+                    $info['estado'] = 1;
+                    $info['msga'] = "Cuerpo creado exitosamente";
+                    $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+                }
             
             }else{
                 $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
