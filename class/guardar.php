@@ -974,10 +974,10 @@ class Guardar extends Core{
         
         if($response == "OK"){
             return true;
-        }
-        if($response == "NO"){
+        }else{
             return false;
         }
+        
         
     }
     
@@ -1017,13 +1017,13 @@ class Guardar extends Core{
             }
             
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
-                $info['op'] = 1;
+                $info['mail'] = 1;
             }else{
-                $info['op'] = 2;
+                $info['mail'] = 2;
             }
             
         }else{
-            $info['op'] = 2;
+            $info['mail'] = 2;
         }
         
         return $info;
@@ -1045,11 +1045,13 @@ class Guardar extends Core{
         if($sql_ip['count'] == 0){
             
             $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-            if($r['op'] == 1){
+            $info['r1'] = $r;
+            if($r['mail'] == 1){
                 $info['estado'] = 1;
                 $info['msga'] = "Cuerpo creado exitosamente";
                 $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
             }
+            
         }else{
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
@@ -1060,7 +1062,8 @@ class Guardar extends Core{
             if($aux > 0){
                 
                 $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-                if($r['op'] == 1){
+                $info['r2'] = $r;
+                if($r['mail'] == 1){
                     $info['estado'] = 1;
                     $info['msga'] = "Cuerpo creado exitosamente";
                     $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
