@@ -834,7 +834,6 @@ class Core{
         
         for($i=0; $i<count($ids['nid']); $i++){
             
-            echo $tabla."<br>";
             $black[0] = $key;
             $add[$key] = $ids['nid'][$i];
             $this->copy_table("SELECT * FROM ".$tabla." WHERE ".$key."='".$ids['oid'][$i]."'", $black, $add, $tabla, $key);
