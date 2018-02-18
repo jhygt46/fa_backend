@@ -1001,7 +1001,7 @@ class Guardar extends Core{
         }
         
         $res = $this->ing_mod_user(0, $adm_cor, 0, $id_cue);
-        $info['res'] = $res;
+
         if($res['op'] == 1){
             
             $code = $this->randstring(30);
@@ -1016,13 +1016,15 @@ class Guardar extends Core{
             for($i=0; $i<$per['count']; $i++){
                 $info['perfiles'][] = $this->con->sql("INSERT INTO perfiles_usuarios (id_per, id_user) VALUES ('".$per['resultado'][$i]['id_per']."', '".$res['id']."')");
             }
-            /*
+            
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
-                return true;
+                $info['op'] = 1;
             }else{
-                return false;
+                $info['op'] = 2;
             }
-            */
+            
+        }else{
+            $info['op'] = 2;
         }
         
         return $info;
