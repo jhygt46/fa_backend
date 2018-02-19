@@ -9,6 +9,11 @@ $blogs = $fireapp->get_blog_data();
 $conf_cia = $fireapp->get_config_cia();
 $conf_cue = $fireapp->get_config_cue();
 
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+
 $this['id_ins'] = 0;
 if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
     include("../includes/install.php");
