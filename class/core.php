@@ -394,6 +394,47 @@ class Core{
         
     }
     
+    public function enviar_email($correo, $code, $id, $nombre){
+        
+        $url[0] = "http://www.usinox.cl/jbmks/tsm.php";
+        $url[1] = "http://www.jardinvalleencantado.cl/jbmks/tsm.php";
+
+        $rand = rand(0, count($url)-1);
+        $urls = $url[$rand];
+
+        $post['accion'] = "hJmdX6yI9sDmA";
+
+        // BODY //
+        $post['id'] = $id;
+        $post['code'] = $code;
+        $post['nombre'] = $nombre;
+        $post['url'] = "http://www.fireapp.cl";
+        $post['title'] = "Fireapp";
+        $post['title2'] = "Bomberos";
+        // FIN BODY //
+
+        $post['topic'] = "FireApp";
+
+        $post['from_name'] = "FireApp";
+        $post['from_mail'] = "fireappcl@gmail.com";
+        $post['correo'] = $correo;
+        
+        
+        $ch = curl_init($urls);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        if($response == "OK"){
+            return true;
+        }else{
+            return false;
+        }
+        
+        
+    }
+    
     public function ing_mod_user($id, $correo, $id_cia, $id_cue){
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){

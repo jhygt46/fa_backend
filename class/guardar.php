@@ -950,37 +950,6 @@ class Guardar extends Core{
         
     }
     
-    private function enviar_email($correo, $code, $id, $nombre){
-        
-        $url[0] = "http://www.usinox.cl/jbmks/tsm.php";
-        $url[1] = "http://www.jardinvalleencantado.cl/jbmks/tsm.php";
-
-        $rand = rand(0, count($url)-1);
-        $urls = $url[$rand];
-
-        $post['accion'] = "hJmdX6yI9sDmA";
-        $post['id'] = $id;
-        $post['code'] = $code;
-        $post['nombre'] = $nombre;
-        $post['correo'] = $correo;
-        $post['url'] = "http://www.fireapp.cl";
-        
-        
-        $ch = curl_init($urls);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        if($response == "OK"){
-            return true;
-        }else{
-            return false;
-        }
-        
-        
-    }
-    
     private function crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip){
         
         // CONFIG //
@@ -988,6 +957,7 @@ class Guardar extends Core{
         $id_tar = 1; // TAREA ADMINISTRADOR
         $cp_cuerpo = 1; // COPIAR CUERPO ID 1
         
+        // IP //
         $this->con->sql("INSERT INTO ip (ip, date) VALUES ('".$ip."', '".date("Y-m-d H:i:s")."')");
         
         // CREA CUERPO //
@@ -995,7 +965,6 @@ class Guardar extends Core{
         $id_cue = $cuerpo['insert_id'];
         
         // ASIGNAR GRUPOS DE TAREAS BASICOS//
-        
         for($i=0; $i<count($grupo_tareas); $i++){
             $this->con->sql("INSERT INTO tarea_grupo_cuerpo (id_gtar, id_cue) VALUES ('".$grupo_tareas[$i]."', '".$id_cue."')");
         }
@@ -1017,16 +986,14 @@ class Guardar extends Core{
             }
             
             if($this->enviar_email($adm_cor, $code, $res['id'], $adm_nom)){
-                $info['mail'] = 1;
+                return true;
             }else{
-                $info['mail'] = 2;
+                return false;
             }
             
         }else{
-            $info['mail'] = 2;
+            return false;
         }
-        
-        return $info;
 
     }
     
@@ -1044,9 +1011,7 @@ class Guardar extends Core{
         
         if($sql_ip['count'] == 0){
             
-            $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-            $info['r1'] = $r;
-            if($r['mail'] == 1){
+            if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                 $info['estado'] = 1;
                 $info['msga'] = "Cuerpo creado exitosamente";
                 $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
@@ -1061,9 +1026,7 @@ class Guardar extends Core{
             $aux = $time - $aux_time;
             if($aux > 0){
                 
-                $r = $this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip);
-                $info['r2'] = $r;
-                if($r['mail'] == 1){
+                if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
                     $info['estado'] = 1;
                     $info['msga'] = "Cuerpo creado exitosamente";
                     $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
