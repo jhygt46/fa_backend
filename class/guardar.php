@@ -1018,23 +1018,34 @@ class Guardar extends Core{
             }
             
         }else{
+            
             $time = time() - strtotime($sql_ip['resultado'][0]['date']);
             $aux_time = (($sql_ip['count'] * $sql_ip['count']) - 1) * 60;
             if($aux_time > 6000){
                 $aux_time = 6000;
             }
             $aux = $time - $aux_time;
+            
             if($aux > 0){
                 
                 if($this->crear_cuerpo($cue_nom, $cue_reg, $adm_nom, $adm_cor, $adm_tel, $ip)){
+                    
                     $info['estado'] = 1;
                     $info['msga'] = "Cuerpo creado exitosamente";
                     $info['msgb'] = "Hemos enviado un correo a ".$adm_cor." con las instrucciones";
+                    
+                }else{
+                    
+                    $info['msga'] = "Se ha Producido un Error:";
+                    $info['msgb'] = "Intente mas Tarde";
+                    
                 }
             
             }else{
+                
                 $info['msga'] = "No se pudo crear el Cuerpo de Bomberos";
                 $info['msgb'] = "Debe esperar ".abs($aux)." segundos";
+                
             }
         }
 
