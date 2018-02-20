@@ -1157,10 +1157,13 @@ class Guardar extends Core{
         $nombre = $_POST['nombre'];
         $numero = $_POST['numero'];
 
-        
-        
+        $orden = 0;
+        $max_sql = $fireapp->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
+        if($max_sql['count'] == 1){
+            $orden = $max_sql['resultado'][0]['max'] + 1;
+        }
         if($id == 0){
-            $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$this->id_cue."')");
+            $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, orden, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$orden."', '".$this->id_cue."')");
             $info['op'] = 1;
             $info['mensaje'] = "Cuerpo creada exitosamente";
         }
