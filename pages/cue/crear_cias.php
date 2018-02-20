@@ -29,7 +29,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
 }
 
-
+$max = $fireapp->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
+print_r($max);
 
 ?>
 <script>

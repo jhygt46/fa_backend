@@ -1157,6 +1157,8 @@ class Guardar extends Core{
         $nombre = $_POST['nombre'];
         $numero = $_POST['numero'];
 
+        
+        
         if($id == 0){
             $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$this->id_cue."')");
             $info['op'] = 1;
