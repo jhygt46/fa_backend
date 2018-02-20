@@ -490,9 +490,6 @@ class Core{
     
     // GET TAREAS //
     
-    public function get_all_tareas(){
-        return $this->con->sql("SELECT * FROM tareas");
-    }
     public function get_tareas_cia($type){
         $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY t1.orden, t1.id_tar");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];

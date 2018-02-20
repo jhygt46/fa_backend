@@ -1,37 +1,141 @@
 <?php
     
-    /*
-    $tareas = $fireapp->get_all_tareas();
-    echo "<pre>";
-    print_r($tareas);
-    echo "</pre>";
-    */
-
-    $permisos[0]['id'] = 1;
-    $permisos[0]['nombre'] = "Ingresar Compa&ntilde;ias";
-    $permisos[0]['iscia'] = 1;
-    $permisos[0]['grupo'] = "Admin";
-    $permisos[0]['orden'] = 1;
-    $permisos[0]['id_gtar'] = 1;
+    // TAREAS CUERPO //
     
-    $permisos[1]['id'] = 2;
-    $permisos[1]['nombre'] = "Ingresar Cargos";
-    $permisos[1]['iscia'] = 1;
-    $permisos[1]['grupo'] = "Admin";
-    $permisos[1]['orden'] = 1;
-    $permisos[1]['id_gtar'] = 1;
+    $per['id'] = 1;
+    $per['nombre'] = "Ingresar Compa&ntilde;ias";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
     
-    $permisos[2]['id'] = 3;
-    $permisos[2]['nombre'] = "Ingresar Carros";
-    $permisos[2]['iscia'] = 1;
-    $permisos[2]['grupo'] = "Admin";
-    $permisos[2]['orden'] = 1;
-    $permisos[2]['id_gtar'] = 1;
+    $per['id'] = 2;
+    $per['nombre'] = "Ingresar Cargos";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 3;
+    $per['nombre'] = "Ingresar Usuarios";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 4;
+    $per['nombre'] = "Ingresar Carros";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 5;
+    $per['nombre'] = "Ingresar Perfiles";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 6;
+    $per['nombre'] = "Ingresar Grupos Usuarios";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 7;
+    $per['nombre'] = "Ingresar Grupos Cargos";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 8;
+    $per['nombre'] = "Ingresar Grupos Usuarios";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 9;
+    $per['nombre'] = "Ingresar Tipos de Maquinas";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
 
+    $per['id'] = 10;
+    $per['nombre'] = "Ingresar Tipos de Claves";
+    $per['iscia'] = 0;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
 
+    // TAREAS COMPAÑIA //
 
+    $per['id'] = 11;
+    $per['nombre'] = "Ingresar Usuarios";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 12;
+    $per['nombre'] = "Ingresar Cargos";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
 
-
+    $per['id'] = 13;
+    $per['nombre'] = "Ingresar Perfiles";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 14;
+    $per['nombre'] = "Ingresar Grupos Usuarios";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 15;
+    $per['nombre'] = "Ingresar Grupos Cargos";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    $per['id'] = 16;
+    $per['nombre'] = "Ingresar Tipos de Claves";
+    $per['iscia'] = 1;
+    $per['grupo'] = "Admin";
+    $per['orden'] = 1;
+    $per['id_gtar'] = 1;
+    $permisos[] = $per;
+    
+    for($i=0; $i<count($permisos); $i++){
+        $fireapp->con->sql("INSERT INTO tareas (id_tar, nombre, iscia, grupo, orden, id_gtar) VALUES ('".$permisos[$i]['id']."', '".$permisos[$i]['nombre']."', '".$permisos[$i]['iscia']."', '".$permisos[$i]['grupo']."', '".$permisos[$i]['orden']."', '".$permisos[$i]['id_gtar']."')");
+    }
 
     // MI CUENTA 
     if(in_arr(1)){
