@@ -71,7 +71,7 @@ class Core{
     
     // PERFILES //
     public function get_perfiles_cia(){
-        $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_cia='".$this->id_cia."' AND id_cue='".$this->id_cue."' AND eliminado='0'");
+        $perfiles = $this->con->sql("SELECT * FROM perfiles WHERE id_cia='".$this->id_cia."' AND id_cia!='0' AND id_cue='".$this->id_cue."' AND eliminado='0'");
         return $perfiles['resultado'];
     }
     public function get_perfil_cia($id){
