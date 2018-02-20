@@ -1175,7 +1175,7 @@ class Guardar extends Core{
     }
     public function eliminarcia(){
         
-        if(!$this->seguridad_permiso(7)){
+        if(!$this->seguridad_permiso(1)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1188,7 +1188,7 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Compania ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "crear_cias.php";
+        $info['page'] = "cia/crear_cias.php";
 
         return $info;
         
