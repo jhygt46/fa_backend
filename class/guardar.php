@@ -1158,7 +1158,7 @@ class Guardar extends Core{
         $numero = $_POST['numero'];
 
         $orden = 0;
-        $max_sql = $fireapp->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
+        $max_sql = $this->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
         if($max_sql['count'] == 1){
             $orden = $max_sql['resultado'][0]['max'] + 1;
         }
