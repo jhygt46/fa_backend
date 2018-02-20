@@ -29,7 +29,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
 }
 
-$max = $fireapp->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
+$max = $fireapp->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='1'");
 print_r($max);
 
 ?>
@@ -60,18 +60,6 @@ print_r($max);
     $('.listUser').disableSelection();
 
 </script>
-<div class="install">
-    <h1>Guia de Instalacion</h1>
-    <ul class="pasos clearfix">
-        <li class="paso" rel="Paso 1: Ingresar Cargos" onclick="navlink('pages/cia/usuarios.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso1.png" alt="" /><div class="number">1</div></li>
-        <li class="paso pmark" rel="Paso 2: Ingresar Compa&ntilde;ias" onclick="navlink('pages/cue/crear_cias.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso2.png" alt="" /><div class="number mark">2</div></li>
-        <li class="paso" rel="Paso 3: Ingresar Usuarios" onclick="navlink('pages/cia/usuarios.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso3.png" alt="" /><div class="number">3</div></li>
-        <li class="paso" rel="Paso 4: Ingresar Perfiles" onclick="navlink('pages/cia/usuarios.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso4.png" alt="" /><div class="number">4</div></li>
-        <li class="paso" rel="Paso 5: Ingresar Carros" onclick="navlink('pages/cia/usuarios.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso5.png" alt="" /><div class="number">5</div></li>
-        <li class="paso" rel="Paso 6: Configuracion" onclick="navlink('pages/cia/usuarios.php')" onmouseover="over_paso(this)" onmouseout="out_paso(this)"><img src="images/paso6.png" alt="" /><div class="number">6</div></li>
-    </ul>
-    <div class="show_paso" rel="Paso 1: Ingresar Cargos">Paso 1: Ingresar Cargos</div>
-</div>
 <div class="title">
     <h1><?php echo $titulo; ?></h1>
     <ul class="clearfix">
