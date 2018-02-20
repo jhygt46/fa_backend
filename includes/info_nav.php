@@ -1,5 +1,11 @@
 <?php
     
+    $tareas = $fireapp->get_all_tareas();
+
+    echo "<pre>";
+    print_r($tareas);
+    echo "</pre>";
+    
     // MI CUENTA 
     if(in_arr(1)){
         $arrays["nombre"] = "Inicio";

@@ -489,6 +489,10 @@ class Core{
     
     
     // GET TAREAS //
+    
+    public function get_all_tareas(){
+        return $this->con->sql("SELECT * FROM tareas");
+    }
     public function get_tareas_cia($type){
         $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY t1.orden, t1.id_tar");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
@@ -734,7 +738,7 @@ class Core{
         $cia = $this->con->sql("SELECT * FROM companias WHERE id_cia='".$this->id_cia."'");
         if($cia['resultado'][0]['install'] == 0){
                 
-            $install_sql = $this->con->sql("SELECT *  FROM install_cuerpo t1, install_pasos t2 WHERE t1.id_cue='".$this->id_cue."' AND t1.id_ins=t2.id_ins AND t2.iscia='1'");
+            $install_sql = $this->con->sql("SELECT *  FROM install_cia t1, install_pasos t2 WHERE t1.id_cia='".$this->id_cia."' AND t1.id_ins=t2.id_ins AND t2.iscia='1'");
             $install = false;
             for($i=0; $i<$install_sql['count']; $i++){
 
@@ -750,6 +754,7 @@ class Core{
 
                 $ins_session[] = $aux;
                 unset($aux);
+                
             }
             if($install){
                 return $ins_session;
@@ -957,6 +962,12 @@ class Core{
         $info['key2'] = "id_tdc";
         $info['add'][0] = "cantidad";
         $this->tabla_index($claves, $tdc, $info);
+        
+        // ## LISTO INSTALL CUERPO //
+        $black = array("id_cue", "estado");
+        $add['id_cue'] = $id_cue2;
+        $add['estado'] = 0;
+        $grupos = $this->copy_table("SELECT * FROM install_cuerpo WHERE id_cue='".$id_cue1."'", $black, $add, "install_cuerpo", "id_ins");     
         
         
     }
