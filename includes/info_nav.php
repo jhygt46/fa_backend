@@ -1,11 +1,38 @@
 <?php
     
+    /*
     $tareas = $fireapp->get_all_tareas();
-
     echo "<pre>";
     print_r($tareas);
     echo "</pre>";
+    */
+
+    $permisos[0]['id'] = 1;
+    $permisos[0]['nombre'] = "Ingresar Compa&ntilde;ias";
+    $permisos[0]['iscia'] = 1;
+    $permisos[0]['grupo'] = "Admin";
+    $permisos[0]['orden'] = 1;
+    $permisos[0]['id_gtar'] = 1;
     
+    $permisos[1]['id'] = 2;
+    $permisos[1]['nombre'] = "Ingresar Cargos";
+    $permisos[1]['iscia'] = 1;
+    $permisos[1]['grupo'] = "Admin";
+    $permisos[1]['orden'] = 1;
+    $permisos[1]['id_gtar'] = 1;
+    
+    $permisos[2]['id'] = 3;
+    $permisos[2]['nombre'] = "Ingresar Carros";
+    $permisos[2]['iscia'] = 1;
+    $permisos[2]['grupo'] = "Admin";
+    $permisos[2]['orden'] = 1;
+    $permisos[2]['id_gtar'] = 1;
+
+
+
+
+
+
     // MI CUENTA 
     if(in_arr(1)){
         $arrays["nombre"] = "Inicio";
