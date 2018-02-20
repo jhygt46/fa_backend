@@ -1147,7 +1147,7 @@ class Guardar extends Core{
     // COMPANIAS //
     private function crearcia(){
         
-        if(!$this->seguridad_permiso(7)){
+        if(!$this->seguridad_permiso(1)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
