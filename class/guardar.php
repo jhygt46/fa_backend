@@ -1165,12 +1165,12 @@ class Guardar extends Core{
         if($id == 0){
             $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, orden, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$orden."', '".$this->id_cue."')");
             $info['op'] = 1;
-            $info['mensaje'] = "Cuerpo creada exitosamente";
+            $info['mensaje'] = "Compa&ntilde;ia creada exitosamente";
         }
         if($id > 0){
             $this->con->sql("UPDATE companias SET nombre='".$nombre."', numero='".$numero."' WHERE id_cia='".$id."' AND id_cue='".$this->id_cue."'");
             $info['op'] = 1;
-            $info['mensaje'] = "Categoria modificada exitosamente";
+            $info['mensaje'] = "Compa&ntilde;ia modificada exitosamente";
         }
         
         $info['reload'] = 1;
