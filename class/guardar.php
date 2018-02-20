@@ -1174,7 +1174,7 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "cia/crear_cias.php";
+        $info['page'] = "cue/crear_cias.php";
         return $info;
         
     }
