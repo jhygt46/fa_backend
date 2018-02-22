@@ -486,7 +486,16 @@ class Core{
         
     }
     
+    // GET MAX ORDEN //
     
+    public function getmaxcue($tabla){
+        $orden = 0;
+        $max_sql = $this->con->sql("SELECT MAX(orden) as max FROM ".$tabla." WHERE id_cue='".$this->id_cue."'");
+        if($max_sql['count'] == 1){
+            $orden = $max_sql['resultado'][0]['max'] + 1;
+        }
+        return $orden;
+    }
     
     // GET TAREAS //
     

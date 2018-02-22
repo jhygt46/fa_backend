@@ -305,7 +305,7 @@ class Guardar extends Core{
     }
     private function eliminarclavecue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(10)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -362,7 +362,7 @@ class Guardar extends Core{
     }
     private function crearclavecue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(10)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -403,7 +403,7 @@ class Guardar extends Core{
     }
     private function creargrupovolcue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(6)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -444,7 +444,7 @@ class Guardar extends Core{
     }
     private function eliminargrupovolcue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(6)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -523,7 +523,7 @@ class Guardar extends Core{
     }
     private function creargrupocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(7)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -565,7 +565,7 @@ class Guardar extends Core{
     }
     private function eliminargrupocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(7)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -782,7 +782,7 @@ class Guardar extends Core{
     }
     private function crearcarrocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(4)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -825,7 +825,7 @@ class Guardar extends Core{
     }
     private function eliminarcarrocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(4)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -846,7 +846,7 @@ class Guardar extends Core{
     }
     private function creartipomaquina(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(9)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -873,7 +873,7 @@ class Guardar extends Core{
     }
     private function eliminartipomaquina(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(9)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1147,7 +1147,7 @@ class Guardar extends Core{
     // COMPANIAS //
     private function crearcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(1)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1156,12 +1156,10 @@ class Guardar extends Core{
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $numero = $_POST['numero'];
-
-        $orden = 0;
-        $max_sql = $this->con->sql("SELECT MAX(orden) as max FROM companias WHERE id_cue='".$this->id_cue."'");
-        if($max_sql['count'] == 1){
-            $orden = $max_sql['resultado'][0]['max'] + 1;
-        }
+        $orden = $this->getmaxcue("companias");
+        
+        
+        
         if($id == 0){
             $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, orden, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$orden."', '".$this->id_cue."')");
             $info['op'] = 1;
@@ -1180,7 +1178,7 @@ class Guardar extends Core{
     }
     public function eliminarcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(1)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1268,7 +1266,7 @@ class Guardar extends Core{
     
     private function crearusuariocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(3)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1339,7 +1337,7 @@ class Guardar extends Core{
     }
     public function eliminarusuariocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(3)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1408,7 +1406,7 @@ class Guardar extends Core{
     }
     private function crearperfilcue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(5)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1435,7 +1433,7 @@ class Guardar extends Core{
     }
     public function eliminarperfilcue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(5)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1505,7 +1503,7 @@ class Guardar extends Core{
     }
     private function crearcargoscue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(2)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1535,7 +1533,7 @@ class Guardar extends Core{
     }
     public function eliminarcargoscue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(2)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1574,7 +1572,7 @@ class Guardar extends Core{
     }
     private function configcue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(8)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;

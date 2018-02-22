@@ -3,7 +3,7 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(9);
+$fireapp->seguridad_permiso(16);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_claves_cia();
