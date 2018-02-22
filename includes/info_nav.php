@@ -126,24 +126,24 @@
         $arrays["link"] = "pages/cue/grupo_cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
-        $arrays["nombre"] = "Actos";
-        $arrays["link"] = "pages/cue/actos.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(1000)){
+    if(in_arr(8)){
         $arrays["nombre"] = "Configuracion";
         $arrays["link"] = "pages/cue/config.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(9)){
+        $arrays["nombre"] = "Tipos de Maquinas";
+        $arrays["link"] = "pages/cue/tipos_de_maquina.php";
+        $array[] = $arrays;
+    }
+    if(in_arr(10)){
         $arrays["nombre"] = "Tipos de Claves";
         $arrays["link"] = "pages/cue/tipos_de_claves.php";
         $array[] = $arrays;
     }
     if(in_arr(1000)){
-        $arrays["nombre"] = "Tipos de Maquinas";
-        $arrays["link"] = "pages/cue/tipos_de_maquina.php";
+        $arrays["nombre"] = "Actos";
+        $arrays["link"] = "pages/cue/actos.php";
         $array[] = $arrays;
     }
     
