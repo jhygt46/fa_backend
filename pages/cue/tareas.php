@@ -7,9 +7,9 @@ $fireapp->seguridad_permiso(3);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_tareas_cue('order');
-$titulo = "Permisos del perfil ".$_GET['nombre'];
+$titulo = "Tareas del perfil ".$_GET['nombre'];
 
-$sub_titulo2 = "Lista de Permisos";
+$sub_titulo2 = "Lista de Tareas";
 $accion = "asignartareascue";
 
 /* CONFIG PAGE */
@@ -37,7 +37,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
         <div class="close"></div>
         <div class="name"><?php echo $sub_titulo; ?></div>
         <div class="message"></div>
-        <div class="sucont">
+        <div class="sucont" style="margin-top: 30px">
 
             <form action="" method="post" class="basic-grey">
                 <fieldset>
