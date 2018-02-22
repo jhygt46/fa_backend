@@ -40,32 +40,32 @@
     
     
     // ADMIN CIA //
-    if(in_arr(1000)){
+    if(in_arr(11)){
         $arrays["nombre"] = "Usuarios";
         $arrays["link"] = "pages/cia/usuarios.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(12)){
         $arrays["nombre"] = "Cargos";
         $arrays["link"] = "pages/cia/cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(13)){
         $arrays["nombre"] = "Perfiles";
         $arrays["link"] = "pages/cia/perfiles.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(14)){
         $arrays["nombre"] = "Grupos de Usuarios";
         $arrays["link"] = "pages/cia/grupo_vols.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(15)){
         $arrays["nombre"] = "Grupos de Cargos";
         $arrays["link"] = "pages/cia/grupo_cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if(in_arr(16)){
         $arrays["nombre"] = "Tipos de Claves";
         $arrays["link"] = "pages/cia/tipos_de_claves.php";
         $array[] = $arrays;
