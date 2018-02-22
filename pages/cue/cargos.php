@@ -3,7 +3,7 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(13);
+$fireapp->seguridad_permiso(2);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_cargos_cue();

@@ -3,7 +3,7 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+$fireapp->seguridad_permiso(10);
 
 /* CONFIG PAGE */
 $list = $fireapp->get_claves_cue();
@@ -30,9 +30,11 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     $that = $fireapp->get_clave_cue($_GET["id"]);
     $id = $_GET["id"];
     
+    /*
     echo "<pre>";
     print_r($that);
     echo "</pre>";
+    */
     
 }
 

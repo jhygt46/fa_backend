@@ -3,7 +3,7 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+$fireapp->seguridad_permiso(4);
 
 /* CONFIG PAGE */
 
