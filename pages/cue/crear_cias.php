@@ -118,7 +118,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                         <li class="nombre"><?php echo $nombre; ?></li>
                         <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
                         <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <a title="Carros" class="icn carros" onclick="navlink('pages/carros.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <?php if($fireapp->permiso(4)){ ?><a title="Carros" class="icn carros" onclick="navlink('pages/cue/carros.php?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a><?php } ?>
                     </ul>
                 </li>
                 
