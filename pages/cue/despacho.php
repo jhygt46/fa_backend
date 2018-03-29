@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-//require_once("/var/www/html/fireapp.cl/public_html/admin/class/fireapp.php");
-//$fireapp = new Fireapp();
-//$fireapp->seguridad(1);
-//$claves = $fireapp->get_claves_llamados_cue();
+require_once("../../class/core.php");
+$fireapp = new Core();
+
+$fireapp->seguridad_exit(array(36));
 
 $lat = -33.5412656;
 $lng = -70.6165092;

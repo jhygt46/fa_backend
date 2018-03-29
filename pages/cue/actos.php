@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+
+$fireapp->seguridad_exit(array(35));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_actos_cue();

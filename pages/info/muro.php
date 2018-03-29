@@ -1,25 +1,29 @@
 <?php
 if(!isset($include)){
-    require_once("../class/core.php");
+    require_once("../../class/core.php");
+    $fireapp = new Core();
 }
-$fireapp = new Core();
-$fireapp->seguridad_permiso(3);
 
 $blogs = $fireapp->get_blog_data();
+$videos = $fireapp->get_videos();
 $conf_cia = $fireapp->get_config_cia();
 $conf_cue = $fireapp->get_config_cue();
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-
 $this['id_ins'] = 0;
 if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
-    include("../includes/install.php");
+    if(!isset($include)){ $pre = "../../"; }
+    require_once($pre."includes/install.php");
 }
 
-?>
-
+if(is_array($videos)){ ?>
+<script>
+    $(document).ready(function(){
+        
+        first_video('<?php echo $videos[0]['video']; ?>', '<?php echo $videos[0]['txt']; ?>', video_time);
+        
+    });
+</script>
+<?php } ?>
 <div class="muro">
     <ul class="mu clearfix">
         <li class="muro_detalle">

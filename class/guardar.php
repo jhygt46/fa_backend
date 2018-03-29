@@ -155,6 +155,9 @@ class Guardar extends Core{
         if($_POST['accion'] == "configcue"){
             return $this->configcue();
         }
+        if($_POST['accion'] == "ordercia"){
+            return $this->ordercia();
+        }
 
     }
     
@@ -189,7 +192,7 @@ class Guardar extends Core{
     }
     private function crearactocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(48)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -245,7 +248,7 @@ class Guardar extends Core{
     }
     private function eliminaractocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(48)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -285,7 +288,7 @@ class Guardar extends Core{
     }
     private function eliminarclavecia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(45)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -305,7 +308,7 @@ class Guardar extends Core{
     }
     private function eliminarclavecue(){
         
-        if(!$this->seguridad_permiso(10)){
+        if(!$this->seguridad_permiso(27)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -318,14 +321,14 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Clave ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_claves_cue.php";
+        $info['page'] = "cue/tipos_de_claves.php";
 
         return $info;
         
     }
     private function crearclavecia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(16)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -397,7 +400,7 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_claves_cue.php";
+        $info['page'] = "cue/tipos_de_claves.php";
         return $info;
         
     }
@@ -438,13 +441,13 @@ class Guardar extends Core{
         }
 
         $info['reload'] = 1;
-        $info['page'] = "grupos_cue_vol.php";
+        $info['page'] = "cue/grupo_vols.php";
         return $info;
         
     }
     private function eliminargrupovolcue(){
         
-        if(!$this->seguridad_permiso(6)){
+        if(!$this->seguridad_permiso(33)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -456,14 +459,14 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Grupo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "grupos_cue_vol.php";
+        $info['page'] = "cue/grupo_vols.php";
 
         return $info;
         
     }
     private function creargrupovolcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(14)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -504,7 +507,7 @@ class Guardar extends Core{
     }
     private function eliminargrupovolcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(46)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -558,14 +561,14 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "grupos_cue.php";
+        $info['page'] = "cue/grupo_cargos.php";
         return $info;
         
         
     }
     private function eliminargrupocue(){
         
-        if(!$this->seguridad_permiso(7)){
+        if(!$this->seguridad_permiso(34)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -577,14 +580,14 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Grupo ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "grupos_cia.php";
+        $info['page'] = "cue/grupo_vols.php";
 
         return $info;
         
     }
     private function creargrupocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(15)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -625,7 +628,7 @@ class Guardar extends Core{
     }
     private function eliminargrupocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(47)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -642,9 +645,39 @@ class Guardar extends Core{
         return $info;
         
     }
+    private function asignarcargousuarioscue(){
+        
+        if(!$this->seguridad_permiso(26)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $id_ucar = $_POST['id_ucar'];
+        
+        if($id_ucar == 0){
+            // AGREGAR HISTORICO
+            // REEMPLAZAR
+        }
+        if($id_ucar > 0){
+            
+            $id_user = $_POST['h_id_user'];
+            $id_carg = $_POST['id_cargo'];
+            $f_ini = $_POST['h_f_ini'];
+            $f_fin = $_POST['h_f_fin'];
+            
+            if($this->is_usuario_cia($id_user)){
+                if($this->is_cargo_cia($id_carg)){
+                    $info['sql'] = $this->con->sql("UPDATE usuarios_cargos SET fecha_ini='".$f_ini."', fecha_fin='".$f_fin."' WHERE id_ucar='".$id_ucar."' AND id_user='".$id_user."'");
+                }
+            }                
+            
+        }
+        return $info;
+    }
     private function asignarcargousuarioscia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(38)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -674,7 +707,7 @@ class Guardar extends Core{
     }
     private function asignartareascargocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(41)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -701,7 +734,7 @@ class Guardar extends Core{
     }
     private function asignartareascargocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(21)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -722,13 +755,13 @@ class Guardar extends Core{
         $info['op'] = 1;
         $info['mensaje'] = "Perfiles asociados exitosamente";
         $info['reload'] = 1;
-        $info['page'] = "cargos_cue.php";
+        $info['page'] = "cue/cargos.php";
         return $info;
         
     }
     private function asignarperfilusuariocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(42)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -755,7 +788,7 @@ class Guardar extends Core{
     }
     private function asignarperfilusuariocue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(20)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -819,13 +852,13 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "carros.php?id=".$id_cia;
+        $info['page'] = "cue/carros.php?id=".$id_cia;
         return $info;
         
     }
     private function eliminarcarrocia(){
         
-        if(!$this->seguridad_permiso(4)){
+        if(!$this->seguridad_permiso(29)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -839,7 +872,7 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Carro ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "carros.php?id=".$id_cia['resultado'][0]['id_cia'];
+        $info['page'] = "cue/carros.php?id=".$id_cia['resultado'][0]['id_cia'];
 
         return $info;
         
@@ -867,13 +900,13 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_maquina.php";
+        $info['page'] = "cue/tipos_de_maquina.php";
         return $info;
         
     }
     private function eliminartipomaquina(){
         
-        if(!$this->seguridad_permiso(9)){
+        if(!$this->seguridad_permiso(25)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -886,14 +919,14 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Tipo de Maquinas ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "tipos_de_maquina.php";
+        $info['page'] = "cue/tipos_de_maquina.php";
 
         return $info;
         
     }
     private function asignartareascia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(40)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -915,7 +948,7 @@ class Guardar extends Core{
             
         }
         $info['op'] = 1;
-        $info['mensaje'] = "Cuerpo creada exitosamente";
+        $info['mensaje'] = "Tareas actualizadas";
         $info['reload'] = 1;
         $info['page'] = "cia/perfiles.php";
         return $info;
@@ -923,7 +956,7 @@ class Guardar extends Core{
     }
     private function asignartareascue(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(17)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -943,9 +976,9 @@ class Guardar extends Core{
             }
         }
         $info['op'] = 1;
-        $info['mensaje'] = "Cuerpo creada exitosamente";
+        $info['mensaje'] = "Tareas actualizadas";
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cue.php";
+        $info['page'] = "cue/perfiles.php";
         return $info;
         
     }
@@ -1145,6 +1178,20 @@ class Guardar extends Core{
     }
     
     // COMPANIAS //
+    private function ordercia(){
+        
+        if(!$this->seguridad_permiso(30)){
+            $info['op'] = 2;
+            $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
+            return $info;
+        }
+        
+        $values = $_POST['values'];
+        for($i=0; $i<count($values); $i++){
+            $this->con->sql("UPDATE companias SET orden='".$i."' WHERE id_cia='".$values[$i]."' AND id_cue='".$this->id_cue."'");
+        }
+
+    }
     private function crearcia(){
         
         if(!$this->seguridad_permiso(1)){
@@ -1157,8 +1204,6 @@ class Guardar extends Core{
         $nombre = $_POST['nombre'];
         $numero = $_POST['numero'];
         $orden = $this->getmaxcue("companias");
-        
-        
         
         if($id == 0){
             $this->con->sql("INSERT INTO companias (nombre, fecha_creado, numero, orden, id_cue) VALUES ('".$nombre."', now(), '".$numero."', '".$orden."', '".$this->id_cue."')");
@@ -1178,7 +1223,7 @@ class Guardar extends Core{
     }
     public function eliminarcia(){
         
-        if(!$this->seguridad_permiso(1)){
+        if(!$this->seguridad_permiso(28)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1205,7 +1250,7 @@ class Guardar extends Core{
     // USUARIOS //
     private function crearusuariocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(11)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1245,7 +1290,7 @@ class Guardar extends Core{
     }
     public function eliminarusuariocia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(43)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1337,7 +1382,7 @@ class Guardar extends Core{
     }
     public function eliminarusuariocue(){
         
-        if(!$this->seguridad_permiso(3)){
+        if(!$this->seguridad_permiso(23)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1359,7 +1404,7 @@ class Guardar extends Core{
     // PERFIL //
     private function crearperfilcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(13)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1386,7 +1431,7 @@ class Guardar extends Core{
     }
     public function eliminarperfilcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(39)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1427,13 +1472,13 @@ class Guardar extends Core{
         }
         
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cue.php";
+        $info['page'] = "cue/perfiles.php";
         return $info;
         
     }
     public function eliminarperfilcue(){
         
-        if(!$this->seguridad_permiso(5)){
+        if(!$this->seguridad_permiso(18)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1446,7 +1491,7 @@ class Guardar extends Core{
         $info['titulo'] = "Eliminado";
         $info['texto'] = "Perfil ".$_POST["nombre"]." Eliminado";
         $info['reload'] = 1;
-        $info['page'] = "perfiles_cue.php";
+        $info['page'] = "cue/perfiles.php";
 
         return $info;
         
@@ -1455,7 +1500,7 @@ class Guardar extends Core{
     // CARGOS //
     private function crearcargoscia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(12)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1483,7 +1528,7 @@ class Guardar extends Core{
     }
     public function eliminarcargoscia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(37)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1533,7 +1578,7 @@ class Guardar extends Core{
     }
     public function eliminarcargoscue(){
         
-        if(!$this->seguridad_permiso(2)){
+        if(!$this->seguridad_permiso(22)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;
@@ -1551,10 +1596,21 @@ class Guardar extends Core{
         return $info;
         
     }
-    
+    private function cambiar_cuerpo(){
+        if($this->seguridad_admin()){
+            $id_cue = $_POST['id_cue'];
+            $_SESSION['user']['info']['id_cue'] = $id_cue;
+        }
+    }
+    private function cambiar_cia(){
+        if($this->seguridad_admin()){
+            $id_cia = $_POST['id_cia'];
+            $_SESSION['user']['info']['id_cia'] = $id_cia;
+        }
+    }
     private function configcia(){
         
-        if(!$this->seguridad_permiso(1000)){
+        if(!$this->seguridad_permiso(49)){
             $info['op'] = 2;
             $info['mensaje'] = "No tiene los permisos para ejecutar esta Tarea";
             return $info;

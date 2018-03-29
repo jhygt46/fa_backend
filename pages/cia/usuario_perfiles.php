@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(6);
+
+$fireapp->seguridad_exit(array(42));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_perfiles_cia();

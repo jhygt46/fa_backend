@@ -29,9 +29,9 @@ $(document).ready(function(){
         tooltip.hide();
     });
     $('.user-guide').hover(function(){
-        $(this).find('.user-info').slideDown();
+        $(this).find('.user-info').show();
     }, function(){
-        $(this).find('.user-info').slideUp();
+        $(this).find('.user-info').hide();
     });
     
     $('.mas').click(function(){
@@ -47,13 +47,19 @@ $(document).ready(function(){
     });
     localStorage.setItem("history", null);
     
-    $('.contnotificacionllamado').click(function(){
-        var rel = $(this).attr('rel');
-        console.log(rel);
+    $(".contenido").mousemove(function(e){
+        var parentOffset = $(this).parent().offset(); 
+        mouse_x = e.pageX - parentOffset.left;
+        mouse_y = e.pageY - parentOffset.top;
     });
    
 });
-var video_name = "";
+
+var mouse_x = 0;
+var mouse_y = 0;
+
+
+
 function mascoord(){
     
     var cant = parseInt($('#cantpts').val())+1;
@@ -245,6 +251,10 @@ function confirm(message){
 function openwn(url, w, h){
     var myWindow = window.open(url, "", "width="+w+",height="+h);
 }
+function opc_fecha(that){
+    var ss = $(that).parents('.ss');
+    ss.find('li').eq(0).toggle();
+}
 function opcs(that, name){
     var ss = $(that).parents('.ss');
     var op = $(that).parents('.op');
@@ -311,63 +321,89 @@ function salir(){
     });
     return false;
 }
-function close_video(that){
-    var video_yt = $(that).parents('.video_install').find('.video_yt');
+
+function go_llamado(id){
     
-    if(video_yt.attr('visible') == 1){
-        video_yt.slideUp();
-        video_yt.attr('visible', 0);
-        stop_video();
-    }else{
-        video_yt.slideDown();
-        video_yt.attr('visible', 1);
-        play_video(0);
-    }
-}
-function stop_video(){
-    $('#video_yt_if').attr("src", "");
-}
-function play_video(video){
-    
-    if(video == 0){
-        video = video_name;
-    }
-    var src = "";
-    var ttl = "";
-    if(video == "cia/usuarios"){
-        src = "//www.youtube.com/embed/mcixldqDIEQ?rel=0&controls=1&hd=1&showinfo=0&enablejsapi=1&autoplay=1";
-        ttl = "Ingreasar Usuarios";
-        video_name = video;
-    }
-    $('#video_yt_if').attr("src", src);
-    $('.video_nombre').html(ttl);
+    navlink("pages/info/llamado.php?id_act="+id);
     
 }
 
-function shownotificaciones(){
-    $('.notificaciones').animate({ bottom: "10px" }, 500);
-}
-function hidenotificaciones(){
-    $('.notificaciones').animate({ bottom: "-380px" }, 500);
-}
-function notificacion(id){
-    $('.contnotificacionllamado').attr('rel', id);
-    var map = initMap('mapa_noti', -33.439797, -70.616939, 16);
-    shownotificaciones();
-}
-function initMap(variable, lat, lng, zoom = 8) {
-    return new google.maps.Map(document.getElementById(variable), { center: { lat: lat, lng: lng }, zoom: zoom, disableDefaultUI: true } );
-}
 function over_paso(that){
+    
     var rel = $(that).attr('rel');
     $(that).css({ background: '#888' });
     $(that).parents('.install').find('.show_paso').html(rel);
+    
 }
 function out_paso(that){
+    
     if(!$(that).hasClass('pmark')){
         $(that).css({ background: '#bbb' });
     }else{
         $(that).css({ background: '#666' });
     }
     $(that).parents('.install').find('.show_paso').html($(that).parents('.install').find('.show_paso').attr('rel'));
+
+}
+function showchart(id, type){
+
+    var f_ini = $('#f_ini').val();
+    var f_fin = $('#f_fin').val();
+    
+    var send = { accion: type, f_ini: f_ini, f_fin: f_fin };
+
+    $.ajax({
+        url: "ajax/chart.php",
+        type: "POST",
+        data: send,
+        success: function(data){
+            Highcharts.chart(id, data.chart);
+        }
+    });
+    
+}
+
+function show_charts_ops(that, type){
+    
+    var f_ini = $('#f_ini').val();
+    var f_fin = $('#f_fin').val();
+    
+    var send = new Object();
+    send['accion'] = type;
+    send['f_ini'] = f_ini;
+    send['f_fin'] = f_fin;
+    
+    var c2 = $(that).parents('.chitem').find('.c2');
+    c2.find('input').each(function(){
+        if($(this).attr('type') == "checkbox" && $(this).is(':checked')){
+            send[$(this).attr('id')] = 1;
+        }
+        if($(this).attr('type') == "checkbox" && !$(this).is(':checked')){
+            send[$(this).attr('id')] = 0;
+        }
+        if($(this).attr('type') == "radio" && $(this).is(':checked')){
+            send[$(this).attr('id')] = $(this).val();
+        }
+    });
+
+    $.ajax({
+        url: "ajax/chart.php",
+        type: "POST",
+        data: send,
+        success: function(data){
+            Highcharts.chart('chart', data.chart);
+        }
+    });
+}
+function toogle_chopt(that){
+    
+    $(that).parents('.chitem').find('.c2').slideToggle();
+    if($(that).hasClass('mas')){
+        $(that).addClass('cerrar');
+        $(that).removeClass('mas');
+    }else{
+        $(that).addClass('mas');
+        $(that).removeClass('cerrar');
+    }
+    
 }

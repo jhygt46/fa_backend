@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(14);
+
+$fireapp->seguridad_exit(array(14, 46));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_grupos_cia(0);
@@ -39,6 +40,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     </ul>
 </div>
 <hr>
+<?php if($fireapp->seguridad_if(array(14))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -76,7 +78,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
         </div>
     </div>
 </div>
+<?php } ?>
 
+<?php if($fireapp->seguridad_if(array(14, 46))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -96,8 +100,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
+                        <?php if($fireapp->seguridad_if(array(46))){ ?><a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(14))){ ?><a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a><?php } ?>
                     </ul>
                 </li>
                 
@@ -110,3 +114,4 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
 </div>
 <br />
 <br />
+<?php } ?>

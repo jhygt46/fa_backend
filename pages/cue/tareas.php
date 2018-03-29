@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+
+$fireapp->seguridad_exit(array(17));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_tareas_cue('order');
@@ -51,7 +52,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                             <?php foreach($value['res'] as $value2){ $select = false; for($j=0; $j<count($that); $j++){ if($value2['id_tar'] == $that[$j]['id_tar']){ $select = true; } }?>
                             <label>
                                 <input id="tareas-<?php echo $value2['id_tar']; ?>" type="checkbox" value="1" <?php if($select){ echo"checked='checked'"; } ?> />
-                                <span class='detail'><?php echo $value2['nombre']; ?></span>
+                                <span class='detail'><?php echo $value2['id_tar']; ?> - <?php echo $value2['nombre']; ?></span>
                             </label>
                             <?php } ?>
                         </div>

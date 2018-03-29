@@ -13,16 +13,57 @@ require_once ($path."/class/mysql_class.php");
 class Core{
     
     public $con = null;
+    public $id_cia = null;
+    public $id_cue = null;
+    public $id_admin = 18;
+    
     public function __construct(){
         $this->id_cia = $this->getciaid();
         $this->id_cue = $this->getcueid();
         $this->con = new Conexion();
     }
-    public function seguridad_permiso($id_tar){
-        return in_array($id_tar, $_SESSION['user']['permisos']);
+    
+    public function seguridad_if($arr){
+        for($i=0; $i<count($arr); $i++){
+            if(in_array($arr[$i], $_SESSION['user']['permisos'])){
+                return true;
+            }
+        }
+        /*
+        if($this->seguridad_admin()){
+            return true;
+        }else{
+            return false;
+        }
+        */
     }
-    public function seguridad_usuario(){
-        if($_SESSION['user']['info']['id_user'] == 1){
+    public function seguridad_permiso($arr){
+        
+            if(in_array($arr[$i], $_SESSION['user']['permisos'])){
+                return true;
+            }else{
+                if($this->seguridad_admin()){
+                    return true;
+                }else{
+                    return false;
+            }
+        }  
+        
+    }
+    public function seguridad_exit($arr){
+        for($i=0; $i<count($arr); $i++){
+            if(in_array($arr[$i], $_SESSION['user']['permisos'])){
+                return true;
+            }
+        }
+        if($this->seguridad_admin()){
+            return true;
+        }else{
+            die("<div style='font-size: 3em; padding-top: 20px'>Error: Acceso Restringido</div><div style='font-size: 1.8em'>No tiene los permisos para acceder a esta pagina</div>");
+        }
+    }
+    public function seguridad_admin(){
+        if($_SESSION['user']['info']['id_user'] == $this->id_admin){
             return true;
         }
         return false;
@@ -60,7 +101,7 @@ class Core{
     
     // COMPAÑIAS //
     public function get_cias(){
-        $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cue='".$this->id_cue."' AND eliminado='0' ORDER BY numero");
+        $cuerpos = $this->con->sql("SELECT * FROM companias WHERE id_cue='".$this->id_cue."' AND eliminado='0' ORDER BY orden");
         return $cuerpos['resultado'];
     }
     public function get_cia($id){
@@ -147,7 +188,7 @@ class Core{
         return $cuerpo['resultado'][0];
     }
     public function get_cargo_cue($id){
-        $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND id_cia='0' AND iscia='0' AND id_cue='".$this->id_cue."'");
+        $cuerpo = $this->con->sql("SELECT * FROM cargos WHERE id_carg='".$id."' AND id_cia='0' AND id_cue='".$this->id_cue."'");
         return $cuerpo['resultado'][0];
     }
     public function is_cargo_cia($id_carg){
@@ -500,11 +541,11 @@ class Core{
     // GET TAREAS //
     
     public function get_tareas_cia($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY t1.orden, t1.id_tar");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='1' ORDER BY t1.grupoorder, t1.orden");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function get_tareas_cue($type){
-        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY t1.orden, t1.id_tar");
+        $tareas = $this->con->sql("SELECT * FROM tareas t1, tarea_grupo_cuerpo t2 WHERE t2.id_cue='".$this->id_cue."' AND t2.id_gtar=t1.id_gtar AND t1.iscia='0' ORDER BY t1.grupoorder, t1.orden");
         return ($type == "order") ? $this->order_group($tareas, 'id_tar') : $tareas['resultado'];
     }
     public function tareas_perfil_cia($id_per){
@@ -711,10 +752,11 @@ class Core{
     public function install_cue(){
         
         $cue = $this->con->sql("SELECT * FROM cuerpos WHERE id_cue='".$this->id_cue."'");
-        if($cue['resultado'][0]['install'] == 0){
+        if($cue['resultado'][0]['install_cue'] == 0){
                 
             $install_sql = $this->con->sql("SELECT *  FROM install_cuerpo t1, install_pasos t2 WHERE t1.id_cue='".$this->id_cue."' AND t1.id_ins=t2.id_ins AND t2.iscia='0'");
             $install = false;
+                        
             for($i=0; $i<$install_sql['count']; $i++){
 
                 if($install_sql['resultado'][$i]['estado'] == 0){
@@ -733,7 +775,7 @@ class Core{
             if($install){
                 return $ins_session;
             }else{
-                $this->con->sql("UPDATE cuerpos SET install='1' WHERE id_cue='".$this->id_cue."'");
+                $this->con->sql("UPDATE cuerpos SET install_cue='1' WHERE id_cue='".$this->id_cue."'");
             }
 
         }
@@ -793,6 +835,10 @@ class Core{
     public function get_blog_data(){
         $blogs = $this->con->sql("SELECT * FROM blog WHERE iscia='1' AND id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
         return $blogs['resultado'];
+    }
+    public function get_videos(){
+        $videos = $this->con->sql("SELECT * FROM peliculas WHERE id_cue='".$this->id_cue."' AND (id_cia='".$this->id_cia."' OR id_cia='0')");
+        return $videos['resultado'];
     }
     function getBoundaries($lat, $lng, $distance = 1){
         

@@ -7,9 +7,10 @@
     $header['login']['css'][0] = "css/login.css";
 
     $header['layout']['js'][0] = "js/base_1.js";
-    $header['layout']['js'][1] = "js/form_1.js";
-    $header['layout']['js'][2] = "js/sweetalert.min.js";
-    $header['layout']['js'][3] = "js/jquery-ui-timepicker-addon.js";
+    $header['layout']['js'][1] = "js/video_notificacion.js";
+    $header['layout']['js'][2] = "js/form_1.js";
+    $header['layout']['js'][3] = "js/sweetalert.min.js";
+    $header['layout']['js'][4] = "js/jquery-ui-timepicker-addon.js";
     $header['layout']['css'][0] = "css/layout.css";
     $header['layout']['css'][1] = "css/sweetalert.css";
     $header['layout']['css'][2] = "css/jquery-ui.min.css";
@@ -27,6 +28,7 @@
         <!--<script src='http://localhost:3000/socket.io/socket.io.js'></script>-->
         <!--<script type="text/javascript" src="js/sockets.js"></script>-->
         <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/highcharts-3d.js"></script>
         <?php for($i=0; $i<count($header[$page]['js']); $i++){?>
         <script type="text/javascript" src="<?php echo $header[$page]['js'][$i]; ?>"></script>
         <?php } ?>

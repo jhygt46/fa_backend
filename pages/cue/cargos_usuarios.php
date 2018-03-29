@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-require_once("../class/core.php");
+require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+$fireapp->seguridad_exit(array(26));
 
 /* CONFIG PAGE */
 $titulo = "Cargo de Usuarios";
 $accion = "asignarcargousuarioscue";
-$page_mod = "pages/cargos_usuarios_cue.php";
+$page_mod = "pages/cue/cargos_usuarios.php";
 $id_list = "id_ucar";
 /* CONFIG PAGE */
 
@@ -22,6 +22,12 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     $list_user = $fireapp->get_usuarios_cue();
     $list_user_cargo = $fireapp->get_users_cargo_cue($id_carg);
     
+    /*
+    echo "<pre>";
+    print_r($cargo);
+    echo "</pre>";
+    */
+    
     $cant = $cargo['cantidad'];
     
     $sub_titulo = "Cambios en ".$cargo['nombre'];
@@ -29,6 +35,10 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
     
     $actuales = $fireapp->actuales($list_user_cargo);
+    
+    echo "<pre>";
+    print_r($actuales);
+    echo "</pre>";
     
     $mod_hist = false;
     if(isset($_GET["id_ucar"]) && is_numeric($_GET["id_ucar"]) && $_GET["id_ucar"] != 0){
@@ -44,11 +54,6 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     
     $c_act = count($actuales);
     
-    /*
-    echo "<pre>";
-    print_r($list_user_cargo);
-    echo "</pre>";
-    */
 }
 
 
@@ -103,7 +108,7 @@ $(function(){
                         
                         <ul style="padding-bottom: 10px; font-size: 14px;" class="clearfix">
                             <li style="float: left; width: 15%; padding-right: 2%; text-align: right;">Fecha Inicio:</li>
-                            <li style="float: left; width: 78%;"><?php echo $fireapp->datestring($actuales[$i]['f_ini'], false); ?></li>
+                            <li style="float: left; width: 78%;"><?php //echo $fireapp->datestring($actuales[$i]['f_ini'], false); ?></li>
                         </ul>
                         
                         <ul style="padding-bottom: 10px; font-size: 14px;" class="clearfix">

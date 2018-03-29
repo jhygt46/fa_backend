@@ -73,13 +73,13 @@ class Services extends Core{
     // START NODEJS FUNCTION //
     private function get_nodejs_llamados(){
         
+        
         if($_POST['code'] != $this->secret){
-            return;
+            //return;
         }
         
         $fecha = date("Y-m-d h:i:s", strtotime("-15 day"));
-        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.lat, t1.lng, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND (t2.tipo=1 OR t2.tipo=2) AND t1.id_act!=1");
-        
+        $actos = $this->con->sql("SELECT t1.id_act, t2.nombre, t2.clave, t1.direccion, t1.lat, t1.lng, t1.fecha_creado, t1.id_cue FROM actos t1, claves t2 WHERE t1.fecha_creado >= '".$fecha."' AND t1.id_cla=t2.id_cla AND (t2.tipo=1 OR t2.tipo=2)");
         if($actos['count'] > 0){
             $lis_actos = $actos['resultado'];
             for($i=0; $i<$actos['count']; $i++){
@@ -134,6 +134,7 @@ class Services extends Core{
                         $aux['info']['carros'][] = $aux_carros;
                         unset($aux_carros);
                     }
+                    $aux['info']['maquinas'] = implode(" ", $infomaquinas);
                 }
                  
                 $voluntarios = $this->con->sql("SELECT t2.id_user, t2.nombre, t2.id_cia, t2.id_cue, t2.pos_cia, t2.pos_cue FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_user=t2.id_user");
@@ -154,9 +155,8 @@ class Services extends Core{
                     $aux['voluntarios'] = array();
                 }
                 
-                $aux['info']['maquinas'] = implode(" ", $infomaquinas);
-                $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
                 
+                $aux['info']['grifos'] = $this->getgrifos($lis_actos[$i]['lat'], $lis_actos[$i]['lng']);
                 $llamados[] = $aux;
                 unset($aux);
             }

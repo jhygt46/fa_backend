@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(10);
+
+$fireapp->seguridad_exit(array(10, 27));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_claves_cue();
@@ -29,12 +30,6 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     $sub_titulo = $sub_titulo2;
     $that = $fireapp->get_clave_cue($_GET["id"]);
     $id = $_GET["id"];
-    
-    /*
-    echo "<pre>";
-    print_r($that);
-    echo "</pre>";
-    */
     
 }
 
@@ -67,6 +62,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     </ul>
 </div>
 <hr>
+<?php if($fireapp->seguridad_if(array(10))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -153,7 +149,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
         </div>
     </div>
 </div>
+<?php } ?>
 
+<?php if($fireapp->seguridad_if(array(10, 27))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -203,3 +201,4 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
 </div>
 <br />
 <br />
+<?php } ?>

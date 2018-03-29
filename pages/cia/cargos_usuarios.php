@@ -3,12 +3,12 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(2);
+$fireapp->seguridad_exit(array(38));
 
 /* CONFIG PAGE */
 $titulo = "Cargo de Usuarios";
 $accion = "asignarcargousuarioscia";
-$page_mod = "pages/cargos_usuarios_cia.php";
+$page_mod = "pages/cia/cargos_usuarios.php";
 $id_list = "id_ucar";
 /* CONFIG PAGE */
 

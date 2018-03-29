@@ -1,29 +1,33 @@
 <?php
 
-    // MI CUENTA 
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(50))){
         $arrays["nombre"] = "Inicio";
-        $arrays["link"] = "pages/muro.php";
+        $arrays["link"] = "pages/info/muro.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(51))){
         $arrays["nombre"] = "Perfil";
-        $arrays["link"] = "pages/muro.php";
+        $arrays["link"] = "pages/info/perfil.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(52))){
         $arrays["nombre"] = "Cuartel";
-        $arrays["link"] = "pages/muro.php";
+        $arrays["link"] = "pages/info/cuartel.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(53))){
         $arrays["nombre"] = "Informacion Medica";
-        $arrays["link"] = "pages/info_medica.php";
+        $arrays["link"] = "pages/info/info_medica.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(54))){
         $arrays["nombre"] = "Ver Llamados";
-        $arrays["link"] = "pages/ver_llamados.php";
+        $arrays["link"] = "pages/info/ver_llamados.php";
+        $array[] = $arrays;
+    }
+    if($fireapp->seguridad_if(array(55, 56, 57))){
+        $arrays["nombre"] = "Estadisticas";
+        $arrays["link"] = "pages/info/estadisticas.php";
         $array[] = $arrays;
     }
     if(isset($array)){
@@ -38,44 +42,43 @@
     
     
     
-    
     // ADMIN CIA //
-    if(in_arr(11)){
-        $arrays["nombre"] = "Usuarios";
-        $arrays["link"] = "pages/cia/usuarios.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(12)){
+    if($fireapp->seguridad_if(array(12, 37, 38, 41))){
         $arrays["nombre"] = "Cargos";
         $arrays["link"] = "pages/cia/cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(13)){
+    if($fireapp->seguridad_if(array(11, 42, 43, 44))){
+        $arrays["nombre"] = "Usuarios";
+        $arrays["link"] = "pages/cia/usuarios.php";
+        $array[] = $arrays;
+    }
+    if($fireapp->seguridad_if(array(13, 39, 40))){
         $arrays["nombre"] = "Perfiles";
         $arrays["link"] = "pages/cia/perfiles.php";
         $array[] = $arrays;
     }
-    if(in_arr(14)){
+    if($fireapp->seguridad_if(array(14, 46))){
         $arrays["nombre"] = "Grupos de Usuarios";
         $arrays["link"] = "pages/cia/grupo_vols.php";
         $array[] = $arrays;
     }
-    if(in_arr(15)){
+    if($fireapp->seguridad_if(array(15, 47))){
         $arrays["nombre"] = "Grupos de Cargos";
         $arrays["link"] = "pages/cia/grupo_cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(16)){
+    if($fireapp->seguridad_if(array(16, 45))){
         $arrays["nombre"] = "Tipos de Claves";
         $arrays["link"] = "pages/cia/tipos_de_claves.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(48))){
         $arrays["nombre"] = "Actos";
         $arrays["link"] = "pages/cia/actos.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(49))){
         $arrays["nombre"] = "Configuracion";
         $arrays["link"] = "pages/cia/config.php";
         $array[] = $arrays;
@@ -89,65 +92,64 @@
         unset($array);
     }
     
-    // ADMIN CUERPO //
     
-    if(in_arr(1)){
+    
+    // ADMIN CUERPO //
+    if($fireapp->seguridad_if(array(1, 28, 30, 4))){
         $arrays["nombre"] = "Compa&ntilde;ias";
         $arrays["link"] = "pages/cue/crear_cias.php";
         $array[] = $arrays;
     }
-    if(in_arr(2)){
+    if($fireapp->seguridad_if(array(2, 21, 22, 26))){
         $arrays["nombre"] = "Cargos";
         $arrays["link"] = "pages/cue/cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(3)){
+    if($fireapp->seguridad_if(array(3, 23, 20))){
         $arrays["nombre"] = "Usuarios";
         $arrays["link"] = "pages/cue/usuarios.php";
         $array[] = $arrays;
     }
-    if(in_arr(4)){
+    if($fireapp->seguridad_if(array(4, 29))){
         $arrays["nombre"] = "Carros";
         $arrays["link"] = "pages/cue/carros.php?id=0&nombre=Comandancia";
         $array[] = $arrays;
     }
-    if(in_arr(5)){
+    if($fireapp->seguridad_if(array(5, 17, 18))){
         $arrays["nombre"] = "Perfiles";
         $arrays["link"] = "pages/cue/perfiles.php";
         $array[] = $arrays;
     }
-    if(in_arr(6)){
+    if($fireapp->seguridad_if(array(6, 33))){
         $arrays["nombre"] = "Grupos de Usuarios";
         $arrays["link"] = "pages/cue/grupo_vols.php";
         $array[] = $arrays;
     }
-    if(in_arr(7)){
+    if($fireapp->seguridad_if(array(7, 34))){
         $arrays["nombre"] = "Grupos de Cargos";
         $arrays["link"] = "pages/cue/grupo_cargos.php";
         $array[] = $arrays;
     }
-    if(in_arr(8)){
-        $arrays["nombre"] = "Configuracion";
-        $arrays["link"] = "pages/cue/config.php";
-        $array[] = $arrays;
-    }
-    if(in_arr(9)){
+    if($fireapp->seguridad_if(array(9, 25))){
         $arrays["nombre"] = "Tipos de Maquinas";
         $arrays["link"] = "pages/cue/tipos_de_maquina.php";
         $array[] = $arrays;
     }
-    if(in_arr(10)){
+    if($fireapp->seguridad_if(array(10, 27))){
         $arrays["nombre"] = "Tipos de Claves";
         $arrays["link"] = "pages/cue/tipos_de_claves.php";
         $array[] = $arrays;
     }
-    if(in_arr(1000)){
+    if($fireapp->seguridad_if(array(35))){
         $arrays["nombre"] = "Actos";
         $arrays["link"] = "pages/cue/actos.php";
         $array[] = $arrays;
     }
-    
-    
+    if($fireapp->seguridad_if(array(8))){
+        $arrays["nombre"] = "Configuracion";
+        $arrays["link"] = "pages/cue/config.php";
+        $array[] = $arrays;
+    }
     if(isset($array)){
         $aux["ico"] = 4;
         $aux["categoria"] = "Admin Cuerpo";
@@ -157,7 +159,9 @@
         unset($array);
     }
     
-    if(in_arr(1000)){
+    
+    
+    if($fireapp->seguridad_if(array(36))){
         $arrays["nombre"] = "Despacho";
         $arrays["link"] = "pages/cue/despacho.php";
         $array[] = $arrays;
@@ -171,13 +175,12 @@
         unset($array);
     }
     
+    
     // SUPER ADMIN //
-    if(in2_arr()){
-        
+    if($fireapp->seguridad_admin()){
         $arrays["nombre"] = "Cuerpos";
-        $arrays["link"] = "pages/crear_cuerpo.php";
+        $arrays["link"] = "pages/admin/crear_cuerpo.php";
         $array[] = $arrays;
-        
     }
     if(isset($array)){
         $aux["ico"] = 1;
@@ -187,154 +190,5 @@
         unset($aux);
         unset($array);
     }
-    
-
-    
-    function in_arr($id_tar){
-        return in_array($id_tar, $_SESSION['user']['permisos']);
-    }
-    function in2_arr(){
-        if($_SESSION['user']['info']['id_user'] == 1){
-            return true;
-        }
-        return false;
-    }
-    
-        // TAREAS CUERPO //
-    
-    $per['id'] = 1;
-    $per['nombre'] = "Ingresar Compa&ntilde;ias";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 2;
-    $per['nombre'] = "Ingresar Cargos";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 3;
-    $per['nombre'] = "Ingresar Usuarios";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 4;
-    $per['nombre'] = "Ingresar Carros";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 5;
-    $per['nombre'] = "Ingresar Perfiles";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 6;
-    $per['nombre'] = "Ingresar Grupos Usuarios";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 7;
-    $per['nombre'] = "Ingresar Grupos Cargos";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 8;
-    $per['nombre'] = "Ingresar Grupos Usuarios";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 9;
-    $per['nombre'] = "Ingresar Tipos de Maquinas";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-
-    $per['id'] = 10;
-    $per['nombre'] = "Ingresar Tipos de Claves";
-    $per['iscia'] = 0;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-
-    // TAREAS COMPAÑIA //
-
-    $per['id'] = 11;
-    $per['nombre'] = "Ingresar Usuarios";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 12;
-    $per['nombre'] = "Ingresar Cargos";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-
-    $per['id'] = 13;
-    $per['nombre'] = "Ingresar Perfiles";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 14;
-    $per['nombre'] = "Ingresar Grupos Usuarios";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 15;
-    $per['nombre'] = "Ingresar Grupos Cargos";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    $per['id'] = 16;
-    $per['nombre'] = "Ingresar Tipos de Claves";
-    $per['iscia'] = 1;
-    $per['grupo'] = "Admin";
-    $per['orden'] = 1;
-    $per['id_gtar'] = 1;
-    $permisos[] = $per;
-    
-    for($i=0; $i<count($permisos); $i++){
-        $fireapp->con->sql("INSERT INTO tareas (id_tar, nombre, iscia, grupo, orden, id_gtar) VALUES ('".$permisos[$i]['id']."', '".$permisos[$i]['nombre']."', '".$permisos[$i]['iscia']."', '".$permisos[$i]['grupo']."', '".$permisos[$i]['orden']."', '".$permisos[$i]['id_gtar']."')");
-    }
-    
+      
 ?>

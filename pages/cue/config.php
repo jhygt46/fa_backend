@@ -1,9 +1,10 @@
 <?php
 session_start();
 
-require_once("../class/core.php");
+require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(8);
+
+$fireapp->seguridad_exit(array(8));
 
 /* CONFIG PAGE */
 $conf = $fireapp->get_config_cue();

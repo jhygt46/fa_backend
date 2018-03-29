@@ -3,7 +3,9 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(3);
+
+$fireapp->seguridad_exit(array(3, 23, 20));
+
 
 /* CONFIG PAGE */
 $list = $fireapp->get_usuarios_cue();
@@ -33,7 +35,10 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
 }
 
 
-
+$this['id_ins'] = 2;
+if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
+    include("../../includes/install.php");
+}
 
 ?>
 
@@ -41,9 +46,11 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
     <h1><?php echo $titulo; ?></h1>
     <ul class="clearfix">
         <li class="back" onclick="backurl()"></li>
+        <li class="help" onclick="help()"></li>
     </ul>
 </div>
 <hr>
+<?php if($fireapp->seguridad_if(array(3))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -86,7 +93,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
         </div>
     </div>
 </div>
+<?php } ?>
 
+<?php if($fireapp->seguridad_if(array(3, 23, 20))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -125,18 +134,18 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] != 0){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre" id_cia="<?php echo $id_cia; ?>" name="<?php echo $nombre; ?>"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <a title="Perfiles" class="icn agregaradmin" onclick="navlink('<?php echo $page_perfil; ?>?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a>
+                        <?php if($fireapp->seguridad_if(array(23))){ ?><a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(3))){ ?><a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(20))){ ?><a title="Perfiles" class="icn agregaradmin" onclick="navlink('<?php echo $page_perfil; ?>?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a><?php } ?>
                     </ul>
                 </li>
                 
                 <?php } ?>
                 
             </ul>
-            
         </div>
     </div>
 </div>
 <br />
 <br />
+<?php } ?>

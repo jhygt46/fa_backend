@@ -3,7 +3,8 @@ session_start();
 
 require_once("../../class/core.php");
 $fireapp = new Core();
-$fireapp->seguridad_permiso(11);
+
+$fireapp->seguridad_exit(array(11, 42, 43, 44));
 
 /* CONFIG PAGE */
 $list = $fireapp->get_usuarios_cia();
@@ -44,6 +45,7 @@ if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
     </ul>
 </div>
 <hr>
+<?php if($fireapp->seguridad_if(array(11, 42, 43))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -76,7 +78,9 @@ if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
         </div>
     </div>
 </div>
+<?php } ?>
 
+<?php if($fireapp->seguridad_if(array(11, 42, 43, 44))){ ?>
 <div class="info">
     <div class="fc" id="info-0">
         <div class="minimizar m1"></div>
@@ -108,10 +112,10 @@ if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
                 <li class="user">
                     <ul class="clearfix">
                         <li class="nombre" name="<?php echo $nombre; ?>"><?php echo $nombre; ?></li>
-                        <a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a>
-                        <a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a>
-                        <?php if($fireapp->permiso(6)){ ?><a title="Perfiles" class="icn agregaradmin" onclick="navlink('<?php echo $page_perfil; ?>?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a><?php } ?>
-                        <?php if($fireapp->permiso(2)){ ?><a title="Antiguedad" class="icn antiguedad" onclick="navlink('<?php echo $page_antiguedad; ?>?id=<?php echo $id; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(43))){ ?><a title="Eliminar" class="icn borrar" onclick="eliminar('<?php echo $eliminaraccion; ?>', <?php echo $id; ?>, '<?php echo $eliminarobjeto; ?>', '<?php echo $nombre; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(11))){ ?><a title="Modificar" class="icn modificar" onclick="navlink('<?php echo $page_mod; ?>?id=<?php echo $id; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(42))){ ?><a title="Perfiles" class="icn agregaradmin" onclick="navlink('<?php echo $page_perfil; ?>?id=<?php echo $id; ?>&nombre=<?php echo $nombre; ?>')"></a><?php } ?>
+                        <?php if($fireapp->seguridad_if(array(44))){ ?><a title="Antiguedad" class="icn antiguedad" onclick="navlink('<?php echo $page_antiguedad; ?>?id=<?php echo $id; ?>')"></a><?php } ?>
                     </ul>
                 </li>
                 
@@ -124,3 +128,4 @@ if(isset($_SESSION['install_cue']) || isset($_SESSION['install_cia'])){
 </div>
 <br />
 <br />
+<?php } ?>
