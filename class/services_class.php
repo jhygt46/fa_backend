@@ -370,7 +370,7 @@ class Services extends Core{
             if($sql['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
                 $info['op'] = 2;
-                $info['message'] = "Error: Usuario no existe";
+                $info['message'] = "Usuario no existe";
             }
             if($sql['count'] == 1){
                 $id_user = $sql['resultado'][0]['id_user'];
@@ -379,7 +379,7 @@ class Services extends Core{
                     $fecha_block = $sql['resultado'][0]['fecha_bloqueado'];
                     if(strtotime($fecha_block) + 86400 < time()){
                         $info['op'] = 2;
-                        $info['message'] = "Error:";
+                        $info['message'] = "Usuario bloqueado";
                     }else{
                         $bloqueado = 0;
                         $this->con->sql("UPDATE usuarios SET bloqueado='0', intentos='0' WHERE id_user='".$id_user."'");
@@ -394,8 +394,8 @@ class Services extends Core{
                         $info['id_cia'] = $sql['resultado'][0]['id_cia'];
                         $info['id_cue'] = $sql['resultado'][0]['id_cue'];
                         $info['nombre'] = $sql['resultado'][0]['nombre'];
-                        $info['message'] = "";
                         $info['code'] = $code;
+                        $info['cant'] = $sql['resultado'][0]['cant'];
                         $this->con->sql("UPDATE usuarios SET code_app='".$code."' WHERE id_user='".$id_user."'");
                     }else{
                         $intentos = $sql['resultado'][0]['intentos'] + 1;
@@ -403,17 +403,17 @@ class Services extends Core{
                         if($intentos >= 10){
                             $this->con->sql("UPDATE usuarios SET bloqueado='1', fecha_bloqueado='".date('Y-m-d H:i:s')."' WHERE id_user='".$id_user."'");
                             $info['op'] = 2;
-                            $info['message'] = "Usuario Bloqueado! desbloqueara automaticamente en 24hrs";
+                            $info['message'] = "Usuario bloqueado";
                         }else{
                             $info['op'] = 2;
-                            $info['message'] = "Error: Password invalido";
+                            $info['message'] = "Password inv&aacute;lido";
                         }
                     }
                 }
             }
         }else{
             $info['op'] = false;
-            $info['message'] = "Error:";
+            $info['message'] = "Correo inv&aacute;lido";
         }
         return $info;
         

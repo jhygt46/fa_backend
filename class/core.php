@@ -1161,5 +1161,56 @@ class Core{
         return $code;
     }
     
+    public function secure_code($id_user, $code){
+        
+        $user = $this->con->sql("SELECT * FROM usuario WHERE id_user='".$id_user."' AND code='".$code."'");
+        $cant = $user['resultado'][0]['cant'];
+        
+        for($i=0; $i<strlen($code); $i++){
+            $caracter = $code{$i};
+            if(is_numeric($caracter)){
+                $num = $caracter;
+            }else{
+                if($caracter == "a"){
+                    $num = 10;
+                }elseif($caracter == "b") {
+                    $num = 11;
+                }elseif($caracter == "c") {
+                    $num = 12;
+                }elseif($caracter == "d") {
+                    $num = 13;
+                }elseif($caracter == "e") {
+                    $num = 14;
+                }elseif($caracter == "f") {
+                    $num = 15;
+                }
+            }
+            $code2[] = $this->get_code($num, $cant, $i);
+        }
+        return implode("", $code2);
+ 
+    }
+    
+    public function get_code($num, $cant, $i){
+    
+        $m[0] = "3ZfFavWDeAOnVQ1PpNsYJ4M2bcUK0CEokq8gB5wITLjHxiurSRXmt9hd7zl6G";
+        $m[1] = "r3bvaWKRNIkL6qc4QAlSg7om9MZped5XtxjEOFHUJ2iVPGnuTwYhBDszf018C";
+        $m[2] = "0RQKMHvbNmjDE1xWScIY4faVlOhUAZTuqCz86PFLst2e5XpJBg7wiGo3dkrn9";
+        $m[3] = "8n0VzjtDQvcIrxaE9mGqAMJXB4eU7wuWlsPSpTFKZOg1Nkd6L2RoifCbh3HY5";
+        $m[4] = "GTPkOlgqFnuvI3BwJ8KeUas94MxdhDSm6RZ7oWtpV2E51LYXNAjrQzbcf0iCH";
+        $m[5] = "ZjiU0fE7bdaCkDLO8swhmJTR1AxeQGocVMlqI62SY3uz4trX5W9NPFvHnBgpK";
+        $m[6] = "XiEDrTWUplc4HJRu9Ymf0PkQgALG6dFaCBonqZ5It2bVzevN7Ohjx1KSsM83w";
+        $m[7] = "HIpDzk2Yhl53t90u87dbeBwM6nmcfrTKaA14vFiSZNORCxUogWJQEjqsLXVGP";
+        $m[8] = "D37AW9mkoSqhzZTJ2BNLgitRwYcEbrxGHKIsOC540FP6MejpQlfnvaUu81dXV";
+        $m[9] = "sG6SmigAqC87nZKvl5wY3def0RQchEUMD14uVroab9jpTOtNHJzLPWxFIkX2B";
+        $type = $cant % count($m);
+        
+        $math = array(array(3,7,5), array(5,3,2), array(9,8,2), array(7,2,6), array(6,5,8), array(2,4,7), array(3,2,9), array(5,8,6), array(4,9,3), array(3,7,6));
+        $aux = $num * $math[$type][0] + $cant * $math[$type][1] + $i * $math[$type][2];
+        $p = $aux % strlen($m[0]);
+        return $m[$type]{$p};
+
+    }
+    
     
 }
