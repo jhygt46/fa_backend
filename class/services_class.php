@@ -361,13 +361,10 @@ class Services extends Core{
     
     
     public function login_app(){
-        
-        $correo = $_POST["email"];
-        $pass = $_POST["pass"];
-        
-        $info['user'] = $correo;
-        $info['pass'] = $pass;
-        return $info;
+
+        $json = json_decode(file_get_contents('php://input'), true);
+        $correo = $json["email"];
+        $pass = $json["pass"];
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
