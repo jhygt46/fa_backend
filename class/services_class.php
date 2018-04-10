@@ -365,6 +365,10 @@ class Services extends Core{
         $correo = $_POST["email"];
         $pass = $_POST["pass"];
         
+        $info['user'] = $correo;
+        $info['pass'] = $pass;
+        return $info;
+        
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
             if($sql['count'] == 0){
@@ -412,8 +416,8 @@ class Services extends Core{
                 }
             }
         }else{
-            $info['op'] = false;
-            $info['message'] = "Correo inv&aacute;lido";
+            $info['op'] = 2;
+            $info['message'] = "Correo inválido";
         }
         return $info;
         
