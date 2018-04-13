@@ -16,16 +16,5 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 
 require_once($path_class."login_class.php");
 $login = new Login();
-
-$data = "Hola Mundo: ";
-if($_POST['accion'] == "login"){
-    $data = $ingreso->login_app();
-    $data = "Hola Login: ";
-}
-if($_POST['accion'] == "recuperar"){
-    $data = $login->enviar_clave();
-    $data = "Hola Recuperar: ";
-}
-
+$data = $login->app();
 echo json_encode($data);
-

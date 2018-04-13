@@ -9,11 +9,20 @@ class Login {
     public function __construct(){
         $this->con = new Conexion();
     }
-    public function login_app(){
+    public function app(){
         
         $json = json_decode(file_get_contents('php://input'), true);
-        $correo = $json["email"];
-        $pass = $json["pass"];
+        $accion = $json["accion"];
+        
+        if($accion == "login"){
+            return $login->login_app($json["email"], $json["pass"]);
+        }
+        if($accion == "recuperar"){
+            return $login->enviar_clave($json["user"]);
+        }
+    }
+    public function login_app($correo, $pass){
+        
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
@@ -138,9 +147,8 @@ class Login {
         return $info;  
         
     }
-    public function enviar_clave(){
+    public function enviar_clave($correo){
         
-        $correo = $_POST['user'];
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
