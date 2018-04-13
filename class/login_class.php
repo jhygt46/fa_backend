@@ -213,40 +213,43 @@ class Login {
         $pass1 = $_POST['pass1'];
         $pass2 = $_POST['pass2'];
         
-        $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
-        $code_user = $user['resultado'][0]['code'];
-        $date_code = time() - strtotime($user['resultado'][0]['date_code']);
-        
-        if($date_code <= 86400){
+        if(isset($id) && is_numeric($id) && $id != 0){
             
-            $info['code1'] = $code;
-            $info['code2'] = $code_user;
-            $info['len'] = strlen($code);
-            
-            if(strlen($code) == 32 && $code == $code_user){
-                if($pass1 == $pass2){
-                    if(strlen($pass1) >= 8){
-                        $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
-                        $info['op'] = 1;
-                        $info['user'] = $user['resultado'][0]['correo'];
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+            $code_user = $user['resultado'][0]['code'];
+            $date_code = time() - strtotime($user['resultado'][0]['date_code']);
+
+            if($date_code <= 86400){
+
+                $info['code1'] = $code;
+                $info['code2'] = $code_user;
+                $info['len'] = strlen($code);
+
+                if(strlen($code) == 32 && $code == $code_user){
+                    if($pass1 == $pass2){
+                        if(strlen($pass1) >= 8){
+                            $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
+                            $info['op'] = 1;
+                            $info['user'] = $user['resultado'][0]['correo'];
+                        }else{
+                            $info['op'] = 2;
+                            $info['msg'] = "La contrase&ntilde;a debe tener al menos 8 caracteres";
+                        }
                     }else{
                         $info['op'] = 2;
-                        $info['msg'] = "La contrase&ntilde;a debe tener al menos 8 caracteres";
+                        $info['msg'] = "La contrase&ntilde;a son diferentes";
                     }
                 }else{
                     $info['op'] = 2;
-                    $info['msg'] = "La contrase&ntilde;a son diferentes";
+                    $info['msg'] = "Error: ";
                 }
+
             }else{
+
                 $info['op'] = 2;
-                $info['msg'] = "Error: ";
+                $info['msg'] = "El correo tiene una duracion de 24 horas";
+
             }
-        
-        }else{
-            
-            $info['op'] = 2;
-            $info['msg'] = "El correo tiene una duracion de 24 horas";
-            
         }
 
         return $info;
