@@ -23,6 +23,6 @@ if($_POST['accion'] == "login"){
 if($_POST['accion'] == "recuperar"){
     $data = $login->enviar_clave();
 }
-$data = "Hola Mundo";
+$data = "Hola Mundo: ".$data['op'];
 echo json_encode($data);
 
