@@ -219,7 +219,7 @@ class Login {
         
         if($date_code <= 86400){
         
-            if(strlen($code) == 30 && $code == $code_user){
+            if(strlen($code) == 32 && $code == $code_user){
                 if($pass1 == $pass2){
                     if(strlen($pass1) >= 8){
                         $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
