@@ -2,6 +2,8 @@ $(document).ready(function(){
 
     $('#entrar').click(function(){
         
+        $(this).prop( "disabled", true );
+        
         var user = $('#user').val();
         var pass = $('#pass').val();
         var tipo = $('#accion').val();
@@ -24,10 +26,12 @@ $(document).ready(function(){
                 }
                 if(data.op == 2){
                     mal(data.message);
+                    $(this).prop( "disabled", false );
                 }
             },
             error: function(e){
                 console.log(e);
+                $(this).prop( "disabled", false );
             }
         });
 
