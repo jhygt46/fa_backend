@@ -218,7 +218,11 @@ class Login {
         $date_code = time() - strtotime($user['resultado'][0]['date_code']);
         
         if($date_code <= 86400){
-        
+            
+            $info['code1'] = $code;
+            $info['code2'] = $code_user;
+            $info['len'] = strlen($code);
+            
             if(strlen($code) == 32 && $code == $code_user){
                 if($pass1 == $pass2){
                     if(strlen($pass1) >= 8){
