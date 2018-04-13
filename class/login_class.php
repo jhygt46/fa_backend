@@ -15,10 +15,10 @@ class Login {
         $accion = $json["accion"];
         
         if($accion == "login"){
-            return $login->login_app($json["email"], $json["pass"]);
+            return $this->login_app($json["email"], $json["pass"]);
         }
         if($accion == "recuperar"){
-            return $login->enviar_clave($json["user"]);
+            return $this->enviar_clave($json["user"]);
         }
     }
     public function login_app($correo, $pass){
