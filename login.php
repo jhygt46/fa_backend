@@ -23,7 +23,7 @@ include("includes/header.php");
                             <div class='btn'><input type='button' id='entrar' value='Entrar'></div>
                         </div>
                     </div>
-                    <div class='ltpass'><a href=''>Perdio su contrase&ntilde;a?</a></div>
+                    <div class='ltpass'><a href=''>No tiene contrase&ntilde;a?</a></div>
                 </div>
             </td>
         </tr>
