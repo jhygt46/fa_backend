@@ -146,29 +146,37 @@ class Login {
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
             
             if($user['count'] == 1){
+                if($user["resultado"][0]["enviado"] == 0 || ($user["resultado"][0]["enviado"] < 3 && strtotime($user["resultado"][0]["date_enviado"])+86400 < time())){
                 
-                $id_user = $user["resultado"][0]["id_user"];
-                $correo = $user["resultado"][0]["correo"];
-                $nombre = $user["resultado"][0]["nombre"];
-                $code = $this->randstring(32);
-                $this->con->sql("UPDATE usuarios SET code='".$code."', date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
+                    $id_user = $user["resultado"][0]["id_user"];
+                    $correo = $user["resultado"][0]["correo"];
+                    $nombre = $user["resultado"][0]["nombre"];
+                    $code = $this->randstring(32);
+                    $this->con->sql("UPDATE usuarios SET code='".$code."', date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
+
+                    if($this->send_correo($id_user, $code, $correo, $nombre, 0)){
+                        $info["op"] = 1;
+                        $info["message"] = "Su correo ha sido enviado";
+                        $enviado = $user["resultado"][0]["enviado"] + 1;
+                        $this->con->sql("UPDATE usuarios SET enviado='".$enviado."', date_enviado='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
+                    }else{
+                        $info["op"] = 2;
+                        $info["message"] = "No se pudo enviar el correo, intentelo mas tarde";
+                    }
                 
-                if($this->send_correo($id_user, $code, $correo, $nombre, 0)){
-                    $info["op"] = 1;
-                    $info["message"] = "Su correo ha sido enviado";
                 }else{
                     $info["op"] = 2;
-                    $info["message"] = "No se pudo enviar el correo, intentelo mas tarde";
+                    $info["message"] = "Error: Ya hemos enviado, revise en los no deseados";
                 }
-                
+            
             }else{
                 $info["op"] = 2;
-                $info["message"] = "Error:";
+                $info["message"] = "Error: Usuario no Existe";
             }
             
         }else{
             $info["op"] = 2;
-            $info["message"] = "Error:";
+            $info["message"] = "Error: Correo invalido";
         }
         
         return $info;
@@ -218,37 +226,38 @@ class Login {
             $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
             $code_user = $user['resultado'][0]['code'];
             $date_code = time() - strtotime($user['resultado'][0]['date_code']);
-
-            if($date_code <= 86400){
-
-                $info['code1'] = $code;
-                $info['code2'] = $code_user;
-                $info['len'] = strlen($code);
-
-                if(strlen($code) == 32 && $code == $code_user){
-                    if($pass1 == $pass2){
-                        if(strlen($pass1) >= 8){
-                            $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
-                            $info['op'] = 1;
-                            $info['user'] = $user['resultado'][0]['correo'];
+            
+            if($user['count'] == 1){
+                if($user['resultado'][0]['crear_pass'] < 10){
+                    if($date_code <= 86400){
+                        if(strlen($code) == 32 && $code == $code_user){
+                            if($pass1 == $pass2){
+                                if(strlen($pass1) >= 8){
+                                    $this->con->sql("UPDATE usuarios SET pass='".md5($pass1)."', code='' WHERE id_user='".$id."'");
+                                    $info['op'] = 1;
+                                    $info['user'] = $user['resultado'][0]['correo'];
+                                }else{
+                                    $info['op'] = 2;
+                                    $info['msg'] = "La contrase&ntilde;a debe tener al menos 8 caracteres";
+                                }
+                            }else{
+                                $info['op'] = 2;
+                                $info['msg'] = "La contrase&ntilde;a son diferentes";
+                            }
                         }else{
                             $info['op'] = 2;
-                            $info['msg'] = "La contrase&ntilde;a debe tener al menos 8 caracteres";
+                            $info['msg'] = "Error: ";
+                            $crear_pass = $user['resultado'][0]['crear_pass'] + 1;
+                            $this->con->sql("UPDATE usuarios SET crear_pass='".$crear_pass."', date_crear_pass='".date("Y-m-d H:i:s")."' WHERE id_user='".$id."'");
                         }
                     }else{
                         $info['op'] = 2;
-                        $info['msg'] = "La contrase&ntilde;a son diferentes";
+                        $info['msg'] = "El correo tiene una duracion de 24 horas";
                     }
                 }else{
                     $info['op'] = 2;
-                    $info['msg'] = "Error: ";
+                    $info['msg'] = "Demaciados intentos, su cuenta ha sido bloqueada";
                 }
-
-            }else{
-
-                $info['op'] = 2;
-                $info['msg'] = "El correo tiene una duracion de 24 horas";
-
             }
         }
 
@@ -267,7 +276,7 @@ class Login {
         $url[2] = "http://www.pulsachile.com/phpmailer/tsm.php";
         $url[3] = "http://www.mikasushi.cl/jbmks/tsm.php";
         $url[4] = "http://www.carinspect.cl/carinspect.cl/tsm.php";
-        //$url[5] = "http://www.rnx.cl/jbmks/tsm.php";
+        //$url[5] = "http://www.rnx.cl/phpmailer/tsm.php";
         //$url[6] = "http://www.rescuefire.cl/class/phpmailer/tsm.php";
         
         if($i < count($url)){
