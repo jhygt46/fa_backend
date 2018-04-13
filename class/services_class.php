@@ -407,7 +407,7 @@ class Services extends Core{
                             $info['message'] = "Usuario bloqueado";
                         }else{
                             $info['op'] = 2;
-                            $info['message'] = "Password inv&aacute;lido";
+                            $info['message'] = "Password inválida";
                         }
                     }
                 }

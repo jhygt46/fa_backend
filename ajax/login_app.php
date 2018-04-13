@@ -4,8 +4,6 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 header('Content-type: text/json');
 header('Content-type: application/json');
 
-
-
 $path = $_SERVER['DOCUMENT_ROOT'];
 if($_SERVER['HTTP_HOST'] == "localhost"){
     $path .= "/";
@@ -16,8 +14,8 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
     $path_n = $path."admin/";
 }
 
-require_once($path_class."services_class.php");
-$svc = new Services();
-$data = $svc->login_app();
+require_once($path_class."login_class.php");
+$login = new Login();
+$data = $ingreso->login_app();
 echo json_encode($data);
 

@@ -1,106 +1,81 @@
 <?php
-session_start();
 date_default_timezone_set('America/Santiago');
 require_once($path_class."mysql_class.php");
 
-class Ingreso {
+class Login {
     
     public $con = null;
     
     public function __construct(){
-        
         $this->con = new Conexion();
-
     }
-    public function login(){
-
-        $accion = $_POST["accion"];
+    public function login_app(){
         
-        if($accion == "admin"){
-            $tipo = $_POST["tipo"];
-            if($tipo == 1){
-                return $this->ingresar_user();
-            }
-            if($tipo == 2){
-                return $this->recuperar();
-            }
-        }
+        $json = json_decode(file_get_contents('php://input'), true);
+        $correo = $json["email"];
+        $pass = $json["pass"];
         
-        if($accion == "app"){
-            return $this->ingresar_user_app();
-        }
-        
-        if($accion == "recuperar_password"){
-            return $this->recuperar_password();
-        }
-        
-    }
-    private function randstring($n){
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        $code = substr(str_shuffle($chars), 0, $n);
-        return $code;
-    }
-    public function recuperar(){
-        
-        $correo = $_POST['user'];
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
-            
-            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
-            
-            if($user['count'] == 1){
-                
-                $id_user = $user["resultado"][0]["id_user"];
-                $correo = $user["resultado"][0]["correo"];
-                $nombre = $user["resultado"][0]["nombre"];
-                $code = $this->randstring(30);
-                
-                $this->con->sql("UPDATE usuarios SET code='".$code."', date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
-                if($this->send_correo($id_user, $code, $correo, $nombre)){
-                    
-                    $info["op"] = 1;
-                    $info["message"] = "Su correo ha sido enviado";
-                    
-                }else{
-                    
-                    $info["op"] = 2;
-                    $info["message"] = "No se pudo enviar el correo, intentelo mas tarde";
-                    
-                }
-                
-            }else{
-                
-                $info["op"] = 2;
-                $info["message"] = "Error:";
-                
+            $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
+            if($sql['count'] == 0){
+                // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
+                $info['op'] = 2;
+                $info['message'] = "Usuario no existe";
             }
-            
+            if($sql['count'] == 1){
+                $id_user = $sql['resultado'][0]['id_user'];
+                $bloqueado = $sql['resultado'][0]['bloqueado'];
+                if($bloqueado == 1){
+                    $fecha_block = $sql['resultado'][0]['fecha_bloqueado'];
+                    if(strtotime($fecha_block) + 86400 < time()){
+                        $info['op'] = 2;
+                        $info['message'] = "Usuario bloqueado";
+                    }else{
+                        $bloqueado = 0;
+                        $this->con->sql("UPDATE usuarios SET bloqueado='0', intentos='0' WHERE id_user='".$id_user."'");
+                    }
+                }
+                if($bloqueado == 0){
+                    if(md5($pass) == $sql['resultado'][0]['pass'] && strlen($pass) >= 8){
+                        $code = $this->randstring(32);
+                        $info['op'] = 1;
+                        $info['id_user'] = $sql['resultado'][0]['id_user'];
+                        $info['id_cia'] = $sql['resultado'][0]['id_cia'];
+                        $info['id_cue'] = $sql['resultado'][0]['id_cue'];
+                        $info['nombre'] = $sql['resultado'][0]['nombre'];
+                        $info['code'] = $code;
+                        $info['cant'] = $sql['resultado'][0]['cant'];
+                        $this->con->sql("UPDATE usuarios SET code_app='".$code."' WHERE id_user='".$id_user."'");
+                    }else{
+                        $intentos = $sql['resultado'][0]['intentos'] + 1;
+                        $this->con->sql("UPDATE usuarios SET intentos='".$intentos."' WHERE id_user='".$id_user."'");
+                        if($intentos >= 10){
+                            $this->con->sql("UPDATE usuarios SET bloqueado='1', fecha_bloqueado='".date('Y-m-d H:i:s')."' WHERE id_user='".$id_user."'");
+                            $info['op'] = 2;
+                            $info['message'] = "Usuario bloqueado";
+                        }else{
+                            $info['op'] = 2;
+                            $info['message'] = "Password inválida";
+                        }
+                    }
+                }
+            }
         }else{
-            
-            $info["op"] = 2;
-            $info["message"] = "Error:";
-            
+            $info['op'] = 2;
+            $info['message'] = "Correo inválido";
         }
         return $info;
         
     }
-    public function ingresar_user_app(){
-        /*
-        $postdata = file_get_contents("php://input");
-        $tipo = $postdata->tipo;
-        $tipo = "noapp";
-        */
-    }
-    public function ingresar_user(){
+    public function login_back(){
         
         if(filter_var($_POST['user'], FILTER_VALIDATE_EMAIL)){
-            
             
             $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$_POST['user']."' AND eliminado='0'");
             if($user['count'] == 0){
                 // CORREO NO SE ENCUENTERA EN LA BASE DE DATOS
                 $info['op'] = 2;
                 $info['message'] = "Error: Usuario no existe";
-                
             }
             if($user['count'] == 1){
                 
@@ -157,13 +132,49 @@ class Ingreso {
         
         }else{
             $info['op'] = 2;
-            $info['message'] = "Error:";
+            $info['message'] = "Error: Correo invalido";
         }
         
-        return $info;    
-            
+        return $info;  
+        
     }
-    private function session($user){
+    public function enviar_clave(){
+        
+        $correo = $_POST['user'];
+        if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
+            
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."' AND eliminado='0'");
+            
+            if($user['count'] == 1){
+                
+                $id_user = $user["resultado"][0]["id_user"];
+                $correo = $user["resultado"][0]["correo"];
+                $nombre = $user["resultado"][0]["nombre"];
+                $code = $this->randstring(32);
+                $this->con->sql("UPDATE usuarios SET code='".$code."', date_code='".date("Y-m-d H:i:s")."' WHERE id_user='".$id_user."'");
+                
+                if($this->send_correo($id_user, $code, $correo, $nombre, 0)){
+                    $info["op"] = 1;
+                    $info["message"] = "Su correo ha sido enviado";
+                }else{
+                    $info["op"] = 2;
+                    $info["message"] = "No se pudo enviar el correo, intentelo mas tarde";
+                }
+                
+            }else{
+                $info["op"] = 2;
+                $info["message"] = "Error:";
+            }
+            
+        }else{
+            $info["op"] = 2;
+            $info["message"] = "Error:";
+        }
+        
+        return $info;
+        
+    }
+    public function session($user){
         
         $aux['info']['id_user'] = $user['id_user'];
         $aux['info']['nombre'] = $user['nombre'];
@@ -195,7 +206,7 @@ class Ingreso {
         return $aux;
         
     }
-    public function recuperar_password(){
+    public function crear_password(){
         
         $id = $_POST['id'];
         $code = $_POST['code'];
@@ -237,49 +248,67 @@ class Ingreso {
         return $info;
         
     }
-    private function send_correo($id_user, $code, $correo, $nombre){
+    public function randstring($n){
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $code = substr(str_shuffle($chars), 0, $n);
+        return $code;
+    }
+    public function send_correo($id_user, $code, $correo, $nombre, $i){
         
-        $url[0] = "http://www.usinox.cl/jbmks/tsm.php";
+        $url[0] = "http://www.usinox.cl/phpmailer/tsm.php";
         $url[1] = "http://www.jardinvalleencantado.cl/jbmks/tsm.php";
-        $url[2] = "http://www.carinspect.cl/jbmks/tsm.php";
+        $url[2] = "http://www.pulsachile.com/phpmailer/tsm.php";
+        $url[3] = "http://www.mikasushi.cl/jbmks/tsm.php";
+        $url[4] = "http://www.carinspect.cl/carinspect.cl/tsm.php";
+        //$url[5] = "http://www.rnx.cl/jbmks/tsm.php";
+        //$url[6] = "http://www.rescuefire.cl/class/phpmailer/tsm.php";
+        
+        if($i < count($url)){
+            
+            $rand = rand(0, count($url)-1);
+            $urls = $url[$rand];
 
-        $rand = rand(0, count($url)-1);
-        $urls = $url[$rand];
+            if(file_get_contents($urls."?accion=test") == 1){
 
-        $post['accion'] = "hJmdX6yI9sDmA";
+                $post['accion'] = "hJmdX6yI9sDmA";
+                // BODY //
+                $post['id'] = $id_user;
+                $post['code'] = $code;
+                $post['nombre'] = $nombre;
+                $post['url'] = "http://www.fireapp.cl";
+                $post['title'] = "Fireapp";
+                $post['title2'] = "Bomberos";
+                // FIN BODY //
+                $post['topic'] = "FireApp";
+                $post['from_name'] = "FireApp";
+                $post['from_mail'] = "fireappcl@gmail.com";
+                $post['correo'] = $correo;
 
-        // BODY //
-        $post['id'] = $id_user;
-        $post['code'] = $code;
-        $post['nombre'] = $nombre;
-        $post['url'] = "http://www.fireapp.cl";
-        $post['title'] = "Fireapp";
-        $post['title2'] = "Bomberos";
-        // FIN BODY //
+                $ch = curl_init($urls);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                $response = curl_exec($ch);
+                curl_close($ch);
 
-        $post['topic'] = "FireApp";
+                if($response == "OK"){
+                    return true;
+                }
+                if($response == "NO"){
+                    $x = $i + 1;
+                    return $this->send_correo($id_user, $code, $correo, $nombre, $x);
+                }
 
-        $post['from_name'] = "FireApp";
-        $post['from_mail'] = "fireappcl@gmail.com";
-        $post['correo'] = $correo;
-
-        $ch = curl_init($urls);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        if($response == "OK"){
-            return true;
-        }
-        if($response == "NO"){
+            }else{
+                $x = $i + 1;
+                return $this->send_correo($id_user, $code, $correo, $nombre, $x);
+            }
+            
+        }else{
             return false;
         }
-        
-    } 
-    
-
+    }
     
 }
 
 ?>
+

@@ -8,12 +8,11 @@ $(document).ready(function(){
         var pass2 = $('#pass2').val();
         
         $.ajax({
-            url: "http://www.fireapp.cl/admin/ajax/ingreso.php",
+            url: "http://www.fireapp.cl/admin/ajax/login_back.php",
             type: "POST",
-            data: "accion=recuperar_password&id="+id+"&code="+code+"&pass1="+pass1+"&pass2="+pass2,
+            data: "accion=resetpass&id="+id+"&code="+code+"&pass1="+pass1+"&pass2="+pass2,
             success: function(data){
                 
-                console.log(data);
                 if(data.op == 1){
                     
                     $('.msg').html("Se ha creado su Contrase&ntilde;a con Exito");
@@ -27,7 +26,6 @@ $(document).ready(function(){
                 if(data.op == 2){
                     $('.msg').html(data.msg);
                 }
-                
 
             },
             error: function(e){
@@ -36,6 +34,5 @@ $(document).ready(function(){
         });
 
     });
-    
 
 });

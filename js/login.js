@@ -5,28 +5,26 @@ $(document).ready(function(){
         var user = $('#user').val();
         var pass = $('#pass').val();
         var tipo = $('#accion').val();
+        var accion = '';
+        
+        if(tipo == 1){ accion = 'login'; }
+        if(tipo == 2){ accion = 'recuperar'; }
         
         $.ajax({
-            url: "ajax/ingreso.php",
+            url: "ajax/login_back.php",
             type: "POST",
-            data: "accion=admin&tipo="+tipo+"&user="+user+"&pass="+pass,
+            data: "accion="+accion+"&user="+user+"&pass="+pass,
             success: function(data){
                 
-                console.log(data); // ELIMINAR
                 if(data.op == 1){
-                    
                     bien(data.message);
                     setTimeout(function () {
                         $(location).attr('href',"");
                     }, 2000);
-
                 }
                 if(data.op == 2){
-                    
                     mal(data.message);
-                    
                 }
-
             },
             error: function(e){
                 console.log(e);

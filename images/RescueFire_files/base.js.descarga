@@ -1,0 +1,855 @@
+$(document).ready(function(){
+    
+    processcarro();
+    
+    $('.closecarro').click(function(){
+        $('.carro').fadeOut();
+        setTimeout(function(){
+            anterior();
+        }, 1000);
+    });
+    
+    $('.closeinfo').click(function(){
+        $('.infopagina').fadeOut();
+    });
+    
+    $('.closepro').click(function(){
+        
+        $('.detalle_producto').fadeOut();
+        
+        var info = urlcat();
+        history.pushState(null, info['title'], info['url']);
+
+        setTimeout(function(){
+            $('.fotopro').css({left: "0px"});
+            $('.fpro').find('.left').hide();
+            $('.fpro').find('.right').show();
+        }, 1000);
+        
+    });
+    
+    $('#buscar').keyup(function(){
+        
+        $('.home').hide();
+        var search = $(this).val().toLowerCase();
+        var html = "";
+        var nombre = "";
+        var j = 0
+        for (var key in prods){
+            if (prods.hasOwnProperty(key)){
+                
+                nombre = prods[key].nombre.toLowerCase();
+                if(nombre.search(search) != -1){
+                    html += htmlProduct(key, prods[key]);
+                    j++;
+                }
+
+            }
+        }
+        var s = '';
+        if(j > 1){ s='s'; }
+        var html2 = "<div class='busres'>Resultados: "+$(this).val()+"</div><div class='busres2'>"+j+" producto"+s+"</div>"+html;
+        
+        $('.prolist').html(html2);
+        
+    });
+    
+    
+    var esconder = 0;
+    $('.botones li').mouseenter(function(){
+        
+        if($(this).hasClass('mas')){
+            var botton = $(this).attr('id');
+            showdata(botton, $(this));
+            show();
+            esconder = 1;
+            $(this).find('span').show();
+        }else{
+            hide();
+        }
+        
+    });
+    $('.botones').mouseleave(function(){
+        esconder = 0;
+        setTimeout(function(){
+            if(esconder == 0){ 
+                hide(); 
+            }
+        }, 100);
+    });
+    $('.submenu2').mouseenter(function(){
+        esconder = 1;
+    });
+    $('.submenu2').mouseleave(function(){
+        esconder = 0;
+        setTimeout(function(){
+            if(esconder == 0){ 
+                hide(); 
+            }
+        }, 100);
+    });
+    
+    $('.politica_compras').click(function(){
+        
+        $('.politicacompras').show();
+        
+    });
+    $('.politica_devolucion').click(function(){
+        
+        $('.politicadevolucion').show();
+        
+    });
+    $('.como_comprar').click(function(){
+        
+        $('.comocomprar').show();
+        
+    });
+    
+    $('.slidenum li').click(function(){
+        
+        $('#stop').val(1);
+        var n = parseInt($(this).html()) - 1;
+        var left = -980 * n;
+        $('.homeslides .slide').animate({
+            left: left+"px"
+        }, 1000);
+        
+    });
+    
+    $('.logohome').click(function(){
+        
+        $('.home').show();
+        $('.izq').hide();
+        $('.der').hide();
+        history.pushState(null, 'RescueFire - inicio', path);
+        
+    });
+    
+    playslide(0);
+    
+});
+function playslide(n){
+    
+    n++;
+    var cant = $('.homeslides .slide').find('li').length;
+    var number = n % cant;
+    var left = -980 * number;
+    
+    setTimeout(function(){
+        
+        if($('#stop').val() == 0){
+            $('.homeslides .slide').animate({
+                left: left+"px"
+            }, 500);
+        
+            playslide(n);
+        }
+        
+    }, 5000);
+    
+}
+
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function secfiltro(that){
+    
+    var filtros = new Array();
+    var aux = new Array();
+    var op = "";
+    var id_reg = "";
+    var i = 0;
+    $(that).parents('.filtros').find('li').each(function(){
+        
+        id_reg = $(this).attr('rel');
+        $(this).find('.op').each(function(){
+            
+            op = $(this).children('input');
+            if(op.attr('checked')){
+                
+                filtros[i] = id_reg +"-"+ op.val();
+                i++;
+                
+            }
+            
+        });
+        
+    });
+
+    filtroproducto(filtros);
+    
+}
+function delcart(){
+    
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+    cart = null;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+}
+
+function selectopc(idpar, opc){
+    
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+    
+    var id = idpar.split("-")[0];
+    var oppar = idpar.split("-")[1];
+    if(oppar == 0){
+        oppar = "";
+    }
+    
+    for(var i=0; i<cart.length; i++){
+        
+        var cart_id = cart[i].id;
+        var cart_opc = cart[i].opcion;
+        
+        if(cart[i].id == id){
+            
+            if(cart_opc == oppar){
+                cart[i].opcion = opc;
+                break;
+            }
+ 
+        }
+        
+    }
+    
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    processcarro();
+    
+}
+
+function rmcartall(idpar){
+    
+    var id = idpar.split("-")[0];
+    var op = idpar.split("-")[1];
+    if(op == 0){
+        op = "";
+    }
+    
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+    
+    for(var i=0; i<cart.length; i++){
+        
+        if(cart[i].id == id){
+            if(cart[i].opcion == op){
+                cart[i].id = 0;
+            }
+        }
+        
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showcarro();
+}
+function rmcart(idpar){
+    
+    var id = idpar.split("-")[0];
+    var op = idpar.split("-")[1];
+    if(op == 0){
+        op = "";
+    }
+    
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+    
+    for(var i=0; i<cart.length; i++){
+        
+        if(cart[i].id == id){
+            if(cart[i].opcion == op){
+                cart[i].id = 0;
+                break;
+            }
+        }
+        
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showcarro();
+}
+
+function addcart(idpar){
+    
+    var id = idpar.split("-")[0];
+    var op = idpar.split("-")[1];
+    if(op == 0 || op == null){
+        op = "";
+    }
+    
+    var product = {id: id, nombre: prods[id].nombre, opciones: prods[id].opciones, cantidad: 1, opcion: op};
+    
+    if(product['opciones'] != ""){
+        product['opciones'] = JSON.parse(product['opciones']);
+    }
+    if(op != ""){
+        product['opcion'] = op;
+    }
+    
+    //if (localStorage && localStorage.getItem('cart')){
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+
+    if(cart == null){
+        
+        //initAutocomplete();
+        cart = new Array();
+        cart[0] = product;
+        
+    }else{
+        
+        var n = cart.length;
+        cart[n] = product;
+        
+    }
+    
+    //cart = null;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    showcarro();
+      
+}
+
+function showcarro(){
+    
+    processcarro();
+    $('.carro').show();
+    
+}
+
+function sortByKey(array, key){
+    return array.sort(function(a, b){
+        var x = a.id; var y = b.id;
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}
+
+function processcarro(){
+    
+    var aux = new Array();
+    var cart = JSON.parse(window.localStorage.getItem("cart"));
+    var total = 0;
+    
+    if(cart == null)
+        return false;
+    
+    cart = sortByKey(cart);
+    
+    for(var i=0; i<cart.length; i++){
+        
+        if(cart[i].id > 0){
+            
+            var auxopcion = "";
+            var id = 0;
+            
+            var nombre = cart[i].nombre;
+            var opciones = cart[i].opciones;
+            var opcion = cart[i].opcion;
+
+            if(opcion == null || opcion == ""){
+                id = ""+cart[i].id+"-0";
+            }else{
+                id = cart[i].id+"-"+opcion;
+            }
+            
+            if(aux[id] == null){
+                
+                aux[id] = new Array();
+                aux[id]['nombre'] = nombre;
+                aux[id]['opciones'] = opciones;
+                aux[id]['cantidad'] = 1;
+                
+            }else{
+                
+                aux[id]['cantidad'] = aux[id]['cantidad'] + 1;
+            }
+            total++;
+        }
+       
+    }
+    if(total > 0){
+        $('.carronum').html(total);
+    }
+    
+    
+    var html = "";
+    
+    for (var key in aux){
+        if (aux.hasOwnProperty(key)){
+            
+            var id = key;
+            var nombre = aux[key].nombre;
+            var opciones = aux[key].opciones;
+            var cantidad = aux[key].cantidad
+            var ids = '"'+id+'"';
+            
+            if(opciones == ""){
+                
+                html += "<ul class='cartpro sng clearfix'><li>"+nombre+"</li><li></li><li>"+cantidad+"</li><li class='clearfix'><div class='cartmas' onclick='addcart("+ids+")'></div><div class='cartmenos' onclick='rmcart("+ids+")'></div><div class='cartdel' onclick='rmcartall("+ids+")'></div></li></ul>";
+                
+            }else{
+                
+                var op = id.split("-")[1];
+                var opc = "";
+                var opcval = "";
+                var val = "";
+                for(var i=0; i<opciones.length; i++){
+                    
+                    val = opciones[i].split(",");
+                    if(op == val[0]){
+                        opc += "<div class='opc selected'>"+val[0]+"</div>";
+                    }else{
+                        var m = '"'+val[0]+'"';
+                        
+                        opc += "<div onclick='selectopc("+ids+", "+m+")' class='opc'>"+val[0]+"</div>";
+                    }
+
+                }
+                
+                html += "<ul class='cartpro sng clearfix'><li>"+nombre+"</li><li>"+opc+"</li><li>"+cantidad+"</li><li class='clearfix'><div class='cartmas' onclick='addcart("+ids+")'></div><div class='cartmenos' onclick='rmcart("+ids+")'></div><div class='cartdel' onclick='rmcartall("+ids+")'></div></li></ul>";
+
+            }
+
+        }
+    }
+    
+    $('.listcarro .paso1 .lp').html(html);
+
+
+}
+
+
+
+function siguiente(){
+    
+    var cart_page = $('#cart_page').val();
+    if(cart_page == 0){
+        
+        initAutocomplete();
+        var aux = parseInt(cart_page) + 1;
+
+        $('#cart_page').val(aux);
+        $(".paso2").animate({
+            left: "0px"
+        }, 1000, function() {
+            $('.siguiente').html("Finalizar");
+        });
+        $(".paso1").animate({
+            left: "-640px"
+        }, 1000, function() {
+          // Animation complete.
+        });
+        
+    }
+    if(cart_page == 1){
+        
+        var bool = true;
+        
+        var nombre = $("#nombre").val();
+        var email = $("#email").val();
+        var rut = $("#rut").val();
+        var telefono = $("#telefono").val();
+        var address = $("#address").val();
+        var envio = $("#envio").val();
+        
+        if(nombre == ""){
+            bool = false;
+            $("#nombre").css({border: "1px solid #f00"});
+        }else{
+            $("#nombre").css({border: "0px"});
+        }
+        if(email == ""){
+            bool = false;
+            $("#email").css({border: "1px solid #f00"});
+        }else{
+            $("#email").css({border: "0px"});
+        }
+        if(rut == ""){
+            bool = false;
+            $("#rut").css({border: "1px solid #f00"});
+        }else{
+            $("#rut").css({border: "0px"});
+        }
+        if(telefono == ""){
+            bool = false;
+            $("#telefono").css({border: "1px solid #f00"});
+        }else{
+            $("#telefono").css({border: "0px"});
+        }
+        if(address == ""){
+            bool = false;
+            $("#pac-input").css({border: "1px solid #f00"});
+        }else{
+            $("#pac-input").css({border: "0px"});
+        }
+        
+        if(bool){
+            
+            var aux = parseInt(cart_page) + 1;
+            $('#cart_page').val(aux);
+            
+            var cart = window.localStorage.getItem("cart");
+            var send = {accion: "Cotizacion", nombre: nombre, email: email, rut: rut, envio: envio, telefono: telefono, address: address, cart: cart};
+            
+            $.ajax({
+                url: path+"/admin/ajax/enviar_cotizacion.php",
+                type: "POST",
+                data: send,
+                success: function(data){
+
+                    cart = null;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                    
+                    $(".paso3").animate({
+                        left: "0px"
+                    }, 1000, function() {
+                      // Animation complete.
+                    });
+                    $(".paso2").animate({
+                        left: "-640px"
+                    }, 1000, function() {
+                      // Animation complete.
+                    });
+                    
+                }
+            });
+
+        }
+        
+    }
+
+    
+    
+}
+function anterior(){
+    
+    $('#cart_page').val(0);
+    $(".paso3").css({ left: "640px" });
+    $(".paso2").css({ left: "640px" });
+    $(".paso1").css({ left: "0px" });
+    $('.siguiente').html("Siguiente");
+    
+}
+
+
+function filtroproducto(f){
+    
+    var list = f;
+    
+    if(list.length == 0){
+        
+        $('.prolist').find('li').each(function(){
+            $(this).show();
+        });
+        
+    }else{
+    
+        $('.prolist').find('li').each(function(){
+
+            var mostrar = false;
+            var product = $(this);
+            var filtros = $(this).attr('filtros').split(' ');
+            filtros.pop();
+
+            for(var i=0; i<list.length; i++){
+
+                if(filtros.indexOf(list[i]) != -1){
+                    mostrar = true;
+                }
+
+            }
+            if(mostrar){
+                product.show();
+            }else{
+                product.hide();
+            }
+
+
+        });
+    
+    }
+    
+}
+
+function showproduct(id_cat){
+    
+    $('.home').hide();
+    $('.der').show();
+    $('.izq').show();
+    
+    var filtros = "";
+    $('#categoria_id').val(id_cat);
+    
+    if(typeof(cats[id_cat].filtros) != "undefined"){
+        for(var i=0; i<cats[id_cat].filtros.length; i++){
+
+            var id_reg = cats[id_cat].filtros[i]['id_reg'];
+            var nombre = cats[id_cat].filtros[i]['nombre'];
+            var opciones = cats[id_cat].filtros[i]['opciones'];
+            filtros += '<li rel="'+id_reg+'"><div class="clearfix filtrotitulo"><div class="ft">'+nombre+'</div><div class="fo"><img src="'+path+'/img/mas.jpg" alt=""></div></div><div class="filtroopciones">';
+            var op = "";
+            var val = 0;
+            
+            for(var j=0; j<opciones.length; j++){
+
+                op = opciones[j];
+                val = j+1;
+                filtros += '<div class="op"><input onclick="secfiltro(this)" type="checkbox" value="'+val+'">'+op+'</div>';
+
+            }
+
+            filtros += '</div></li>';
+
+        }
+    }
+    
+    
+    var html = "";
+
+    
+    for (var key in prods){
+        if (prods.hasOwnProperty(key)){
+            var catss = prods[key].categorias;
+            for(var j=0; j<catss.length; j++){
+                if(catss[j] == id_cat){
+                    html += htmlProduct(key, prods[key]);
+                }
+            }
+        }
+    }
+    
+    hide();
+    $('.filtros').html(filtros);
+    $('.prolist').html(html);
+    var info = urlcat();
+    history.pushState(null, info['title'], info['url']);
+    return false;
+}
+function htmlProduct(k, obj){
+    
+    var nombre = obj.nombre;
+    var filtros = obj.filtros;
+    if(obj.imagenes != null){
+        var img = path+"/admin/upload_images/thumb_"+obj.imagenes[0];
+    }else{
+        var img = path+"/img/no-disponible-160.jpg";
+    }
+    
+    var filtxt = "filtros='";
+    for(var key in filtros){
+        filtxt += key+"-"+filtros[key]+" ";
+    }
+    filtxt += "'";
+    var ids = '"'+k+'"';
+    
+    var html = "<li "+filtxt+"><div class='proimg' onclick='pro("+k+")'><img src='"+img+"' alt='' /></div><h1>"+nombre+"</h1><div class='acciones clearfix'><div class='cart' onclick='addcart("+ids+")'></div><div class='ver' onclick='pro("+k+")'></div></li>";
+    
+    return html;
+    
+}
+function showdata(v, that){
+    
+    var html = '<ul class="clearfix listsubmenu">';
+    
+    for (var key in cats){
+        if (cats.hasOwnProperty(key)){
+            var parent_id = cats[key].parent_id;
+            if(parent_id == v){
+                html += '<li id="'+key+'" onclick="showproduct('+key+')"><div class="subtitle">'+cats[key].nombre+'</div><div class="subimage"><img src="'+path+'/admin/upload_images/'+cats[key].foto+'" alt="" /></div></li>';
+            }
+        }
+    }
+    
+    html += '</ul>';
+    $('.submenuhtml').html(html);
+    that.parent().find('li').each(function(){
+        $(this).find('span').hide();
+    });
+    $(this).find('span').show();
+    
+}
+function pro(id){
+    
+    var cantidadfotos = 0;
+    var pro = prods[id];
+    
+
+    var id = id;
+    var codigo = pro.codigo;
+    var nombre = pro.nombre;
+    var descripcion = pro.descripcion;
+    var opciones = pro.opciones;
+    var imagenes = pro.imagenes;
+    var marca = pro.marca;
+    
+    $('.info h1').html(nombre);
+    $('.info h2').html(descripcion);
+    $('.info h3').html(marca);
+    var mprocart = "<div class='mprocarts' onclick='addcart(\""+id+"\")'></div><div class='mprocarti'>Agregar al Carro</div>";
+    $('.info .mprocart').html(mprocart);
+    
+    
+    
+    if(imagenes == null){
+        cantidadfotos = 1;
+        $('.fotopro').html("<li><img src='"+path+"/img/no-disponible-420.jpg' alt='' /></li>");
+    }else{
+        cantidadfotos = imagenes.length;
+        $('.fotopro').html("");
+        for(var i=0; i<imagenes.length; i++){
+            $('.fotopro').append("<li><img src='"+path+"/admin/upload_images/thumb2_"+imagenes[i]+"' alt='' /></li>");
+        }
+    }
+
+    var widthfoto = cantidadfotos * 420;
+
+    $('.fotopro').width(widthfoto);
+    $('.detalle_producto').show();
+    
+    var title = "Producto "+prods[id].nombre;
+    var categoria_id = $('#categoria_id').val();
+    var categoria = cats[categoria_id].nombre.replace(/\s+/g, '-');
+    var nombre = prods[id].nombre.replace(/\s+/g, '-');
+    var url = path+"/"+categoria+"/"+nombre+"/";
+    
+    history.pushState(null, title, url);
+    
+}
+function otrafoto(lado, that){
+    
+    var first = false;
+    var last = false;
+    var fpro = $(that).parents('.fpro');
+    var fotopro = fpro.find('.fotopro');
+    var left = fotopro.position().left;
+    var le = 0;
+    var wpro = fotopro.width() - 420;
+
+    if(lado == 1){
+        var l = "-=420px";
+        le = left - 420;
+    }
+    if(lado == -1){
+        var l = "+=420px";
+        le = left + 420;
+    }
+    
+    if(le == -wpro){
+        fpro.find('.right').hide();
+    }else{
+        fpro.find('.right').show();
+    }
+    
+    if(le >= 0){
+        fpro.find('.left').hide();
+    }else{
+        fpro.find('.left').show();
+    }
+    
+    fotopro.animate({
+        left: l
+    }, 1000, function() {
+        // Animation complete.
+    });
+    
+    
+    
+}
+
+function show(){
+    
+    $('.submenu').show();
+    $('.submenu2').slideDown(300);
+    
+}
+
+function hide(){
+    
+    $('.submenu2').slideUp(300);
+    setTimeout(function(){ $('.submenu').hide(); }, 300);
+    $('.botones').find('li').each(function(){
+        $(this).find('span').hide();
+    });
+}
+
+function urlcat(){
+    
+    var id_cat = $("#categoria_id").val();
+    var cat_name = cats[id_cat].nombre.replace(/\s+/g, '-');
+    var url = path+"/"+cat_name+"/";
+    var title = "Categoria "+cats[id_cat].nombre;
+    var aux = new Array();
+    aux['title'] = title;
+    aux['url'] = url;
+    return aux;
+    
+}
+
+
+
+function initAutocomplete(){
+    
+    
+    var map = new google.maps.Map(document.getElementById("map"), {
+      center: {lat: -33.4559057, lng: -70.6441284},
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById("pac-input");
+    var searchBox = new google.maps.places.SearchBox(input);
+    
+    map.addListener('bounds_changed', function(){
+        searchBox.setBounds(map.getBounds());
+    });
+    
+    var markers = [];
+    // [START region_getplaces]
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function(){
+        var places = searchBox.getPlaces();
+        
+        $("#address").val(places[0].formatted_address);
+        
+        if (places.length == 0) {
+            return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function(marker){
+            marker.setMap(null);
+        });
+        markers = [];
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place){
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            }else{
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
+  // [END region_getplaces]
+}
