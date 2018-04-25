@@ -27,6 +27,11 @@ class Services extends Core{
         if($accion == "getasistencia"){
             return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
         }
+        if($accion == "setasistencia"){
+            return $this->setasistencia($json['id_act'], $json['id_user'], $json['id_asist']);
+        }
+        
+        
         
     }
     public function process(){
@@ -49,10 +54,6 @@ class Services extends Core{
         }
         // NODEJS ACTUALIZAR INFO //
         
-
-        if($_POST['accion'] == "setasistencia"){
-            return $this->setasistencia();
-        }
         if($_GET['accion'] == "getGrifos"){
             return $this->getgrifos($_GET['lat'], $_GET['lng']);
         }
@@ -609,11 +610,8 @@ class Services extends Core{
         return $aux2;
         
     }
-    private function setasistencia(){
+    private function setasistencia($id_act, $id_user, $asist){
         
-        $id_user = $_POST["id_user"];
-        $id_act = $_POST["id_act"];
-        $asist = $_POST["asist"];
         $aux = $this->con->sql("SELECT * FROM  actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
         
         if($aux['count'] == 0 && $asist == "true"){
