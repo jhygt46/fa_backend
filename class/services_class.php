@@ -613,6 +613,8 @@ class Services extends Core{
     private function setasistencia($id_act, $id_user, $asist){
         
         $aux = $this->con->sql("SELECT * FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+        $info['asist'] = $asist;
+        $info['count'] = $aux['count'];
         
         if($aux['count'] == 0 && $asist == 1){
             $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
