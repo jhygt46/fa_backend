@@ -28,7 +28,7 @@ class Services extends Core{
             return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
         }
         if($accion == "setasistencia"){
-            return $this->setasistencia($json['id_act'], $json['id_user'], $json['id_asist']);
+            return $this->setasistencia($json['id_act'], $json['id_user'], $json['asist']);
         }
         
         
@@ -613,10 +613,6 @@ class Services extends Core{
     private function setasistencia($id_act, $id_user, $asist){
         
         $aux = $this->con->sql("SELECT * FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
-        $info['in'] = 0;
-        $info['id_act'] = $id_act;
-        $info['id_user'] = $id_user;
-        $info['asist'] = $asist;
         
         if($aux['count'] == 0 && $asist == 1){
             $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
