@@ -20,9 +20,9 @@ class Login {
         if($accion == "recuperar"){
             return $this->enviar_clave($json["user"]);
         }
+        
     }
     public function login_app($correo, $pass){
-        
         
         if(filter_var($correo, FILTER_VALIDATE_EMAIL)){
             $sql = $this->con->sql("SELECT * FROM usuarios WHERE correo='".$correo."'");
