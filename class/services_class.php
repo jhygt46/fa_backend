@@ -615,11 +615,11 @@ class Services extends Core{
         $aux = $this->con->sql("SELECT * FROM  actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
         $info['in'] = 0;
         
-        if($aux['count'] == 0 && $asist == "true"){
+        if($aux['count'] == 0 && $asist == 1){
             $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
             $info['in'] = 1;
         }
-        if($aux['count'] == 1 && $asist == "false"){
+        if($aux['count'] == 1 && $asist == 2){
             $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
             $info['in'] = 2;
         }
