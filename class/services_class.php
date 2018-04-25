@@ -19,6 +19,16 @@ class Services extends Core{
         $this->con = new Conexion();
         
     }
+    public function app(){
+        
+        $json = json_decode(file_get_contents('php://input'), true);
+        $accion = $json["accion"];
+        
+        if($accion == "getasistencia"){
+            return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
+        }
+        
+    }
     public function process(){
         
         // NODEJS START INFO//
@@ -39,14 +49,7 @@ class Services extends Core{
         }
         // NODEJS ACTUALIZAR INFO //
         
-        
-        
-        
-        
-        
-        if($_POST['accion'] == "getasistencia"){
-            return $this->getasistencia();
-        }
+
         if($_POST['accion'] == "setasistencia"){
             return $this->setasistencia();
         }
@@ -585,11 +588,7 @@ class Services extends Core{
         return $return;
         
     }
-    private function getasistencia(){
-        
-        $id_cia = $_POST["id_cia"];
-        $id_cue = $_POST["id_cue"];
-        $id_act = $_POST["id_act"];
+    private function getasistencia($id_act, $id_cia, $id_cue){
 
         $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t2.id_act='".$id_act."' WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."'");
         
