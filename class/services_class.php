@@ -602,7 +602,7 @@ class Services extends Core{
                 $aux['checked'] = false;
             }
             $aux['disabled'] = false;
-            $aux2[] = $aux;
+            $aux2['voluntarios'][] = $aux;
             unset($aux);
             
         }
