@@ -19,6 +19,13 @@ class Services extends Core{
         $this->con = new Conexion();
         
     }
+    private function id_code($id_user, $code, $data){
+        $user = $this->con->sql("SELECT * FROM usuarios where id_user='".$id_user."'");
+        if($user['count'] == 1 && $user['resultado'][0]['code'] == $code){
+            return true;
+        }
+        return false;
+    }
     public function app(){
         
         $json = json_decode(file_get_contents('php://input'), true);
@@ -28,7 +35,9 @@ class Services extends Core{
             return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
         }
         if($accion == "setasistencia"){
-            return $this->setasistencia($json['id_act'], $json['id_user'], $json['asist']);
+            if(id_code($json['id_user'], $json['code'], $json['data'])){
+                return $this->setasistencia($json['id_act'], $json['id_vol'], $json['asist']);
+            }
         }
         
         
