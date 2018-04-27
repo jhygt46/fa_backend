@@ -35,7 +35,7 @@ class Services extends Core{
             return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
         }
         if($accion == "setasistencia"){
-            if(id_code($json['id_user'], $json['code'], $json['data'])){
+            if($this->id_code($json['id_user'], $json['code'], $json['data'])){
                 return $this->setasistencia($json['id_act'], $json['id_vol'], $json['asist']);
             }
         }
