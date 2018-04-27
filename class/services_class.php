@@ -21,7 +21,7 @@ class Services extends Core{
     }
     private function id_code($id_user, $code, $data){
         $user = $this->con->sql("SELECT * FROM usuarios where id_user='".$id_user."'");
-        if($user['count'] == 1 && $user['resultado'][0]['code'] == $code){
+        if($user['count'] == 1 && $user['resultado'][0]['code_app'] == $code){
             return true;
         }
         return false;
