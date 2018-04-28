@@ -39,7 +39,7 @@ class Services extends Core{
         $accion = $json["accion"];
         
         if($accion == "init"){
-            return $this->init($json['id_user'], $json['code']);
+            return $this->init($json['id_user'], $json['code'], $json['data']);
         }
         if($accion == "getasistencia"){
             return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
@@ -607,8 +607,9 @@ class Services extends Core{
         
     }
     
-    private function init($id_user, $code){
+    private function init($id_user, $code, $data){
         
+        $info['data'] = $data;
         $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
         if($code == $user['resultado'][0]['code_app']){
             $info['op'] = 1;
