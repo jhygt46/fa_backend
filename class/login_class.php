@@ -54,6 +54,7 @@ class Login {
                         $info['nombre'] = $sql['resultado'][0]['nombre'];
                         $info['code'] = $code;
                         $info['cant'] = $sql['resultado'][0]['cant'];
+                        $info['id_car'] = $sql['resultado'][0]['id_car'];
                         $this->con->sql("UPDATE usuarios SET code_app='".$code."' WHERE id_user='".$id_user."'");
                     }else{
                         $intentos = $sql['resultado'][0]['intentos'] + 1;
