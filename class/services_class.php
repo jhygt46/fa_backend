@@ -615,6 +615,7 @@ class Services extends Core{
         }else{
             $info['op'] = 2;
         }
+        return $info;
         
     }
     
