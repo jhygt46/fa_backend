@@ -1187,7 +1187,9 @@ class Core{
         return implode("", $code2);
  
     }
-    
+    public function user_cant_mas($id_user){
+        $this->con->sql("UPDATE usuarios SET cant = cant + 1 WHERE id_user='".$id_user."'");
+    }
     public function secure_code($code, $cant){
         
         

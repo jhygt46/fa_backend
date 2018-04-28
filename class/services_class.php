@@ -614,6 +614,7 @@ class Services extends Core{
             $data2 = $this->secure_code($code, $user['resultado'][0]['cant']);
             if($data == $data2){
                 $info['op'] = 1;
+                $this->user_cant_mas($id_user);
             }else{
                 $info['op'] = 2;
             }
