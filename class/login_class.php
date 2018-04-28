@@ -46,7 +46,7 @@ class Login {
                 }
                 if($bloqueado == 0){
                     if(md5($pass) == $sql['resultado'][0]['pass'] && strlen($pass) >= 8){
-                        $code = $this->randstring(32);
+                        $code = md5($this->randstring(32));
                         $info['op'] = 1;
                         $info['id_user'] = $sql['resultado'][0]['id_user'];
                         $info['id_cia'] = $sql['resultado'][0]['id_cia'];

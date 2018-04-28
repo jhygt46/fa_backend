@@ -1161,6 +1161,33 @@ class Core{
         return $code;
     }
     
+    public function secure_code2($code, $cant){
+        
+        for($i=0; $i<strlen($code); $i++){
+            $caracter = $code{$i};
+            if(is_numeric($caracter)){
+                $num = $caracter;
+            }else{
+                if($caracter == "a"){
+                    $num = 10;
+                }elseif($caracter == "b") {
+                    $num = 11;
+                }elseif($caracter == "c") {
+                    $num = 12;
+                }elseif($caracter == "d") {
+                    $num = 13;
+                }elseif($caracter == "e") {
+                    $num = 14;
+                }elseif($caracter == "f") {
+                    $num = 15;
+                }
+            }
+            $code2[] = $this->get_code($num, $cant, $i);
+        }
+        return implode("", $code2);
+ 
+    }
+    
     public function secure_code($id_user, $code){
         
         $user = $this->con->sql("SELECT * FROM usuario WHERE id_user='".$id_user."' AND code='".$code."'");

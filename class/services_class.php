@@ -7,6 +7,7 @@ require_once $path_class."core.php";
 
 class Services extends Core{
     
+    public $secure = true;
     public $con = null;
     public $id_cia = null;
     public $id_cue = null;
@@ -20,11 +21,17 @@ class Services extends Core{
         
     }
     private function id_code($id_user, $code, $data){
+        
         $user = $this->con->sql("SELECT * FROM usuarios where id_user='".$id_user."'");
         if($user['count'] == 1 && $user['resultado'][0]['code_app'] == $code){
-            return true;
+            if($this->secure && $data == $this->secure_code2($code, $user['resultado'][0]['cant'])){
+                return true;
+            }else{
+                return false;
+            }
         }
         return false;
+        
     }
     public function app(){
         
