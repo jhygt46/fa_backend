@@ -608,11 +608,15 @@ class Services extends Core{
     }
     
     private function init($id_user, $code, $data){
-        
-        $info['data'] = $data;
+                
         $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
         if($code == $user['resultado'][0]['code_app']){
-            $info['op'] = 1;
+            $data2 = $this->secure_code($code, $user['resultado'][0]['cant']);
+            if($data == $data2){
+                $info['op'] = 1;
+            }else{
+                $info['op'] = 2;
+            }
         }else{
             $info['op'] = 2;
         }

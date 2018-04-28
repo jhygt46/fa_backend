@@ -1188,10 +1188,8 @@ class Core{
  
     }
     
-    public function secure_code($id_user, $code){
+    public function secure_code($code, $cant){
         
-        $user = $this->con->sql("SELECT * FROM usuario WHERE id_user='".$id_user."' AND code='".$code."'");
-        $cant = $user['resultado'][0]['cant'];
         
         for($i=0; $i<strlen($code); $i++){
             $caracter = $code{$i};
