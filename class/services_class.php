@@ -611,13 +611,12 @@ class Services extends Core{
                 
         $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
         if($code == $user['resultado'][0]['code_app']){
-            $data2 = $this->secure_code($code, $user['resultado'][0]['cant']);
-            if($data == $data2){
+                
+                $rand = rand(100, 999);
                 $info['op'] = 1;
-                $this->user_cant_mas($id_user);
-            }else{
-                $info['op'] = 2;
-            }
+                $info['adf'] = rand(100, 999).$rand.rand(100, 999);
+                $this->con->sql("UPDATE usuarios SET cant='".$rand."' WHERE id_user='".$id_user."'");
+
         }else{
             $info['op'] = 2;
         }
