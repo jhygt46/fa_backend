@@ -20,19 +20,7 @@ class Services extends Core{
         $this->con = new Conexion();
         
     }
-    private function id_code($id_user, $code, $data){
-        
-        $user = $this->con->sql("SELECT * FROM usuarios where id_user='".$id_user."'");
-        if($user['count'] == 1 && $user['resultado'][0]['code_app'] == $code){
-            if($this->secure && $data == $this->secure_code2($code, $user['resultado'][0]['cant'])){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        return false;
-        
-    }
+
     public function app(){
         
         $json = json_decode(file_get_contents('php://input'), true);
@@ -45,9 +33,7 @@ class Services extends Core{
             return $this->getasistencia($json['id_user'], $json['code']);
         }
         if($accion == "setasistencia"){
-            if($this->id_code($json['id_user'], $json['code'], $json['data'])){
-                return $this->setasistencia($json['id_act'], $json['id_vol'], $json['asist']);
-            }
+            return $this->setasistencia($json['id_user'], $json['code'], $json['id_act'], $json['id_vol'], $json['asist']);
         }
         if($accion == "perfil_ext1"){
             return $this->perfil_ext($json['id_user'], $json['code'], $json['id'], 1);
@@ -699,18 +685,19 @@ class Services extends Core{
         }
         
     }
-    private function setasistencia($id_act, $id_user, $asist){
+    private function setasistencia($id_user, $code, $id_act, $id_vol, $asist){
         
-        $aux = $this->con->sql("SELECT * FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
-        
-        if($aux['count'] == 0 && $asist == 1){
-            $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_user."')");
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            
+            if($asist == 1){
+                $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_vol."')");
+            }
+            if($asist == 2){
+                $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_vol."'");
+            }
+            
         }
-        if($aux['count'] == 1 && $asist == 2){
-            $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
-        }
-        
-        return $info;
         
     }
     private function setlibro(){
