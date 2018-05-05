@@ -679,7 +679,7 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
-            $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t3.id_act FROM (usuarios t1, usuarios_cias t2) LEFT JOIN actos_user t3 ON t1.id_user=t3.id_user WHERE t1.id_user=t2.id_user AND t2.id_cia='".$in['user']['id_cia']."' AND t2.fecha_ini < now() AND (t2.fecha_fin > now() OR t2.fecha_fin='0000-00-00 00:00:00')");
+            $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t3.id_act FROM (usuarios t1, usuarios_cias t2) LEFT JOIN actos_user t3 ON t1.id_user=t3.id_user WHERE t1.id_user=t2.id_user AND t2.id_cia='".$in["user"]["id_cia"]."' AND t2.fecha_ini < now() AND (t2.fecha_fin > now() OR t2.fecha_fin='0000-00-00 00:00:00')");
             for($i=0; $i<$users['count']; $i++){
 
                 $aux['id'] = $users['resultado'][$i]['id_user'];
