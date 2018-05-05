@@ -697,7 +697,7 @@ class Services extends Core{
             
         }
         
-        return $aux2;
+        return $in;
         
     }
     private function setasistencia($id_act, $id_user, $asist){
