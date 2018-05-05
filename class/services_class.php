@@ -638,6 +638,7 @@ class Services extends Core{
                 $info['cargo'] = "Capitan";
                 $info['cia'] = "DecimoTercer";
                 $info['antiguedad'] = "3 años, 2 meses, 5 dias";
+                $info['edad'] = 33;
                 $info['cuerpo'] = "Cuerpo de Bomberos de Santiago";
                 $info['op'] = 1;
             }
