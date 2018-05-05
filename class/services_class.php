@@ -684,7 +684,7 @@ class Services extends Core{
 
                 $aux['id'] = $users['resultado'][$i]['id_user'];
                 $aux['nombre'] = $users['resultado'][$i]['nombre'];
-                if($users['resultado'][$i]['id_act'] == $id_act){
+                if($users['resultado'][$i]['id_act'] == 1){
                     $aux['checked'] = true;
                 }else{
                     $aux['checked'] = false;
