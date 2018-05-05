@@ -694,10 +694,9 @@ class Services extends Core{
                 unset($aux);
 
             }
-            return $users;
             
         }
-        
+        return $in;
         
         
     }
