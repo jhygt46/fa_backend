@@ -645,6 +645,7 @@ class Services extends Core{
                 $info['enfermedades'] = Array('SIDA', 'Amigdalitis', 'Gota');
             }
         }
+        $info['prueba'] = "BUENA NELSON";
         return $info;
         
     }
