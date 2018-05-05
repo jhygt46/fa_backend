@@ -49,6 +49,12 @@ class Services extends Core{
                 return $this->setasistencia($json['id_act'], $json['id_vol'], $json['asist']);
             }
         }
+        if($accion == "perfil_ext1"){
+            return $this->perfil_ext($json['id_user'], $json['code'], $json['id'], 1);
+        }
+        if($accion == "perfil_ext2"){
+            return $this->perfil_ext($json['id_user'], $json['code'], $json['id'], 2);
+        }
         
     }
     public function process(){
@@ -606,17 +612,52 @@ class Services extends Core{
         return $return;
         
     }
+    private function  verificar_code($id, $code, $return){
+        
+        $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+        if($code == $user['resultado'][0]['code_app']){
+                $return['op'] = 1;
+                if($return){ 
+                    $return['user'] = $user['resultado'][0];
+                }
+        }else{
+            $return['op'] = 2;
+        }
+        return $return;
+        
+    }
+    
+    private function perfil_ext($id_user, $code, $id, $tipo){
+        
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            if($tipo == 1){
+                $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+                $info['telefono'] = "+56966166923";
+                $info['cargo'] = "Capitan";
+                $info['cia'] = "DecimoTercer";
+                $info['cuerpo'] = "Cuerpo de Bomberos de Santiago";
+            }
+            if($tipo == 2){
+                $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
+                $info['tipo_de_sangre'] = "RH Positivo";
+                $info['alergias'] = Array('Polen', 'Lactosa', 'Anestesia');
+                $info['enfermedades'] = Array('SIDA', 'Amigdalitis', 'Gota');
+            }
+        }
+        return $info;
+        
+    }
+    
     
     private function init($id_user, $code, $data){
                 
         $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
         if($code == $user['resultado'][0]['code_app']){
-                
                 $rand = rand(100, 999);
                 $info['op'] = 1;
-                $info['adf'] = rand(100, 999).$rand.rand(100, 999);
+                $info['time'] = rand(100, 999).$rand.rand(100, 999);
                 $this->con->sql("UPDATE usuarios SET cant='".$rand."' WHERE id_user='".$id_user."'");
-
         }else{
             $info['op'] = 2;
         }
