@@ -637,12 +637,14 @@ class Services extends Core{
                 $info['cargo'] = "Capitan";
                 $info['cia'] = "DecimoTercer";
                 $info['cuerpo'] = "Cuerpo de Bomberos de Santiago";
+                $info['op'] = 1;
             }
             if($tipo == 2){
                 $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
                 $info['tipo_de_sangre'] = "RH Positivo";
                 $info['alergias'] = Array('Polen', 'Lactosa', 'Anestesia');
                 $info['enfermedades'] = Array('SIDA', 'Amigdalitis', 'Gota');
+                $info['op'] = 1;
             }
         }
         return $info;
