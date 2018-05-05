@@ -674,24 +674,29 @@ class Services extends Core{
         
     }
     
-    private function getasistencia($id_act, $id_cia, $id_cue){
+    private function getasistencia($id_user, $code){
 
-        $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t2.id_act FROM usuarios t1 LEFT JOIN actos_user t2 ON t1.id_user=t2.id_user AND t2.id_act='".$id_act."' WHERE t1.id_cia='".$id_cia."' AND t1.id_cue='".$id_cue."'");
-        
-        for($i=0; $i<$users['count']; $i++){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
             
-            $aux['id'] = $users['resultado'][$i]['id_user'];
-            $aux['nombre'] = $users['resultado'][$i]['nombre'];
-            if($users['resultado'][$i]['id_act'] == $id_act){
-                $aux['checked'] = true;
-            }else{
-                $aux['checked'] = false;
+            $users = $this->con->sql("SELECT t1.id_user, t1.nombre, t3.id_act FROM (usuarios t1, usuarios_cias t2) LEFT JOIN actos_user t3 ON t1.id_user=t3.id_user WHERE t1.id_user=t2.id_user AND t2.id_cia='".$in['id_cia']."' AND t2.fecha_ini < now() AND (t2.fecha_fin > now() OR t2.fecha_fin='0000-00-00 00:00:00')");
+            for($i=0; $i<$users['count']; $i++){
+
+                $aux['id'] = $users['resultado'][$i]['id_user'];
+                $aux['nombre'] = $users['resultado'][$i]['nombre'];
+                if($users['resultado'][$i]['id_act'] == $id_act){
+                    $aux['checked'] = true;
+                }else{
+                    $aux['checked'] = false;
+                }
+                $aux['disabled'] = false;
+                $aux2['voluntarios'][] = $aux;
+                unset($aux);
+
             }
-            $aux['disabled'] = false;
-            $aux2['voluntarios'][] = $aux;
-            unset($aux);
             
         }
+        
         return $aux2;
         
     }
