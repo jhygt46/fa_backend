@@ -634,8 +634,10 @@ class Services extends Core{
             if($tipo == 1){
                 $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
                 $info['telefono'] = "+56966166923";
+                $info['email'] = "diegomez13@hotmail.com";
                 $info['cargo'] = "Capitan";
                 $info['cia'] = "DecimoTercer";
+                $info['antiguedad'] = "3 años, 2 meses, 5 dias";
                 $info['cuerpo'] = "Cuerpo de Bomberos de Santiago";
                 $info['op'] = 1;
             }
