@@ -612,12 +612,12 @@ class Services extends Core{
         return $return;
         
     }
-    private function  verificar_code($id, $code, $return){
+    private function  verificar_code($id, $code, $ret){
         
-        $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+        $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
         if($code == $user['resultado'][0]['code_app']){
                 $return['op'] = 1;
-                if($return){ 
+                if($ret){ 
                     $return['user'] = $user['resultado'][0];
                 }
         }else{
@@ -645,7 +645,6 @@ class Services extends Core{
                 $info['enfermedades'] = Array('SIDA', 'Amigdalitis', 'Gota');
             }
         }
-        $info['prueba'] = "BUENA NELSON";
         return $info;
         
     }
