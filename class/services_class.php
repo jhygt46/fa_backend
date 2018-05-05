@@ -694,10 +694,11 @@ class Services extends Core{
                 unset($aux);
 
             }
+            return $users;
             
         }
         
-        return $aux2;
+        
         
     }
     private function setasistencia($id_act, $id_user, $asist){
