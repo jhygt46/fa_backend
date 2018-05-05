@@ -644,8 +644,12 @@ class Services extends Core{
             if($tipo == 2){
                 $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id."'");
                 $info['tipo_de_sangre'] = "RH Positivo";
-                $info['alergias'] = Array('Polen', 'Lactosa', 'Anestesia');
-                $info['enfermedades'] = Array('SIDA', 'Amigdalitis', 'Gota');
+                $info['alergias'][0]['nombre'] = "Polen";
+                $info['alergias'][1]['nombre'] = "Lactosa";
+                $info['alergias'][2]['nombre'] = "anestecia";
+                $info['enfermedades'][0]['nombre'] = "SIDA";
+                $info['enfermedades'][1]['nombre'] = "Amigdalitis";
+                $info['enfermedades'][2]['nombre'] = "Gota";
                 $info['op'] = 1;
             }
         }
