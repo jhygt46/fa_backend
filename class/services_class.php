@@ -42,7 +42,7 @@ class Services extends Core{
             return $this->init($json['id_user'], $json['code'], $json['data']);
         }
         if($accion == "getasistencia"){
-            return $this->getasistencia($json['id_act'], $json['id_cia'], $json['id_cue']);
+            return $this->getasistencia($json['id_user'], $json['code']);
         }
         if($accion == "setasistencia"){
             if($this->id_code($json['id_user'], $json['code'], $json['data'])){
