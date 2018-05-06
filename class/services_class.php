@@ -691,7 +691,7 @@ class Services extends Core{
         if($in['op'] == 1){
             
             $info['op'] = 1;
-            $vol = $this->con->sql("SELECT t2.id_cia FROM usuarios t1, usuarios_cias t2 WHERE t1.id_user='".$id_vol."' AND t1.id_user=t2.id_user AND t2.fecha_ini > now() AND (fecha_fin > now() OR fecha_fin='0000-00-00 00:00:00')");
+            $vol = $this->con->sql("SELECT t2.id_cia FROM usuarios t1, usuarios_cias t2 WHERE t1.id_user='".$id_vol."' AND t1.id_user=t2.id_user AND t2.fecha_ini < now() AND (t2.fecha_fin > now() OR t2.fecha_fin='0000-00-00 00:00:00')");
             $info['vol'] = $vol;
             if($vol['count'] == 1){
                 if($vol['resultado'][0]['id_cia'] == $in['user']['id_cia']){
