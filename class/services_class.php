@@ -687,18 +687,28 @@ class Services extends Core{
     }
     private function setasistencia($id_user, $code, $id_act, $id_vol, $asist){
         
-        $in = $this->verificar_code($id_user, $code, false);
+        $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
-            if($asist == 1){
-                $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_vol."')");
-            }
-            if($asist == 2){
-                $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_vol."'");
+            $info['op'] = 1;
+            $vol = $this->con->sql("SELECT t2.id_cia FROM usuarios t1, usuarios_cias t2 WHERE t1.id_user='".$id_vol."' AND t1.id_user=t2.id_user AND t2.fecha_ini > now() AND (fecha_fin > now() OR fecha_fin='0000-00-00 00:00:00')");
+            if($vol['count'] == 1){
+                if($vol['resultado'][0]['id_cia'] == $in['user']['id_cia']){
+                    if($asist == 1){
+                        $this->con->sql("INSERT INTO actos_user (id_act, id_user) VALUES ('".$id_act."', '".$id_vol."')");
+                    }
+                    if($asist == 2){
+                        $this->con->sql("DELETE FROM actos_user WHERE id_act='".$id_act."' AND id_user='".$id_vol."'");
+                    }
+                }
             }
             
+        }else{
+            
+            $info['op'] = 2;
+            
         }
-        
+        return $info;
     }
     private function setlibro(){
         
