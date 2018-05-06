@@ -738,8 +738,16 @@ class Services extends Core{
         
         $in = $this->verificar_code($id_user, $code, false);
         if($in['op'] == 1){
-            $this->con->sql("INSERT INTO actos_libros (id_act, id_user, fecha_creado, text) VALUES ('".$id_act."', '".$id_user."', now(), '".$libro."')");
+            
             $info['op'] = 1;
+            $aux = $this->con->sql("SELECT * FROM actos_libros WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+            if($aux['count'] == 0){
+                $this->con->sql("INSERT INTO actos_libros (id_act, id_user, fecha_creado, text) VALUES ('".$id_act."', '".$id_user."', now(), '".$libro."')");
+            }
+            if($aux['count'] == 1){
+                $this->con->sql("UPDATE actos_libros SET text='".$libro."' WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+            }
+            
         }else{
             $info['op'] = 2;
         }
