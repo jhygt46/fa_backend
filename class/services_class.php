@@ -730,8 +730,14 @@ class Services extends Core{
             $info['informe'][0]['id'] = 1;
             $info['informe'][0]['nombre'] = 'Origen';
             $info['informe'][0]['tipo'] = 1;
-            $info['informe'][0]['placeholder'] = 'Ropa de Cama';
-            $info['informe'][0]['value'] = 'Ropa de Cama';
+            $info['informe'][0]['placeholder'] = 'Rescate Vehicular';
+            $info['informe'][0]['value'] = '';
+            
+            $info['informe'][1]['id'] = 2;
+            $info['informe'][1]['nombre'] = 'Causa';
+            $info['informe'][1]['tipo'] = 1;
+            $info['informe'][1]['placeholder'] = 'Colision Vehicular';
+            $info['informe'][1]['value'] = '';
         }else{
             $info['op'] = 2;
         }
