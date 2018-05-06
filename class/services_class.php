@@ -47,6 +47,9 @@ class Services extends Core{
         if($accion == "setlibro"){
             return $this->setlibro($json['id_user'], $json['code'], $json['id_act'], $json['libro']);
         }
+        if($accion == "getinforme"){
+            return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
+        }
         
     }
     public function process(){
@@ -715,6 +718,25 @@ class Services extends Core{
             $info['op'] = 2;
         }
         return $info;
+    }
+    
+    
+    
+    private function getinforme($id_user, $code, $id_act){
+        
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            $info['op'] = 1;
+            $info['informe'][0]['id'] = 1;
+            $info['informe'][0]['nombre'] = 'Origen';
+            $info['informe'][0]['tipo'] = 1;
+            $info['informe'][0]['placeholder'] = 'Ropa de Cama';
+            $info['informe'][0]['value'] = 'Ropa de Cama';
+        }else{
+            $info['op'] = 2;
+        }
+        return $info;
+        
     }
     
     private function getlibro($id_user, $code, $id_act){
