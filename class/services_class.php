@@ -50,6 +50,9 @@ class Services extends Core{
         if($accion == "getinforme"){
             return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
         }
+        if($accion == "setinforme"){
+            return $this->setinforme($json['id_user'], $json['code'], $json['id_act'], $json['id_com'], $json['text']);
+        }
         
     }
     public function process(){
@@ -720,24 +723,35 @@ class Services extends Core{
         return $info;
     }
     
-    
+    private function setinforme($id_user, $code, $id_act, $id_com, $text){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            
+        }
+        
+    }
     
     private function getinforme($id_user, $code, $id_act){
         
         $in = $this->verificar_code($id_user, $code, false);
         if($in['op'] == 1){
-            $info['op'] = 1;
-            $info['informe'][0]['id'] = 1;
-            $info['informe'][0]['nombre'] = 'Origen';
-            $info['informe'][0]['tipo'] = 1;
-            $info['informe'][0]['placeholder'] = 'Rescate Vehicular';
-            $info['informe'][0]['value'] = '';
             
-            $info['informe'][1]['id'] = 2;
-            $info['informe'][1]['nombre'] = 'Causa';
-            $info['informe'][1]['tipo'] = 1;
-            $info['informe'][1]['placeholder'] = 'Colision Vehicular';
-            $info['informe'][1]['value'] = '';
+            $info['op'] = 1;
+            $comp = $this->con->sql("SELECT t3.id_com, t3.nombre, t3.tipo FROM actos t1, informe_componentes_claves t2, informe_componentes t3 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.id_com=t3.id_com");
+            
+            for($i=0; $i<$comp['count']; $i++){
+                
+                $aux['id'] = $comp['resultado'][$i]['id_com'];
+                $aux['nombre'] = $comp['resultado'][$i]['nombre'];
+                $aux['tipo'] = $comp['resultado'][$i]['tipo'];
+                $aux['placeholder'] = 'e_placeholder';
+                $aux['value'] = 'e_value';
+                $info['informe'][] = $aux;
+                unset($aux);
+                
+            }
+            
         }else{
             $info['op'] = 2;
         }
