@@ -41,6 +41,12 @@ class Services extends Core{
         if($accion == "perfil_ext2"){
             return $this->perfil_ext($json['id_user'], $json['code'], $json['id'], 2);
         }
+        if($accion == "getlibro"){
+            return $this->getlibro($json['id_user'], $json['code'], $json['id_act']);
+        }
+        if($accion == "setlibro"){
+            return $this->setlibro($json['id_user'], $json['code'], $json['id_act'], $json['libro']);
+        }
         
     }
     public function process(){
@@ -710,13 +716,34 @@ class Services extends Core{
         }
         return $info;
     }
-    private function setlibro(){
+    
+    private function getlibro($id_user, $code, $id_act){
         
-        $id_user = $_POST["id_user"];
-        $id_act = $_POST["id_act"];
-        $text = $_POST["text"];
-
-        $this->con->sql("INSERT INTO actos_libros (id_act, id_user, text) VALUES ('".$id_act."', '".$id_user."', '".$text."')");
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            $aux = $this->con->sql("SELECT * FROM actos_libros WHERE id_act='".$id_act."' AND id_user='".$id_user."'");
+            if($aux['count'] == 1){
+                $info['op'] = 1;
+                $info['text'] = $aux['resultado'][0]['text'];
+            }else{
+                $info['op'] = 2;
+            }
+        }else{
+            $info['op'] = 2;
+        }
+        return $info;
+        
+    }
+    private function setlibro($id_user, $code, $id_act, $libro){
+        
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            $this->con->sql("INSERT INTO actos_libros (id_act, id_user, fecha_creado, text) VALUES ('".$id_act."', '".$id_user."', now(), '".$libro."')");
+            $info['op'] = 1;
+        }else{
+            $info['op'] = 2;
+        }
+        return $info;
         
     }
     
