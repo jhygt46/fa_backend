@@ -51,7 +51,7 @@ class Services extends Core{
             return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
         }
         if($accion == "setinforme"){
-            return $this->setinforme($json['id_user'], $json['code'], $json['id_act'], $json['id_com'], $json['text']);
+            return $this->setinforme($json);
         }
         
     }
@@ -723,11 +723,37 @@ class Services extends Core{
         return $info;
     }
     
-    private function setinforme($id_user, $code, $id_act, $id_com, $text){
+    private function setinforme($data){
+        
+        $id_user = $data['id_user'];
+        $code = $data['code'];
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
+            $id_cia = $in['user']['id_cia'];
+            $id_com = $data['id_com'];
+            $com = $this->con->sql("SELECT campo, tipo FROM informe_componentes WHERE id_com='".$id_com."'");
+            
+            if($com['count'] == 1){
+                
+                $id_act = $data['id_act'];
+                $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$in['user']['id_cia']."'");
+                
+                if($com['resultado'][0]['tipo'] == 1){
+                    
+                    $text = $data['text'];
+                    if($informe['count'] == 0){
+                        $this->con->sql("INSERT INTO informe (id_act, id_cia, ".$com['resultado'][0]['campo'].") VALUES ('".$id_act."', '".$id_cia."', '".$text."')");
+                    }
+                    if($informe['count'] == 1){
+                        $this->con->sql("UPDATE informe SET ".$com['resultado'][0]['campo']."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    }
+                    
+                }
+                
+            }
+
         }
         
     }
