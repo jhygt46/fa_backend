@@ -790,9 +790,21 @@ class Services extends Core{
                     $aux['autos'][0]['lesionados'][2]['rut'] = '';
                     $aux['autos'][0]['lesionados'][2]['nombre'] = '';
                     $aux['autos'][0]['lesionados'][2]['visible'] = 1;
-                    $aux['autos'][0]['lesionados'][2]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][2]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][2]['visible'] = 0;
+                    $aux['autos'][0]['lesionados'][3]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][3]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][3]['visible'] = 0;
+                    $aux['autos'][0]['lesionados'][4]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][4]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][4]['visible'] = 0;
+                    $aux['autos'][0]['lesionados'][5]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][5]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][5]['visible'] = 0;
+                    $aux['autos'][0]['lesionados'][6]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][6]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][6]['visible'] = 0;
+                    $aux['autos'][0]['lesionados'][7]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][7]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][7]['visible'] = 0;
                     
                     $aux['autos'][1]['patente'] = 'TR5671';
                     $aux['autos'][1]['marca'] = 'Ford';
