@@ -789,7 +789,7 @@ class Services extends Core{
                     $aux['autos'][0]['lesionados'][1]['visible'] = 1;
                     $aux['autos'][0]['lesionados'][2]['rut'] = '';
                     $aux['autos'][0]['lesionados'][2]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][2]['visible'] = 1;
+                    $aux['autos'][0]['lesionados'][2]['visible'] = 0;
                     $aux['autos'][0]['lesionados'][3]['rut'] = '';
                     $aux['autos'][0]['lesionados'][3]['nombre'] = '';
                     $aux['autos'][0]['lesionados'][3]['visible'] = 0;
