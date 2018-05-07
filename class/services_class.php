@@ -777,63 +777,46 @@ class Services extends Core{
                 }
                 if($aux['tipo'] == 2){
                     
-                    $aux['autos'][0]['patente'] = 'UH7871';
-                    $aux['autos'][0]['marca'] = 'Chevrolet';
-                    $aux['autos'][0]['modelo'] = 'Corsa';
-                    $aux['autos'][0]['visible'] = 1;
-                    $aux['autos'][0]['lesionados'][0]['rut'] = '159357740';
-                    $aux['autos'][0]['lesionados'][0]['nombre'] = 'Diego Gomez';
-                    $aux['autos'][0]['lesionados'][0]['visible'] = 1;
-                    $aux['autos'][0]['lesionados'][1]['rut'] = '48576222';
-                    $aux['autos'][0]['lesionados'][1]['nombre'] = 'Hector Gomez';
-                    $aux['autos'][0]['lesionados'][1]['visible'] = 1;
-                    $aux['autos'][0]['lesionados'][2]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][2]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][2]['visible'] = 0;
-                    $aux['autos'][0]['lesionados'][3]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][3]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][3]['visible'] = 0;
-                    $aux['autos'][0]['lesionados'][4]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][4]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][4]['visible'] = 0;
-                    $aux['autos'][0]['lesionados'][5]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][5]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][5]['visible'] = 0;
-                    $aux['autos'][0]['lesionados'][6]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][6]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][6]['visible'] = 0;
-                    $aux['autos'][0]['lesionados'][7]['rut'] = '';
-                    $aux['autos'][0]['lesionados'][7]['nombre'] = '';
-                    $aux['autos'][0]['lesionados'][7]['visible'] = 0;
-                    
-                    $aux['autos'][1]['patente'] = 'TR5671';
-                    $aux['autos'][1]['marca'] = 'Ford';
-                    $aux['autos'][1]['modelo'] = 'Camaro';
-                    $aux['autos'][1]['visible'] = 1;
-                    $aux['autos'][1]['lesionados'][0]['rut'] = '159357740';
-                    $aux['autos'][1]['lesionados'][0]['nombre'] = 'Diego Perez';
-                    $aux['autos'][1]['lesionados'][0]['visible'] = 1;
-                    $aux['autos'][1]['lesionados'][1]['rut'] = '48576222';
-                    $aux['autos'][1]['lesionados'][1]['nombre'] = 'Hector Perez';
-                    $aux['autos'][1]['lesionados'][1]['visible'] = 1;
-                    $aux['autos'][1]['lesionados'][2]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][2]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][2]['visible'] = 1;
-                    $aux['autos'][1]['lesionados'][3]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][3]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][3]['visible'] = 0;
-                    $aux['autos'][1]['lesionados'][4]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][4]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][4]['visible'] = 0;
-                    $aux['autos'][1]['lesionados'][5]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][5]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][5]['visible'] = 0;
-                    $aux['autos'][1]['lesionados'][6]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][6]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][6]['visible'] = 0;
-                    $aux['autos'][1]['lesionados'][7]['rut'] = '';
-                    $aux['autos'][1]['lesionados'][7]['nombre'] = '';
-                    $aux['autos'][1]['lesionados'][7]['visible'] = 0;
+                    for($i=0; $i<8; $i++){
+
+                        $aux['autos'][$i]['patente'] = 'UH7871';
+                        $aux['autos'][$i]['marca'] = 'Chevrolet';
+                        $aux['autos'][0]['modelo'] = 'Corsa';
+                        $aux['autos'][0]['visible'] = 1;
+
+                        $aux['autos'][$i]['lesionados'][0]['rut'] = '159357740';
+                        $aux['autos'][$i]['lesionados'][0]['nombre'] = 'Diego Gomez';
+                        $aux['autos'][$i]['lesionados'][0]['visible'] = 1;
+
+                        $aux['autos'][$i]['lesionados'][1]['rut'] = '48576222';
+                        $aux['autos'][$i]['lesionados'][1]['nombre'] = 'Hector Gomez';
+                        $aux['autos'][$i]['lesionados'][1]['visible'] = 1;
+
+                        $aux['autos'][$i]['lesionados'][2]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][2]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][2]['visible'] = 0;
+
+                        $aux['autos'][$i]['lesionados'][3]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][3]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][3]['visible'] = 0;
+
+                        $aux['autos'][$i]['lesionados'][4]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][4]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][4]['visible'] = 0;
+
+                        $aux['autos'][$i]['lesionados'][5]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][5]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][5]['visible'] = 0;
+
+                        $aux['autos'][$i]['lesionados'][6]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][6]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][6]['visible'] = 0;
+
+                        $aux['autos'][$i]['lesionados'][7]['rut'] = '';
+                        $aux['autos'][$i]['lesionados'][7]['nombre'] = '';
+                        $aux['autos'][$i]['lesionados'][7]['visible'] = 0;
+
+                    }
                     
                 }
                 
