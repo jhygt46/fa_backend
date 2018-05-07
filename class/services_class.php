@@ -768,11 +768,51 @@ class Services extends Core{
             
             for($i=0; $i<$comp['count']; $i++){
                 
+                $aux['tipo'] = $comp['resultado'][$i]['tipo'];
                 $aux['id'] = $comp['resultado'][$i]['id_com'];
                 $aux['nombre'] = $comp['resultado'][$i]['nombre'];
-                $aux['tipo'] = $comp['resultado'][$i]['tipo'];
-                $aux['placeholder'] = 'e_placeholder';
-                $aux['value'] = 'e_value';
+                if($aux['tipo'] == 1){
+                    $aux['placeholder'] = 'e_placeholder';
+                    $aux['value'] = 'e_value';
+                }
+                if($aux['tipo'] == 2){
+                    
+                    $aux['autos'][0]['patente'] = 'UH7871';
+                    $aux['autos'][0]['marca'] = 'Chevrolet';
+                    $aux['autos'][0]['modelo'] = 'Corsa';
+                    $aux['autos'][0]['visible'] = 1;
+                    $aux['autos'][0]['lesionados'][0]['rut'] = '159357740';
+                    $aux['autos'][0]['lesionados'][0]['nombre'] = 'Diego Gomez';
+                    $aux['autos'][0]['lesionados'][0]['visible'] = 1;
+                    $aux['autos'][0]['lesionados'][1]['rut'] = '48576222';
+                    $aux['autos'][0]['lesionados'][1]['nombre'] = 'Hector Gomez';
+                    $aux['autos'][0]['lesionados'][1]['visible'] = 1;
+                    $aux['autos'][0]['lesionados'][2]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][2]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][2]['visible'] = 1;
+                    $aux['autos'][0]['lesionados'][2]['rut'] = '';
+                    $aux['autos'][0]['lesionados'][2]['nombre'] = '';
+                    $aux['autos'][0]['lesionados'][2]['visible'] = 0;
+                    
+                    $aux['autos'][1]['patente'] = 'TR5671';
+                    $aux['autos'][1]['marca'] = 'Ford';
+                    $aux['autos'][1]['modelo'] = 'Camaro';
+                    $aux['autos'][1]['visible'] = 1;
+                    $aux['autos'][1]['lesionados'][0]['rut'] = '159357740';
+                    $aux['autos'][1]['lesionados'][0]['nombre'] = 'Diego Perez';
+                    $aux['autos'][1]['lesionados'][0]['visible'] = 1;
+                    $aux['autos'][1]['lesionados'][1]['rut'] = '48576222';
+                    $aux['autos'][1]['lesionados'][1]['nombre'] = 'Hector Perez';
+                    $aux['autos'][1]['lesionados'][1]['visible'] = 1;
+                    $aux['autos'][1]['lesionados'][2]['rut'] = '';
+                    $aux['autos'][1]['lesionados'][2]['nombre'] = '';
+                    $aux['autos'][1]['lesionados'][2]['visible'] = 1;
+                    $aux['autos'][1]['lesionados'][2]['rut'] = '';
+                    $aux['autos'][1]['lesionados'][2]['nombre'] = '';
+                    $aux['autos'][1]['lesionados'][2]['visible'] = 0;
+                    
+                }
+                
                 $info['informe'][] = $aux;
                 unset($aux);
                 
