@@ -740,7 +740,7 @@ class Services extends Core{
                 $id_act = $data['id_act'];
                 $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$in['user']['id_cia']."'");
                 
-                if($com['resultado'][0]['tipo'] == 1){
+                if($com['resultado'][0]['tipo'] == 1 || $com['resultado'][0]['tipo'] == 2){
                     
                     $text = $data['text'];
                     if($informe['count'] == 0){
