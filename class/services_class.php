@@ -740,10 +740,26 @@ class Services extends Core{
                 $id_act = $data['id_act'];
                 $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$in['user']['id_cia']."'");
                 
-                if($com['resultado'][0]['tipo'] == 1 || $com['resultado'][0]['tipo'] == 2){
+                if($com['resultado'][0]['tipo'] == 1){
                     
                     $text = $data['text'];
                     if($informe['count'] == 0){
+                        $this->con->sql("INSERT INTO informe (id_act, id_cia, ".$com['resultado'][0]['campo'].") VALUES ('".$id_act."', '".$id_cia."', '".$text."')");
+                    }
+                    if($informe['count'] == 1){
+                        $this->con->sql("UPDATE informe SET ".$com['resultado'][0]['campo']."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    }
+                    
+                }
+                if($com['resultado'][0]['tipo'] == 2){
+                    
+                    $tipo = $data['tipo'];
+                    $patente = $data['patente'];
+                    $marca = $data['marca'];
+                    $modelo = $data['modelo'];
+                    
+                    if($informe['count'] == 0){
+                        $text = $this->auto_obj($patente, $marca, $modelo);
                         $this->con->sql("INSERT INTO informe (id_act, id_cia, ".$com['resultado'][0]['campo'].") VALUES ('".$id_act."', '".$id_cia."', '".$text."')");
                     }
                     if($informe['count'] == 1){
@@ -755,6 +771,16 @@ class Services extends Core{
             }
 
         }
+        
+    }
+    
+    private function auto_obj($patente, $marca, $modelo){
+        
+        $objeto['patente'] = $patente;
+        $objeto['marca'] = $marca;
+        $objeto['modelo'] = $modelo;
+        $objeto['lesionados'] = Array();
+        return json_encode($objeto);
         
     }
     
