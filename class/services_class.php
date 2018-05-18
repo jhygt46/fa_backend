@@ -808,11 +808,11 @@ class Services extends Core{
     
     private function setauto(){
         
-        for($i=0; $i<10; $i++){
+        for($i=0; $i<8; $i++){
             $aux['patente'] = '';
             $aux['marca'] = '';
             $aux['modelo'] = '';
-            for($j=0; $j<10; $j++){
+            for($j=0; $j<8; $j++){
                 $aux2['rut'] = '';
                 $aux2['nombre'] = '';
                 $aux['lesionados'][] = $aux2;
