@@ -770,24 +770,19 @@ class Services extends Core{
                     
                     if($tipo == "autos"){
                         
-                        $patente = $data['patente'];
-                        $marca = $data['marca'];
-                        $modelo = $data['modelo'];
                         $i = $data['i'];
-                        $autos[$i]['patente'] = $patente;
-                        $autos[$i]['marca'] = $marca;
-                        $autos[$i]['modelo'] = $modelo;
+                        $autos[$i]['patente'] = $data['patente'];
+                        $autos[$i]['marca'] = $data['marca'];
+                        $autos[$i]['modelo'] = $data['modelo'];
                         $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
                     if($tipo == "lesionados"){
                         
-                        $rut = $data['rut'];
-                        $nombre = $data['nombre'];
                         $i = $data['i'];
                         $j = $data['j'];
-                        $autos[$i]['lesionados'][$j]['rut'] = $rut;
-                        $autos[$i]['lesionados'][$j]['nombre'] = $nombre;
+                        $autos[$i]['lesionados'][$j]['rut'] = $data['rut'];
+                        $autos[$i]['lesionados'][$j]['nombre'] = $data['nombre'];
                         $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
