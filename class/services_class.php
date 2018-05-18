@@ -47,7 +47,7 @@ class Services extends Core{
         if($accion == "setlibro"){
             return $this->setlibro($json['id_user'], $json['code'], $json['id_act'], $json['libro']);
         }
-        if($accion == "getinforme"){
+        if($_POST['accion'] == "getinforme"){
             //return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
             return $this->getinforme(18, '86fb015faae20b5ea7cab3835ea50ec0', 1);
         }
