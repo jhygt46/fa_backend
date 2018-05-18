@@ -737,7 +737,6 @@ class Services extends Core{
             $info['op'] = 1;
             
             $id_cia = $in['user']['id_cia'];
-            $id_com = $data['id_com'];
             $id_act = $data['id_act'];
             
             $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
@@ -754,6 +753,8 @@ class Services extends Core{
                 
             }
             
+            $id_com = $data['id_com'];
+            
             $componente = $this->con->sql("SELECT campo, tipo FROM informe_componentes WHERE id_com='".$id_com."'");
             if($com['count'] == 1){
                 
@@ -761,7 +762,7 @@ class Services extends Core{
                 
                 if($componente['resultado'][0]['tipo'] == 1){
                     $text = $data['text'];
-                    $this->con->sql("UPDATE informe SET ".$campo."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    return $this->con->sql("UPDATE informe SET ".$campo."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                 }
                 
                 if($componente['resultado'][0]['tipo'] == 2){
