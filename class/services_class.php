@@ -48,7 +48,8 @@ class Services extends Core{
             return $this->setlibro($json['id_user'], $json['code'], $json['id_act'], $json['libro']);
         }
         if($accion == "getinforme"){
-            return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
+            //return $this->getinforme($json['id_user'], $json['code'], $json['id_act']);
+            return $this->getinforme(18, '86fb015faae20b5ea7cab3835ea50ec0', 1);
         }
         if($accion == "setinforme"){
             return $this->setinforme($json);
@@ -733,37 +734,60 @@ class Services extends Core{
             
             $id_cia = $in['user']['id_cia'];
             $id_com = $data['id_com'];
-            $com = $this->con->sql("SELECT campo, tipo FROM informe_componentes WHERE id_com='".$id_com."'");
+            $id_act = $data['id_act'];
             
+            $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+            if($informe['count'] == 0){
+                $this->con->sql("INSERT INTO informe (id_act, id_cia) VALUES ('".$id_act."', '".$id_cia."')");
+                
+                // INICIALIZAR INFORME
+                $lista_componentes = $this->con->sql("SELECT t3.id_com FROM actos t1, informe_componentes_claves t2, informe_componentes t3 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.id_com=t3.id_com");
+                for($i=0; $i<$lista_componentes['count']; $i++){
+                    if($lista_componentes['resultado'][$i]['id_com'] == 3){
+                        $this->con->sql("UPDATE informe SET autos='".$this->setauto()."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    }
+                }
+                
+            }
+            
+            $componente = $this->con->sql("SELECT campo, tipo FROM informe_componentes WHERE id_com='".$id_com."'");
             if($com['count'] == 1){
                 
-                $id_act = $data['id_act'];
-                $informe = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$in['user']['id_cia']."'");
+                $campo = $com['resultado'][0]['campo'];
                 
                 if($com['resultado'][0]['tipo'] == 1){
-                    
                     $text = $data['text'];
-                    if($informe['count'] == 0){
-                        $this->con->sql("INSERT INTO informe (id_act, id_cia, ".$com['resultado'][0]['campo'].") VALUES ('".$id_act."', '".$id_cia."', '".$text."')");
-                    }
-                    if($informe['count'] == 1){
-                        $this->con->sql("UPDATE informe SET ".$com['resultado'][0]['campo']."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
-                    }
-                    
+                    $this->con->sql("UPDATE informe SET ".$campo."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                 }
+                
                 if($com['resultado'][0]['tipo'] == 2){
                     
                     $tipo = $data['tipo'];
-                    $patente = $data['patente'];
-                    $marca = $data['marca'];
-                    $modelo = $data['modelo'];
+                    $inform = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    $autos = json_decode($inform['resultado'][0]['autos']);
                     
-                    if($informe['count'] == 0){
-                        $text = $this->auto_obj($patente, $marca, $modelo);
-                        $this->con->sql("INSERT INTO informe (id_act, id_cia, ".$com['resultado'][0]['campo'].") VALUES ('".$id_act."', '".$id_cia."', '".$text."')");
+                    if($tipo == "autos"){
+                        
+                        $patente = $data['patente'];
+                        $marca = $data['marca'];
+                        $modelo = $data['modelo'];
+                        $i = $data['i'];
+                        $autos[$i]['patente'] = $patente;
+                        $autos[$i]['marca'] = $marca;
+                        $autos[$i]['modelo'] = $modelo;
+                        $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                        
                     }
-                    if($informe['count'] == 1){
-                        $this->con->sql("UPDATE informe SET ".$com['resultado'][0]['campo']."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    if($tipo == "lesionados"){
+                        
+                        $rut = $data['rut'];
+                        $nombre = $data['nombre'];
+                        $i = $data['i'];
+                        $j = $data['j'];
+                        $autos[$i]['lesionados'][$j]['rut'] = $rut;
+                        $autos[$i]['lesionados'][$j]['nombre'] = $nombre;
+                        $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                        
                     }
                     
                 }
@@ -776,11 +800,45 @@ class Services extends Core{
     
     private function auto_obj($patente, $marca, $modelo){
         
-        $objeto['patente'] = $patente;
-        $objeto['marca'] = $marca;
-        $objeto['modelo'] = $modelo;
-        $objeto['lesionados'] = Array();
-        return json_encode($objeto);
+        for($i=0; $i<8; $i++){
+            $aux['patente'] = '';
+            $aux['marca'] = '';
+            $aux['modelo'] = '';
+            for($j=0; $j<8; $j++){
+                $aux2['rut'] = '';
+                $aux2['nombre'] = '';
+                $aux['lesionados'][] = $aux2;
+                unset($aux2);
+            }
+            $autos[] = $aux;
+            unset($aux);
+        }
+        
+        $autos[0]['patente'] = $patente;
+        $autos[0]['marca'] = $marca;
+        $autos[0]['modelo'] = $modelo;
+        return json_encode($autos);
+        
+    }
+    private function lesionado_obj($rut, $nombre){
+        
+        for($i=0; $i<8; $i++){
+            $aux['patente'] = '';
+            $aux['marca'] = '';
+            $aux['modelo'] = '';
+            for($j=0; $j<8; $j++){
+                $aux2['rut'] = '';
+                $aux2['nombre'] = '';
+                $aux['lesionados'][] = $aux2;
+                unset($aux2);
+            }
+            $autos[] = $aux;
+            unset($aux);
+        }
+        
+        $autos[0]['lesionados'][0]['rut'] = $rut;
+        $autos[0]['lesionados'][0]['nombre'] = $nombre;
+        return json_encode($autos);
         
     }
     
