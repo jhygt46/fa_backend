@@ -734,6 +734,8 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
+            $info['op'] = 1;
+            
             $id_cia = $in['user']['id_cia'];
             $id_com = $data['id_com'];
             $id_act = $data['id_act'];
@@ -796,17 +798,21 @@ class Services extends Core{
                 
             }
 
+        }else{
+            $info['op'] = 2;
         }
+        
+        return $info;
         
     }
     
-    private function auto_obj($patente, $marca, $modelo){
+    private function setauto(){
         
-        for($i=0; $i<8; $i++){
+        for($i=0; $i<10; $i++){
             $aux['patente'] = '';
             $aux['marca'] = '';
             $aux['modelo'] = '';
-            for($j=0; $j<8; $j++){
+            for($j=0; $j<10; $j++){
                 $aux2['rut'] = '';
                 $aux2['nombre'] = '';
                 $aux['lesionados'][] = $aux2;
@@ -815,31 +821,6 @@ class Services extends Core{
             $autos[] = $aux;
             unset($aux);
         }
-        
-        $autos[0]['patente'] = $patente;
-        $autos[0]['marca'] = $marca;
-        $autos[0]['modelo'] = $modelo;
-        return json_encode($autos);
-        
-    }
-    private function lesionado_obj($rut, $nombre){
-        
-        for($i=0; $i<8; $i++){
-            $aux['patente'] = '';
-            $aux['marca'] = '';
-            $aux['modelo'] = '';
-            for($j=0; $j<8; $j++){
-                $aux2['rut'] = '';
-                $aux2['nombre'] = '';
-                $aux['lesionados'][] = $aux2;
-                unset($aux2);
-            }
-            $autos[] = $aux;
-            unset($aux);
-        }
-        
-        $autos[0]['lesionados'][0]['rut'] = $rut;
-        $autos[0]['lesionados'][0]['nombre'] = $nombre;
         return json_encode($autos);
         
     }
