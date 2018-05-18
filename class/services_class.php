@@ -756,13 +756,13 @@ class Services extends Core{
             $id_com = $data['id_com'];
             
             $componente = $this->con->sql("SELECT campo, tipo FROM informe_componentes WHERE id_com='".$id_com."'");
-            if($com['count'] == 1){
+            if($componente['count'] == 1){
                 
                 $campo = $componente['resultado'][0]['campo'];
                 
                 if($componente['resultado'][0]['tipo'] == 1){
                     $text = $data['text'];
-                    return $this->con->sql("UPDATE informe SET ".$campo."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                    $this->con->sql("UPDATE informe SET ".$campo."='".$text."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                 }
                 
                 if($componente['resultado'][0]['tipo'] == 2){
