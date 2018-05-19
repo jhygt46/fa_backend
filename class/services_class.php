@@ -782,10 +782,10 @@ class Services extends Core{
                     }
                     if($tipo == "lesionados"){
                         
-                        $i = intval($data['i']);
-                        $j = intval($data['j']);
-                        $autos[$i]['lesionados'][$j]['rut'] = $data['rut'];
-                        $autos[$i]['lesionados'][$j]['nombre'] = $data['nombre'];
+                        $i = $data['i'];
+                        $j = $data['j'];
+                        $autos[$i]->{'lesionados'}[$j]->{'rut'} = $data['rut'];
+                        $autos[$i]->{'lesionados'}[$j]->{'nombre'} = $data['nombre'];
                         $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
