@@ -826,9 +826,11 @@ class Services extends Core{
             $aux['patente'] = '';
             $aux['marca'] = '';
             $aux['modelo'] = '';
+            $aux['visible'] = true;
             for($j=0; $j<8; $j++){
                 $aux2['rut'] = '';
                 $aux2['nombre'] = '';
+                $aux2['visible'] = true;
                 $aux['lesionados'][] = $aux2;
                 unset($aux2);
             }
