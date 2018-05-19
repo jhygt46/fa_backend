@@ -837,7 +837,7 @@ class Services extends Core{
             $autos[] = $aux;
             unset($aux);
         }
-        return $aux;
+        return $autos;
         
     }
     
