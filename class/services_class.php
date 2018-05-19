@@ -773,9 +773,7 @@ class Services extends Core{
                     
                     if($tipo == "autos"){
 
-                        $m = intval($data['i']);
-                        $info['m'] = $m;
-                        $info['autos'] = $autos;
+                        $m = $data['i'];
                         $autos[$m]->{'patente'} = $data['patente'];
                         //$autos[$m]['marca'] = $data['marca'];
                         //$autos[$m]['modelo'] = $data['modelo'];
