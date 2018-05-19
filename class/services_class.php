@@ -766,7 +766,7 @@ class Services extends Core{
                 }
                 
                 if($componente['resultado'][0]['tipo'] == 2){
-                    
+                    /*
                     $tipo = $data['tipo'];
                     $inform = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                     $autos = json_decode($inform['resultado'][0]['autos']);
@@ -791,7 +791,7 @@ class Services extends Core{
                         //return $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
-                    
+                    */
                 }
                 
             }
