@@ -766,12 +766,12 @@ class Services extends Core{
                 }
                 
                 if($componente['resultado'][0]['tipo'] == 2){
-                    /*
+                    
                     $tipo = $data['tipo'];
                     $inform = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                     $autos = json_decode($inform['resultado'][0]['autos']);
                     $info['tipo'] = 'tipo: '.$tipo;
-                    
+                    /*
                     if($tipo == "autos"){
                         
                         
