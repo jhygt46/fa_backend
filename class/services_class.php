@@ -771,10 +771,10 @@ class Services extends Core{
                     $inform = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                     $autos = json_decode($inform['resultado'][0]['autos']);
                     $info['tipo'] = 'tipo: '.$tipo;
-                    
+                    /*
                     if($tipo == "autos"){
                         
-                        $info['a'] = 1;
+                        
                         $m = $data['i'];
                         $autos[$m]['patente'] = $data['patente'];
                         $autos[$m]['marca'] = $data['marca'];
@@ -791,7 +791,7 @@ class Services extends Core{
                         //return $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
-                    
+                    */
                 }
                 
             }
