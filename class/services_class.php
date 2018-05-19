@@ -820,6 +820,24 @@ class Services extends Core{
         return json_encode($autos);
         
     }
+    private function getauto(){
+        
+        for($i=0; $i<8; $i++){
+            $aux['patente'] = '';
+            $aux['marca'] = '';
+            $aux['modelo'] = '';
+            for($j=0; $j<8; $j++){
+                $aux2['rut'] = '';
+                $aux2['nombre'] = '';
+                $aux['lesionados'][] = $aux2;
+                unset($aux2);
+            }
+            $autos[] = $aux;
+            unset($aux);
+        }
+        return $aux;
+        
+    }
     
     private function getinforme($id_user, $code, $id_act){
         
@@ -840,46 +858,7 @@ class Services extends Core{
                 }
                 if($aux['tipo'] == 2){
                     
-                    for($i=0; $i<8; $i++){
-
-                        $aux['autos'][$i]['patente'] = 'UH7871';
-                        $aux['autos'][$i]['marca'] = 'Chevrolet';
-                        $aux['autos'][0]['modelo'] = 'Corsa';
-                        $aux['autos'][0]['visible'] = 1;
-
-                        $aux['autos'][$i]['lesionados'][0]['rut'] = '159357740';
-                        $aux['autos'][$i]['lesionados'][0]['nombre'] = 'Diego Gomez';
-                        $aux['autos'][$i]['lesionados'][0]['visible'] = 1;
-
-                        $aux['autos'][$i]['lesionados'][1]['rut'] = '48576222';
-                        $aux['autos'][$i]['lesionados'][1]['nombre'] = 'Hector Gomez';
-                        $aux['autos'][$i]['lesionados'][1]['visible'] = 1;
-
-                        $aux['autos'][$i]['lesionados'][2]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][2]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][2]['visible'] = 0;
-
-                        $aux['autos'][$i]['lesionados'][3]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][3]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][3]['visible'] = 0;
-
-                        $aux['autos'][$i]['lesionados'][4]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][4]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][4]['visible'] = 0;
-
-                        $aux['autos'][$i]['lesionados'][5]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][5]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][5]['visible'] = 0;
-
-                        $aux['autos'][$i]['lesionados'][6]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][6]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][6]['visible'] = 0;
-
-                        $aux['autos'][$i]['lesionados'][7]['rut'] = '';
-                        $aux['autos'][$i]['lesionados'][7]['nombre'] = '';
-                        $aux['autos'][$i]['lesionados'][7]['visible'] = 0;
-
-                    }
+                    $aux['autos'] = $this->getauto();
                     
                 }
                 
