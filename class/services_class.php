@@ -822,15 +822,17 @@ class Services extends Core{
     }
     private function getauto(){
         
+        $bool = Array(true, false, false, false, false, false, false, false);
+        
         for($i=0; $i<8; $i++){
             $aux['patente'] = '';
             $aux['marca'] = '';
             $aux['modelo'] = '';
-            $aux['visible'] = true;
+            $aux['visible'] = $bool[$i];
             for($j=0; $j<8; $j++){
                 $aux2['rut'] = '';
                 $aux2['nombre'] = '';
-                $aux2['visible'] = true;
+                $aux2['visible'] = $bool[$j];
                 $aux['lesionados'][] = $aux2;
                 unset($aux2);
             }
