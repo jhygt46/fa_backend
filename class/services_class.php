@@ -771,6 +771,7 @@ class Services extends Core{
                     
                     if($tipo == "autos"){
                         
+                        $info['a'] = 1;
                         $m = $data['i'];
                         $autos[$m]['patente'] = $data['patente'];
                         $autos[$m]['marca'] = $data['marca'];
@@ -784,7 +785,7 @@ class Services extends Core{
                         $j = $data['j'];
                         $autos[$i]['lesionados'][$j]['rut'] = $data['rut'];
                         $autos[$i]['lesionados'][$j]['nombre'] = $data['nombre'];
-                        return $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
+                        //return $this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
                     
