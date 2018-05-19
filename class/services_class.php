@@ -56,6 +56,9 @@ class Services extends Core{
         if($accion == "setinforme"){
             return $this->setinforme($json);
         }
+        if($_POST['accion'] == "setinforme"){
+            return $this->setinforme($_POST);
+        }
         
     }
     public function process(){
