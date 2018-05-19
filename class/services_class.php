@@ -773,10 +773,10 @@ class Services extends Core{
                     
                     if($tipo == "autos"){
 
-                        $m = intval($data['i']);
-                        $autos[$m]['patente'] = $data['patente'];
-                        $autos[$m]['marca'] = $data['marca'];
-                        $autos[$m]['modelo'] = $data['modelo'];
+                        //$m = intval($data['i']);
+                        //$autos[$m]['patente'] = $data['patente'];
+                        //$autos[$m]['marca'] = $data['marca'];
+                        //$autos[$m]['modelo'] = $data['modelo'];
                         //$this->con->sql("UPDATE informe SET autos='".json_encode($autos)."' WHERE id_act='".$id_act."' AND id_cia='".$id_cia."'");
                         
                     }
