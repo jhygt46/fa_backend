@@ -104,7 +104,6 @@ class Services extends Core{
     // START NODEJS FUNCTION //
     private function get_nodejs_llamados(){
         
-        
         if($_POST['code'] != $this->secret){
             //return;
         }
@@ -198,7 +197,7 @@ class Services extends Core{
     private function get_nodejs_cuarteles(){
         
         if($_POST['code'] != $this->secret){
-            return;
+            //return;
         }
         
         $cias = $this->con->sql("SELECT * FROM companias WHERE eliminado='0'");
@@ -244,7 +243,7 @@ class Services extends Core{
     private function get_nodejs_usuarios(){
         
         if($_POST['code'] != $this->secret){
-            return;
+            //return;
         }
         
         $users = $this->con->sql("SELECT * FROM usuarios WHERE eliminado='0'");
@@ -820,56 +819,124 @@ class Services extends Core{
         return json_encode($autos);
         
     }
-    private function getauto(){
+    private function getauto($informes, $id_user_cia){
         
-        $bool = Array(true, false, false, false, false, false, false, false);
+        for($i=0; $i<$informes['count']; $i++){
+            $autos = json_decode($informes['resultado'][$i]['autos']);
+            
+                // MISMA CIA
+                $mostrar = 1;
+                for($j=0; $j<count($autos); $j++){
+                    
+                    if($id_user_cia == $informes['resultado'][$i]['id_cia']){
+                        
+                        $aux_value['patente'] = $autos[$j]->{'patente'};
+                        $aux_value['marca'] = $autos[$j]->{'marca'};
+                        $aux_value['modelo'] = $autos[$j]->{'modelo'};
+                        if(($aux_value['patente'] != "" || $aux_value['marca'] != "" || $aux_value['modelo'] != "") || $mostrar > 0){
+                            $aux_value['visible'] = 1;
+                        }else{
+                            $aux_value['visible'] = 0;
+                        }
+                        
+                        for($k=0; $k<count($autos[$j]->{'lesionados'}); $k++){
+                            
+                            $aux_value2['rut'] = $autos[$j]->{'lesionados'}[$k]->{'rut'};
+                            $aux_value2['nombre'] = $autos[$j]->{'lesionados'}[$k]->{'nombre'};
+                            if($aux_value2['rut'] != "" && $aux_value2['rut'] != ""){
+                                $aux_value2['visible'] = 1;
+                            }else{
+                                $aux_value2['visible'] = 0;
+                            }
+                            $aux_value['lesionados'][] = $aux_value2;
+                            unset($aux_value2);
+                            
+                        }
+                        
+                        $autos_value[] = $aux_value;
+                        unset($aux_value);
+                        
+                    }else{
+                        
+                        $aux_valueph['patente'] = $autos[$j]->{'patente'};
+                        $aux_valueph['marca'] = $autos[$j]->{'marca'};
+                        $aux_valueph['modelo'] = $autos[$j]->{'modelo'};
+                        for($k=0; $k<count($autos[$j]->{'lesionados'}); $k++){
+                            $aux_value2ph['rut'] = $autos[$j]->{'lesionados'}[$k]->{'rut'};
+                            $aux_value2ph['nombre'] = $autos[$j]->{'lesionados'}[$k]->{'nombre'};
+                            $aux_valueph['lesionados'][] = $aux_value2ph;
+                            unset($aux_value2ph);
+                        }
+                        $autos_ph[] = $aux_valueph;
+                        unset($aux_valueph);
+                        
+                    }
+                    
+                }
+
+        }
         
         for($i=0; $i<8; $i++){
-            $aux['patente'] = '';
-            $aux['marca'] = '';
-            $aux['modelo'] = '';
-            $aux['visible'] = $bool[$i];
             for($j=0; $j<8; $j++){
-                $aux2['rut'] = '';
-                $aux2['nombre'] = '';
-                $aux2['visible'] = $bool[$j];
-                $aux['lesionados'][] = $aux2;
-                unset($aux2);
+            
             }
-            $autos[] = $aux;
-            unset($aux);
         }
-        return $autos;
+        
+        
+        
+        
+        
+        
+        
+        return $aux_autos;
+        
+    }
+    
+    private function get_tipo_1($informes, $nombre, $id_user_cia, $placeholder){
+        
+        $aux['placeholder'] = $placeholder;
+        $aux['value'] = '';
+        for($i=0; $i<$informes['count']; $i++){
+            if($informes['resultado'][$i]['id_cia'] == $id_user_cia){
+                $aux['value'] = $informes['resultado'][$i][$nombre];
+            }else{
+                if($informes['resultado'][$i][$nombre] != ""){
+                    $aux['placeholder'] = $informes['resultado'][$i][$nombre];
+                }
+            }
+        }
+        return $aux;
+    }
+    
+    private function informe($id_act, $id_user_cia){
+        
+        $informes = $this->con->sql("SELECT * FROM informe WHERE id_act='".$id_act."'");
+        $comp = $this->con->sql("SELECT t3.id_com, t3.nombre, t3.tipo, t2.placeholder FROM actos t1, informe_componentes_claves t2, informe_componentes t3 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.id_com=t3.id_com");
+        
+        for($i=0; $i<$comp['count']; $i++){
+            
+            $aux['tipo'] = $comp['resultado'][$i]['tipo'];
+            $aux['id'] = $comp['resultado'][$i]['id_com'];
+            $aux['nombre'] = $comp['resultado'][$i]['nombre'];
+            
+            if($aux['tipo'] == 1){
+                $aux['input'] = $this->get_tipo_1($informes, $aux['nombre'], $id_user_cia, $comp['resultado'][$i]['placerholder']);
+            }
+            if($aux['tipo'] == 2){
+                $aux['autos'] = $this->getauto($informes, $id_user_cia);
+            }
+            
+        }
         
     }
     
     private function getinforme($id_user, $code, $id_act){
         
-        $in = $this->verificar_code($id_user, $code, false);
+        $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
             $info['op'] = 1;
-            $comp = $this->con->sql("SELECT t3.id_com, t3.nombre, t3.tipo FROM actos t1, informe_componentes_claves t2, informe_componentes t3 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla AND t2.id_com=t3.id_com");
-            
-            for($i=0; $i<$comp['count']; $i++){
-                
-                $aux['tipo'] = $comp['resultado'][$i]['tipo'];
-                $aux['id'] = $comp['resultado'][$i]['id_com'];
-                $aux['nombre'] = $comp['resultado'][$i]['nombre'];
-                if($aux['tipo'] == 1){
-                    $aux['placeholder'] = 'e_placeholder';
-                    $aux['value'] = 'e_value';
-                }
-                if($aux['tipo'] == 2){
-                    
-                    $aux['autos'] = $this->getauto();
-                    
-                }
-                
-                $info['informe'][] = $aux;
-                unset($aux);
-                
-            }
+            $info['informe'] = $this->informe($id_act, $in['user']['id_cia']);
             
         }else{
             $info['op'] = 2;
