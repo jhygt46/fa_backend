@@ -121,7 +121,7 @@ class Services extends Core{
                 $aux['info']['lat'] = $lis_actos[$i]['lat'];
                 $aux['info']['lng'] = $lis_actos[$i]['lng'];
                 $aux['info']['fecha'] = strtotime($lis_actos[$i]['fecha_creado']);
-                $aux['info']['fin'] = $lis_actos[$i]['fin'];;
+                $aux['info']['fin'] = $lis_actos[$i]['fin'];
                 $aux['info']['id_cue'] = $lis_actos[$i]['id_cue'];
                 
                 $aux['posiciones'] = array();
@@ -145,7 +145,6 @@ class Services extends Core{
                         $aux_carros['id_car'] = $carros['resultado'][$j]['id_car'];
                         $aux_carros['nombre'] = $carros['resultado'][$j]['nombre'];
                         $aux_carros['id_cia'] = $carros['resultado'][$j]['id_cia'];
-                        $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                         $aux_carros['id_cue'] = $carros['resultado'][$j]['id_cue'];
                         if($carros['resultado'][$j]['id_user'] != 0){
                             
