@@ -487,7 +487,7 @@ class Services extends Core{
         for($i=0; $i<$actos['count']; $i++){
             if($actos['resultado'][$i]['todos'] == 1){
                 $aux['id'] = $actos['resultado'][$i]['id_act'];
-                $aux['titulo'] = $actos['resultado'][$i]['nombre'];
+                $aux['nombre'] = $actos['resultado'][$i]['nombre'];
                 $aux['direccion'] = $actos['resultado'][$i]['direccion'];
                 $aux['fecha'] = $actos['resultado'][$i]['fecha_creado'];
                 $aux['vestuario'] = "Sport Formal";
