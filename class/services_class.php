@@ -485,7 +485,7 @@ class Services extends Core{
         //$actos = $this->con->sql("SELECT * FROM actos t1, claves t2 WHERE (t1.id_cia='".$id_cia."' OR (t1.id_cia='0' AND t2.iscia='0'))");
         
         for($i=0; $i<$actos['count']; $i++){
-            if($actos['resultado'][$i]['todos']){
+            if($actos['resultado'][$i]['todos'] == 1){
                 $aux['id'] = $actos['resultado'][$i]['id_act'];
                 $aux['titulo'] = $actos['resultado'][$i]['nombre'];
                 $aux['direccion'] = $actos['resultado'][$i]['direccion'];
