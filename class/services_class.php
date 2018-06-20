@@ -496,7 +496,7 @@ class Services extends Core{
             }
         }
         
-        return $actos;
+        return $aux2;
         
     }
     private function getcitaciones($id_user, $code){
