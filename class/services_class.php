@@ -59,7 +59,9 @@ class Services extends Core{
         if($_POST['accion'] == "setinforme"){
             return $this->setinforme($_POST);
         }
-        
+        if($_POST['accion'] == "getcitaciones"){
+            return $this->getcitaciones($json['id_user'], $json['code']);
+        }
     }
     public function process(){
         
@@ -85,9 +87,7 @@ class Services extends Core{
             return $this->getgrifos($_GET['lat'], $_GET['lng']);
         }
         
-        if($_POST['accion'] == "getcitaciones"){
-            return $this->getcitaciones();
-        }
+        
         if($_POST['accion'] == "getperfil"){
             return $this->getperfil();
         }
@@ -498,10 +498,7 @@ class Services extends Core{
         return $aux2;
         
     }
-    private function getcitaciones(){
-                
-        $id_user = $_POST['id_user'];
-        $code = $_POST['hash'];
+    private function getcitaciones($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
