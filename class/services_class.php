@@ -492,6 +492,7 @@ class Services extends Core{
                 $aux['fecha'] = $actos['resultado'][$i]['fecha_creado'];
                 $aux['vestuario'] = "Sport Formal";
                 $aux2[] = $aux;
+                unset($aux);
             }
         }
         
