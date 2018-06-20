@@ -59,7 +59,7 @@ class Services extends Core{
         if($_POST['accion'] == "setinforme"){
             return $this->setinforme($_POST);
         }
-        if($_POST['accion'] == "getcitaciones"){
+        if($accion == "getcitaciones"){
             return $this->getcitaciones($json['id_user'], $json['code']);
         }
     }
