@@ -496,7 +496,7 @@ class Services extends Core{
             $info['op'] = 1;
             $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
             $actos = $this->con->sql("SELECT t1.id_act, t1.fecha_creado, t2.id_cla, t2.clave, t2.nombre, t1.direccion, t1.lat, t1.lng, t2.todos FROM actos t1, claves t2 WHERE t1.id_cla=t2.id_cla AND t2.tipo=3 AND t1.fecha_creado >= '".$fecha."' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
-
+            $info['actos'] = $actos;
             for($i=0; $i<$actos['count']; $i++){
                 if($actos['resultado'][$i]['todos'] == 1){
                     $info['citaciones'][] = $this->array_citacion($actos['resultado'][$i]);
