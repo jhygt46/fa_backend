@@ -477,41 +477,52 @@ class Services extends Core{
         return $aux;
     }
     
-    private function citaciones($id_user, $id_cia, $id_cue){
+    private function array_citacion($res){
         
-        $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
-        $aux2 = Array();
-        $actos = $this->con->sql("SELECT t1.id_act, t1.fecha_creado, t2.clave, t2.nombre, t1.direccion, t1.lat, t1.lng, t2.todos FROM actos t1, claves t2 WHERE t1.id_cla=t2.id_cla AND t2.tipo=3 AND t1.fecha_creado >= '".$fecha."' AND t1.id_cue='".$id_cue."' AND (t1.id_cia='".$id_cia."' OR (t1.id_cia='0' AND t2.iscia='0'))");
-        //$actos = $this->con->sql("SELECT * FROM actos t1, claves t2 WHERE (t1.id_cia='".$id_cia."' OR (t1.id_cia='0' AND t2.iscia='0'))");
-        
-        for($i=0; $i<$actos['count']; $i++){
-            if($actos['resultado'][$i]['todos'] == 1){
-                $aux['id'] = $actos['resultado'][$i]['id_act'];
-                $aux['nombre'] = $actos['resultado'][$i]['nombre'];
-                $aux['direccion'] = $actos['resultado'][$i]['direccion'];
-                $aux['fecha'] = $actos['resultado'][$i]['fecha_creado'];
-                $aux['vestuario'] = "Sport Formal";
-                $aux2[] = $aux;
-                unset($aux);
-            }else{
-                // VERIFICAR SI ESTE ACTOS ES PARA EL USUARIO
-            }
-        }
-        
-        return $aux2;
+        $aux['id'] = $res['id_act'];
+        $aux['nombre'] = $res['nombre'];
+        $aux['direccion'] = $res['direccion'];
+        $aux['fecha'] = $res['fecha_creado'];
+        $aux['vestuario'] = "Sport Formal";
+        return $aux;
         
     }
+    
     private function getcitaciones($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
             $info['op'] = 1;
-            $info['citaciones'] = $this->citaciones($id_user, $in['user']['id_cia'], $in['user']['id_cue']);
-            
+            $fecha = date("Y-m-d h:i:s", strtotime("-1 day"));
+            $actos = $this->con->sql("SELECT t1.id_act, t1.fecha_creado, t2.id_cla, t2.clave, t2.nombre, t1.direccion, t1.lat, t1.lng, t2.todos FROM actos t1, claves t2 WHERE t1.id_cla=t2.id_cla AND t2.tipo=3 AND t1.fecha_creado >= '".$fecha."' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
+
+            for($i=0; $i<$actos['count']; $i++){
+                if($actos['resultado'][$i]['todos'] == 1){
+                    $info['citaciones'][] = $this->array_citacion($actos['resultado'][$i]);
+                }else{
+                    $grupos = $this->con->sql("SELECT * FROM clave_grupo t1, grupos t2 WHERE t1.id_cla='".$actos['resultado'][$i]['id_cla']."' AND t1.id_gru=t2.id_gru");
+                    for($i=0; $i<$grupos['count']; $i++){
+                        if($grupos['resultado'][$i]['iscargo'] == 0){
+                            $users = $this->con->sql("SELECT * FROM grupos_usuarios WHERE id_gru='".$grupos['resultado'][$i]['id_gru']."' AND id_user='".$id_user."'");
+                            if($users['count'] == 1){
+                                $info['citaciones'][] = $this->array_citacion($actos['resultado'][$i]);
+                            }
+                        }
+                        if($grupos['resultado'][$i]['iscargo'] == 1){
+                            $cargos = $this->con->sql("SELECT * FROM grupos_cargos t1, usuarios_cargos t2 WHERE t1.id_gru='".$grupos['resultado'][$i]['id_gru']."' AND t1.id_carg=t2.id_carg AND t2.id_user='".$id_user."' AND AND t2.fecha_ini <= '".@date("Y-m-d")."' AND (t2.fecha_fin >= '".@date("Y-m-d")."' OR t2.fecha_fin='0000-00-00 00:00:00')");
+                            if($cargos['count'] == 1){
+                                $info['citaciones'][] = $this->array_citacion($actos['resultado'][$i]);
+                            }
+                        }
+                    }
+                }
+            }
+
         }else{
             $info['op'] = 2;
         }
+        
         return $info;
         
     }
