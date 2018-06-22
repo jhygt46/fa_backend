@@ -496,8 +496,7 @@ class Services extends Core{
         if($in['op'] == 1){
             
             $info['op'] = 1;
-            $acto = $this->con->sql("SELECT t2.nombre, t1.lat, t1.lng, t1.direccion, t1.fecha_creado FROM actos t1, clave t2 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla");
-            $info['acto'] = $acto;
+            $acto = $this->con->sql("SELECT t2.nombre, t1.lat, t1.lng, t1.direccion, t1.fecha_creado FROM actos t1, claves t2 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla");
             if($tipo == 1){
                 $info['clave'] = $acto['resultado'][0]['nombre'];
                 $info['lat'] = $acto['resultado'][0]['lat'];
