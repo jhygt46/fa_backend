@@ -62,6 +62,9 @@ class Services extends Core{
         if($accion == "getcitaciones"){
             return $this->getcitaciones($json['id_user'], $json['code']);
         }
+        if($accion == "getcitacion"){
+            return $this->getcitaciones($json['id_user'], $json['code'], $json['id_act'], $json['tipo']);
+        }
     }
     public function process(){
         
@@ -487,7 +490,27 @@ class Services extends Core{
         return $aux;
         
     }
-    
+    private function getcitacion($id_user, $code, $id_act, $tipo){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            
+            $info['op'] = 1;
+            $acto = $this->con->sql("SELECT actos WHERE id_act='".$id_act."'");
+            if($tipo == 1){
+                $info['a1'] = "BUENA NELSON";
+            }
+            if($tipo == 2){
+                $info['a2'] = "BUENA ERNESTO";
+            }
+            
+        }else{
+            $info['op'] = 2;
+        }
+        
+        return $info;
+        
+    }
     private function getcitaciones($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
