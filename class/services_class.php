@@ -496,12 +496,23 @@ class Services extends Core{
         if($in['op'] == 1){
             
             $info['op'] = 1;
-            $acto = $this->con->sql("SELECT actos WHERE id_act='".$id_act."'");
+            $acto = $this->con->sql("SELECT t2.nombre, t1.lat, t1.lng, t1.direccion, t1.fecha_creado FROM actos t1, clave t2 WHERE t1.id_act='".$id_act."' AND t1.id_cla=t2.id_cla");
             if($tipo == 1){
-                $info['a1'] = "BUENA NELSON";
+                $info['clave'] = $acto['resultado'][0]['nombre'];
+                $info['lat'] = $acto['resultado'][0]['lat'];
+                $info['lng'] = $acto['resultado'][0]['lng'];
+                $info['direccion'] = $acto['resultado'][0]['direccion'];
+                $info['fecha'] = $acto['resultado'][0]['fecha_creado'];
             }
             if($tipo == 2){
-                $info['a2'] = "BUENA ERNESTO";
+                $usuarios = $this->con->sql("SELECT t2.id_user, t2.nombre FROM actos_user t1, usuarios t2 WHERE t1.id_act='".$id_act."' AND t1.id_user=t2.id_user");
+                for($i=0; $i<$usuarios['count']; $i++){
+                    $aux['id_user'] = $usuarios['resultados'][$i]['id_user'];
+                    $aux['nombre'] = $usuarios['resultados'][$i]['nombre'];
+                    $info['usuarios'][] = $aux;
+                    unset($aux);
+                }
+                
             }
             
         }else{
