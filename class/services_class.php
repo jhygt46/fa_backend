@@ -63,7 +63,7 @@ class Services extends Core{
             return $this->getcitaciones($json['id_user'], $json['code']);
         }
         if($accion == "getcitacion"){
-            return $this->getcitaciones($json['id_user'], $json['code'], $json['id_act'], $json['tipo']);
+            return $this->getcitacion($json['id_user'], $json['code'], $json['id_act'], $json['tipo']);
         }
     }
     public function process(){
