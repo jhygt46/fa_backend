@@ -548,6 +548,7 @@ class Services extends Core{
             }
         
         }
+        return $info;
         
     }
     
