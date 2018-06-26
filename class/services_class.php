@@ -532,7 +532,7 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
-            $actos = $this->con->sql("SELECT t2.tipo, t1.id_act, t2.clave, t2.nombre, t1.direccion, t3.id_user FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
+            $actos = $this->con->sql("SELECT t1.fecha_creado, t2.tipo, t1.id_act, t2.clave, t2.nombre, t1.direccion, t3.id_user FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
             for($i=0; $i<$actos['count']; $i++){
             
                 $aux['id'] = $actos['resultado'][$i]['id_act'];
@@ -543,6 +543,7 @@ class Services extends Core{
                     $aux['clave'] = $actos['resultado'][$i]['nombre'];
                 }
                 $aux['direccion'] = $actos['resultado'][$i]['direccion'];
+                $aux['fecha'] = date("d \d\e m \d\e Y", strtotime($actos['resultado'][$i]['fecha_creado']);
                 $aux['asist'] = true;
                 if($actos['resultado'][$i]['id_user'] == NULL){
                     $aux['asist'] = false;
