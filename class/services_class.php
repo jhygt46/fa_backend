@@ -543,7 +543,7 @@ class Services extends Core{
                     $aux['clave'] = $actos['resultado'][$i]['nombre'];
                 }
                 $aux['direccion'] = $actos['resultado'][$i]['direccion'];
-                $aux['fecha'] = date("d \d\e m \d\e Y", strtotime($actos['resultado'][$i]['fecha_creado']);
+                $aux['fecha'] = date("d \d\e m \d\e Y", strtotime($actos['resultado'][$i]['fecha_creado']));
                 $aux['asist'] = true;
                 if($actos['resultado'][$i]['id_user'] == NULL){
                     $aux['asist'] = false;
