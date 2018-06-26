@@ -65,6 +65,9 @@ class Services extends Core{
         if($accion == "getcitacion"){
             return $this->getcitacion($json['id_user'], $json['code'], $json['id_act'], $json['tipo']);
         }
+        if($accion == "getultimosactos"){
+            return $this->getultimosactos($json['id_user'], $json['code']);
+        }
     }
     public function process(){
         
@@ -522,6 +525,32 @@ class Services extends Core{
         return $info;
         
     }
+    
+    
+    private function getultimosactos($id_user, $code){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            
+            $actos = $this->con->sql("SELECT t1.id_act, t2.clave, t2.nombre, t1.direccion, t3.id_user FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."'");
+            for($i=0; $i<$actos['count']; $i++){
+            
+                $aux['id'] = $actos['resultado'][$i]['id_act'];
+                $aux['clave'] = $actos['resultado'][$i]['clave'];
+                $aux['direccion'] = $actos['resultado'][$i]['direccion'];
+                $aux['asist'] = true;
+                if($actos['resultado'][$i]['id_user'] == NULL){
+                    $aux['asist'] = false;
+                }
+                $info['llamados'][] = $aux;
+                unset($aux);
+                
+            }
+        
+        }
+        
+    }
+    
     private function getcitaciones($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
