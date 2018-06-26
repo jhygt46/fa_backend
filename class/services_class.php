@@ -532,11 +532,16 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
-            $actos = $this->con->sql("SELECT t1.id_act, t2.clave, t2.nombre, t1.direccion, t3.id_user FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."'");
+            $actos = $this->con->sql("SELECT t2.tipo, t1.id_act, t2.clave, t2.nombre, t1.direccion, t3.id_user FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."'");
             for($i=0; $i<$actos['count']; $i++){
             
                 $aux['id'] = $actos['resultado'][$i]['id_act'];
-                $aux['clave'] = $actos['resultado'][$i]['clave'];
+                if($actos['resultado'][$i]['tipo'] == 1 || $actos['resultado'][$i]['tipo'] == 2){
+                    $aux['clave'] = $actos['resultado'][$i]['clave'];
+                }
+                if($actos['resultado'][$i]['tipo'] == 3){
+                    $aux['clave'] = $actos['resultado'][$i]['nombre'];
+                }
                 $aux['direccion'] = $actos['resultado'][$i]['direccion'];
                 $aux['asist'] = true;
                 if($actos['resultado'][$i]['id_user'] == NULL){
