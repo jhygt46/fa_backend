@@ -68,6 +68,9 @@ class Services extends Core{
         if($accion == "getultimosactos"){
             return $this->getultimosactos($json['id_user'], $json['code']);
         }
+        if($accion == "setpublicgroups"){
+            return $this->setpublicgroups($json['id_user'], $json['code'], $json['id_gru'], $json['valor']);
+        }
     }
     public function process(){
         
@@ -526,6 +529,20 @@ class Services extends Core{
         
     }
     
+    private function setpublicgroups($id_user, $code, $id_gru, $valor){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
+            if($grupos['count'] == 1){
+                if($valor){
+                    $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
+                }else{
+                    $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
+                } 
+            }
+        }
+    }
     
     private function getultimosactos($id_user, $code){
         
