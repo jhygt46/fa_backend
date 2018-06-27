@@ -535,13 +535,16 @@ class Services extends Core{
         if($in['op'] == 1){
             $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
             if($grupos['count'] == 1){
+                $info['op'] = 1;
                 if($valor){
-                    $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
+                    $info['sql1'] = $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
                 }else{
-                    $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
+                    $info['sql1'] = $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
                 } 
             }
+            $info['grupos'] = $grupos;
         }
+        return $info;
     }
     
     private function getultimosactos($id_user, $code){
