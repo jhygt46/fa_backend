@@ -71,6 +71,10 @@ class Services extends Core{
         if($accion == "setpublicgroups"){
             return $this->setpublicgroups($json['id_user'], $json['code'], $json['id_gru'], $json['valor']);
         }
+        if($accion == "getgrupos"){
+            return $this->getgrupos($json['id_user'], $json['code']);
+        }
+        getgrupos
     }
     public function process(){
         
@@ -551,7 +555,7 @@ class Services extends Core{
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
-            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='' AND id_cue='' AND public='1'");
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
             $info['grupos'] = $grupos['resultado'];
         }
         return $info;
