@@ -537,10 +537,10 @@ class Services extends Core{
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
-            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1' AND iscargo='0'");
             if($grupos['count'] == 1){
                 $info['op'] = 1;
-                if($valor){
+                if(!$valor){
                     $info['sql1'] = $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
                 }else{
                     $info['sql1'] = $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
@@ -555,7 +555,7 @@ class Services extends Core{
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
-            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1' AND iscargo='0'");
             for($i=0; $i<$grupos['count']; $i++){
                 $aux['id'] = $grupos['resultado'][$i]['id_gru'];
                 $aux['nombre'] = $grupos['resultado'][$i]['nombre'];
