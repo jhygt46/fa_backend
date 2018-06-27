@@ -558,7 +558,7 @@ class Services extends Core{
             $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1'");
             for($i=0; $i<$grupos['count']; $i++){
                 $aux['id'] = $grupos['resultado'][$i]['id_gru'];
-                $aux['nombre'] = $grupos['resultado'][$i]['nombres'];
+                $aux['nombre'] = $grupos['resultado'][$i]['nombre'];
                 $aux['in'] = true;
                 $info['grupos'][] = $aux;
                 unset($aux);
