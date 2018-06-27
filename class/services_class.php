@@ -74,7 +74,7 @@ class Services extends Core{
         if($accion == "getgrupos"){
             return $this->getgrupos($json['id_user'], $json['code']);
         }
-        getgrupos
+        
     }
     public function process(){
         
