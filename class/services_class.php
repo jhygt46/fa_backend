@@ -547,6 +547,17 @@ class Services extends Core{
         return $info;
     }
     
+    private function getgrupos($id_user, $code){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_cia='' AND id_cue='' AND public='1'");
+            $info['grupos'] = $grupos['resultado'];
+        }
+        return $info;
+        
+    }
+    
     private function getultimosactos($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
