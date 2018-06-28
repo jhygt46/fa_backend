@@ -74,6 +74,12 @@ class Services extends Core{
         if($accion == "getgrupos"){
             return $this->getgrupos($json['id_user'], $json['code']);
         }
+        if($accion == "setconfig"){
+            return $this->setconfig($json['id_user'], $json['code'], $json['tipo'], $json['value']);
+        }
+        if($accion == "getconfig"){
+            return $this->getconfig($json['id_user'], $json['code']);
+        }
         
     }
     public function process(){
@@ -500,6 +506,20 @@ class Services extends Core{
         return $aux;
         
     }
+    
+    private function getconfig($id_user, $code){
+        
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+            $info['op'] = 1;
+            $info['gps'] = $user['resultado'][0]['config_gps'];
+            $info['lla'] = $user['resultado'][0]['config_lla'];
+            $info['med'] = $user['resultado'][0]['config_med'];
+        }
+        return $info;
+    }
+    
     private function getcitacion($id_user, $code, $id_act, $tipo){
         
         $in = $this->verificar_code($id_user, $code, true);
@@ -533,6 +553,39 @@ class Services extends Core{
         
     }
     
+    private function setconfig($id_user, $code, $tipo, $value){
+        
+        $in = $this->verificar_code($id_user, $code, false);
+        if($in['op'] == 1){
+            
+            $info['op'] = 2;
+            if($value){ $val=1; }else{ $val=0; }
+            
+            if($tipo == "gps"){
+                // LLAMADO HORARIO GUARDIA
+                $info['op'] = 1;
+                $this->sql("UPDATE usuarios SET config_gps='".$val."' WHERE id_user='".$id_user."'");
+            }
+            if($tipo == "lla"){
+                // LLAMADO HORARIO GUARDIA
+                $info['op'] = 1;
+                $this->sql("UPDATE usuarios SET config_lla='".$val."' WHERE id_user='".$id_user."'");
+            }
+            
+            if($tipo == "med"){
+                // LLAMADO HORARIO GUARDIA
+                $info['op'] = 1;
+                $this->sql("UPDATE usuarios SET config_med='".$val."' WHERE id_user='".$id_user."'");
+            }
+            
+        }else{
+            $info['op'] = 2;
+        }
+        
+        return $info;
+        
+    }
+    
     private function setpublicgroups($id_user, $code, $id_gru, $valor){
         
         $in = $this->verificar_code($id_user, $code, true);
@@ -554,7 +607,6 @@ class Services extends Core{
     private function getgrupos($id_user, $code){
         
         $actos = $this->con->sql("SELECT  FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
-            
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
