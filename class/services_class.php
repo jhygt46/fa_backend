@@ -554,8 +554,11 @@ class Services extends Core{
     
     private function setconfig($id_user, $code, $tipo, $value){
         
-        $info['op'] = 2;
+        $info['tipo'] = $tipo;
+        $info['value'] = $value;
+        
         $in = $this->verificar_code($id_user, $code, false);
+        
         if($in['op'] == 1){
             
             if($value){ $val=1; }else{ $val=0; }
