@@ -553,10 +553,7 @@ class Services extends Core{
     }
     
     private function setconfig($id_user, $code, $tipo, $value){
-        
-        $info['tipo'] = $tipo;
-        $info['value'] = $value;
-        
+
         $in = $this->verificar_code($id_user, $code, false);
         
         if($in['op'] == 1){
@@ -566,18 +563,18 @@ class Services extends Core{
             if($tipo == "gps"){
                 // LLAMADO HORARIO GUARDIA
                 $info['op'] = 1;
-                $this->sql("UPDATE usuarios SET config_gps='".$val."' WHERE id_user='".$id_user."'");
+                $this->con->sql("UPDATE usuarios SET config_gps='".$val."' WHERE id_user='".$id_user."'");
             }
             if($tipo == "lla"){
                 // LLAMADO HORARIO GUARDIA
                 $info['op'] = 1;
-                $this->sql("UPDATE usuarios SET config_lla='".$val."' WHERE id_user='".$id_user."'");
+                $this->con->sql("UPDATE usuarios SET config_lla='".$val."' WHERE id_user='".$id_user."'");
             }
             
             if($tipo == "med"){
                 // LLAMADO HORARIO GUARDIA
                 $info['op'] = 1;
-                $this->sql("UPDATE usuarios SET config_med='".$val."' WHERE id_user='".$id_user."'");
+                $this->con->sql("UPDATE usuarios SET config_med='".$val."' WHERE id_user='".$id_user."'");
             }
             
         }else{
