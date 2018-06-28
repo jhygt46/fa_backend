@@ -513,7 +513,6 @@ class Services extends Core{
         if($in['op'] == 1){
             $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
             $info['op'] = 1;
-            $info['gps'] = $user['resultado'][0]['config_gps'];
             $info['lla'] = $user['resultado'][0]['config_lla'];
             $info['med'] = $user['resultado'][0]['config_med'];
         }
@@ -555,10 +554,10 @@ class Services extends Core{
     
     private function setconfig($id_user, $code, $tipo, $value){
         
+        $info['op'] = 2;
         $in = $this->verificar_code($id_user, $code, false);
         if($in['op'] == 1){
             
-            $info['op'] = 2;
             if($value){ $val=1; }else{ $val=0; }
             
             if($tipo == "gps"){
