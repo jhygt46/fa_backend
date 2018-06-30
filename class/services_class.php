@@ -80,6 +80,9 @@ class Services extends Core{
         if($accion == "getconfig"){
             return $this->getconfig($json['id_user'], $json['code']);
         }
+        if($accion == "getguardia"){
+            return $this->getguardia($json['id_user'], $json['code']);
+        }
         
     }
     public function process(){
@@ -603,9 +606,30 @@ class Services extends Core{
         return $info;
     }
     
+    private function getguardia($id_user, $code){
+        
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            
+            for($i=0; $i<4; $i++){
+                $aux['fecha'] = "27/09/1984";
+                $aux['voluntarios'][0]['id'] = "18";
+                $aux['voluntarios'][0]['nombre'] = "Diego Gomez B";
+                $aux['voluntarios'][1]['id'] = "19";
+                $aux['voluntarios'][1]['nombre'] = "Juan Gomez B";
+                $aux['voluntarios'][2]['id'] = "20";
+                $aux['voluntarios'][2]['nombre'] = "Diego Perez B";
+                $info['num'] = 0;
+                $info['guardia'] = $aux;
+                $info['guardias'][] = $aux;
+            }
+        }
+        return $info;
+    }
+    
     private function getgrupos($id_user, $code){
         
-        $actos = $this->con->sql("SELECT  FROM (actos t1, claves t2) LEFT JOIN actos_user t3 ON t1.id_act=t3.id_act AND t3.id_user='".$id_user."' WHERE t1.id_cla=t2.id_cla AND t2.asist='1' AND t1.id_cue='".$in['user']['id_cue']."' AND (t1.id_cia='".$in['user']['id_cia']."' OR (t1.id_cia='0' AND t2.iscia='0'))");
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
