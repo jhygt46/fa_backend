@@ -612,18 +612,32 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
-            for($i=0; $i<4; $i++){
-                $aux['fecha'] = "27/09/1984";
+                $info['num'] = 0;
+            
+                $aux['fecha'] = "26/09/1984";
                 $aux['voluntarios'][0]['id'] = "18";
                 $aux['voluntarios'][0]['nombre'] = "Diego Gomez B";
                 $aux['voluntarios'][1]['id'] = "19";
                 $aux['voluntarios'][1]['nombre'] = "Juan Gomez B";
-                $aux['voluntarios'][2]['id'] = "20";
-                $aux['voluntarios'][2]['nombre'] = "Diego Perez B";
-                $info['num'] = 0;
-                $info['guardia'] = $aux;
                 $info['guardias'][] = $aux;
-            }
+                
+                $aux['fecha'] = "27/09/1984";
+                $aux['voluntarios'][0]['id'] = "18";
+                $aux['voluntarios'][0]['nombre'] = "Diego Gomez B";
+                $aux['voluntarios'][1]['id'] = "20";
+                $aux['voluntarios'][1]['nombre'] = "Pedro Gomez B";
+                $info['guardias'][] = $aux;
+                
+                $aux['fecha'] = "28/09/1984";
+                $aux['voluntarios'][0]['id'] = "19";
+                $aux['voluntarios'][0]['nombre'] = "Juan Gomez B";
+                $aux['voluntarios'][1]['id'] = "21";
+                $aux['voluntarios'][1]['nombre'] = "Gabriel Gomez B";
+                $info['guardias'][] = $aux;
+                
+                $info['guardia'] = $aux;
+                
+            
         }
         return $info;
     }
