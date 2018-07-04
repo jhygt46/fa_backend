@@ -676,7 +676,7 @@ class Services extends Core{
                 $info['jefe'] = true;
                 
                 $fecha = date("Y-m-d", strtotime("-3 day"));
-                $guardia = $this->con->sql("SELECT t1.reemplazo, t1.fecha, t1.id_gua, t2.nombre, t1.permiso, t1.fecha_permiso, t1.id_ree, t1.nombre_ree FROM guardia_users t1, usuarios t2 WHERE t1.id_user=t2.id_user AND t1.fecha >= '".$fecha."' AND t1.id_cia='".$in['user']['id_cia']."' AND t1.id_cue='".$in['user']['id_cue']."' ORDER BY t1.fecha");
+                $guardia = $this->con->sql("SELECT t1.reemplazo, t1.fecha, t1.id_gua, t1.id_user, t2.nombre, t1.permiso, t1.fecha_permiso, t1.id_ree, t1.nombre_ree FROM guardia_users t1, usuarios t2 WHERE t1.id_user=t2.id_user AND t1.fecha >= '".$fecha."' AND t1.id_cia='".$in['user']['id_cia']."' AND t1.id_cue='".$in['user']['id_cue']."' ORDER BY t1.fecha");
                 
                 for($i=0; $i<$guardia['count']; $i++){
                     
@@ -684,6 +684,7 @@ class Services extends Core{
                     $aux[$gn['fecha']]['fecha'] = $gn['fecha'];
                     $aux_vol['id'] = $gn['id_gua'];
                     $aux_vol['nombre'] = $gn['nombre'];
+                    $aux_vol['id_user'] = $gn['id_user'];
                     $aux_vol['permiso'] = $gn['permiso'];
                     $aux_vol['fecha_permiso'] = $gn['fecha_permiso'];
                     $aux_vol['reemplazo'] = $gn['reemplazo'];
