@@ -1077,12 +1077,6 @@ class Core{
         
     }
     
-    public function delete_cuerpo($id_cue){
-        
-        $this->con->sql("DELETE FROM cuerpos WHERE id_cue='".$id_cue."'");
-        
-    }
-    
     public function diffdates($fecha1, $fecha2, $type = 1){
         
         $date1 = new DateTime($fecha1);

@@ -588,6 +588,65 @@ class Services extends Core{
         
     }
     
+    private function buscarreemplazogn($id_user, $code, $id_gua){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE reemplazo='0' AND id_gua='".$id_gua."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                $this->con->sql("UPDATE guardia_users SET reemplazo='1' WHERE id_gua='".$id_gua."'");
+                $info['op'] = 1;
+            }
+        }
+        return $info;
+        
+    }
+    
+    private function setreemplazogn($id_user, $code, $id_gua){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE reemplazo='1' AND id_gua='".$id_gua."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                $this->con->sql("UPDATE guardia_users SET id_ree='".$in['user']['id_user']."' AND nombre_ree='".$in['user']['nombre']."' WHERE id_gua='".$id_gua."'");
+                $info['op'] = 1;
+            }
+        }
+        return $info;
+        
+    }
+    
+    private function rmpermisogn($id_user, $code, $id_gua){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                $this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
+                $info['op'] = 1;
+            }else{
+                // VERIFICAR JEFE DE GUARDIA
+                //$this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
+                //$info['op'] = 1;
+            }
+        }
+        return $info;
+        
+    }
+    private function setpermisogn($id_user, $code, $id_gua){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                $this->con->sql("UPDATE guardia_users SET permiso='1' AND fecha_permiso='".date("Y-m-d H:i:s")."' WHERE id_gua='".$id_gua."'");
+                $info['op'] = 1;
+            }
+        }
+        return $info;
+        
+    }
+    
     private function setpublicgroups($id_user, $code, $id_gru, $valor){
         
         $in = $this->verificar_code($id_user, $code, true);
@@ -604,46 +663,65 @@ class Services extends Core{
             $info['grupos'] = $grupos;
         }
         return $info;
+        
     }
     
     private function getguardia($id_user, $code){
         
-        
+        $diff2 = 999999999;
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
             
                 $info['num'] = 0;
-            
-                $aux['fecha'] = "26/09/1984";
-                $aux['voluntarios'][0]['id'] = "18";
-                $aux['voluntarios'][0]['nombre'] = "Diego Gomez B";
-                $aux['voluntarios'][1]['id'] = "19";
-                $aux['voluntarios'][1]['nombre'] = "Juan Gomez B";
-                $info['guardias'][] = $aux;
+                $info['jefe'] = true;
                 
-                $aux['fecha'] = "27/09/1984";
-                $aux['voluntarios'][0]['id'] = "18";
-                $aux['voluntarios'][0]['nombre'] = "Diego Gomez B";
-                $aux['voluntarios'][1]['id'] = "20";
-                $aux['voluntarios'][1]['nombre'] = "Pedro Gomez B";
-                $info['guardias'][] = $aux;
+                $fecha = date("Y-m-d", strtotime("-3 day"));
+                $guardia = $this->con->sql("SELECT t1.fecha, t1.id_gua, t2.nombre, t1.permiso, t1.fecha_permiso, t1.id_ree, t1.nombre_ree FROM guardia_users t1, usuarios t2 WHERE t1.id_user=t2.id_user AND t1.fecha >= '".$fecha."' AND t1.id_cia='".$in['user']['id_cia']."' AND t1.id_cue='".$in['user']['id_cue']."' ORDER BY t1.fecha");
                 
-                $aux['fecha'] = "28/09/1984";
-                $aux['voluntarios'][0]['id'] = "19";
-                $aux['voluntarios'][0]['nombre'] = "Juan Gomez B";
-                $aux['voluntarios'][1]['id'] = "21";
-                $aux['voluntarios'][1]['nombre'] = "Gabriel Gomez B";
-                $info['guardias'][] = $aux;
-                
-                $info['guardia'] = $aux;
-                
-            
+                for($i=0; $i<$guardia['count']; $i++){
+                    
+                    $gn = $guardia['resultado'][$i];
+                    $aux[$gn['fecha']]['fecha'] = $gn['fecha'];
+                    $aux_vol['id'] = $gn['id_gua'];
+                    $aux_vol['nombre'] = $gn['nombre'];
+                    $aux_vol['permiso'] = $gn['permiso'];
+                    $aux_vol['fecha_permiso'] = $gn['fecha_permiso'];
+                    $aux_vol['reemplazo'] = $gn['reemplazo'];
+                    $aux_vol['id_ree'] = $gn['id_ree'];
+                    $aux_vol['nombre_ree'] = $gn['nombre_ree'];
+                    $aux[$gn['fecha']]['voluntarios'][] = $aux_vol;
+                    unset($aux_vol);
+                    
+                }
+                $n=0; 
+                foreach($aux as $key => $value){
+                    
+                    $diff = strtotime(date("d-m-Y H:i:s", time())) - strtotime($key);
+                    
+                    $aux2['fecha'] = $key;
+                    $aux2['voluntarios'] = $value['voluntarios'];
+                    
+                    if($diff < $diff2){
+                        
+                        $diff2 = $diff;
+                        $info['guardia'] = $aux2;
+                        $info['num'] = $n;
+                        
+                    }
+                    
+                    $info['guardias'][] = $aux2;
+                    $n++;
+                    unset($aux2);
+                    
+                }
+
         }
         return $info;
     }
     
+    
+    
     private function getgrupos($id_user, $code){
-        
         
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
