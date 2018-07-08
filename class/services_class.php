@@ -667,7 +667,8 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
             if($gn['count'] == 1){
-                $info['db'] = $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso=now() WHERE id_gua='".$id_gua."'");
+                $info['date'] = date("Y-m-d H:i:s");
+                $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".$info['date']."' WHERE id_gua='".$id_gua."'");
                 $info['op'] = 1;
             }
         }
