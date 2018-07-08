@@ -650,7 +650,7 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
             if($gn['count'] == 1){
-                $this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
+                $this->con->sql("UPDATE guardia_users SET permiso='0', fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
                 $info['op'] = 1;
             }else{
                 // VERIFICAR JEFE DE GUARDIA
