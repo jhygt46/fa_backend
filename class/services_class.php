@@ -83,6 +83,19 @@ class Services extends Core{
         if($accion == "getguardia"){
             return $this->getguardia($json['id_user'], $json['code']);
         }
+        if($accion == "buscarreemplazogn"){
+            return $this->buscarreemplazogn($json['id_user'], $json['code'], $json['id_gua']);
+        }
+        if($accion == "setpermisogn"){
+            return $this->setpermisogn($json['id_user'], $json['code'], $json['id_gua']);
+        }
+        if($accion == "rmpermisogn"){
+            return $this->rmpermisogn($json['id_user'], $json['code'], $json['id_gua']);
+        }
+        if($accion == "rmbuscarreemplazogn"){
+            return $this->rmbuscarreemplazogn($json['id_user'], $json['code'], $json['id_gua']);
+        }
+        
         
     }
     public function process(){
@@ -601,7 +614,6 @@ class Services extends Core{
         return $info;
         
     }
-    
     private function setreemplazogn($id_user, $code, $id_gua){
         
         $in = $this->verificar_code($id_user, $code, true);
@@ -615,7 +627,23 @@ class Services extends Core{
         return $info;
         
     }
-    
+    private function rmbuscarreemplazogn($id_user, $code, $id_gua){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                $this->con->sql("UPDATE guardia_users SET reemplazo='0' WHERE id_gua='".$id_gua."'");
+                $info['op'] = 1;
+            }else{
+                // VERIFICAR JEFE DE GUARDIA
+                //$this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
+                //$info['op'] = 1;
+            }
+        }
+        return $info;
+        
+    }
     private function rmpermisogn($id_user, $code, $id_gua){
         
         $in = $this->verificar_code($id_user, $code, true);
