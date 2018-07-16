@@ -517,7 +517,7 @@ class Services extends Core{
         $aux['id'] = $res['id_act'];
         $aux['nombre'] = $res['nombre'];
         $aux['direccion'] = $res['direccion'];
-        $aux['fecha'] = strtotime($res['fecha_creado']);
+        $aux['fecha'] = $res['fecha_creado'];
         $aux['vestuario'] = "Sport Formal";
         return $aux;
         
