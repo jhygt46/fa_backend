@@ -517,7 +517,7 @@ class Services extends Core{
         $aux['id'] = $res['id_act'];
         $aux['nombre'] = $res['nombre'];
         $aux['direccion'] = $res['direccion'];
-        $aux['fecha'] = $res['fecha_creado'];
+        $aux['fecha'] = strtotime($res['fecha_creado']);
         $aux['vestuario'] = "Sport Formal";
         return $aux;
         
@@ -601,98 +601,127 @@ class Services extends Core{
         
     }
     
-    private function buscarreemplazogn($id_user, $code, $id_gua){
+    
+    private function in_guardia($fecha, $id_user){
         
-        $in = $this->verificar_code($id_user, $code, true);
-        if($in['op'] == 1){
-            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE reemplazo='0' AND id_gua='".$id_gua."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
-            if($gn['count'] == 1){
-                $this->con->sql("UPDATE guardia_users SET reemplazo='1' WHERE id_gua='".$id_gua."'");
-                $info['op'] = 1;
-            }
+        $gn = $this->con->sql("SELECT * FROM guardia_users WHERE (id_user='".$id_user."' OR id_ree='".$id_user."') AND fecha='".$fecha."'");
+        if($gn['count'] == 0){
+            return false;
+        }else{
+            return true;
         }
-        return $info;
-        
-    }
-    private function setreemplazogn($id_user, $code, $id_gua){
-        
-        $in = $this->verificar_code($id_user, $code, true);
-        if($in['op'] == 1){
-            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE reemplazo='1' AND id_gua='".$id_gua."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
-            if($gn['count'] == 1){
-                $this->con->sql("UPDATE guardia_users SET id_ree='".$in['user']['id_user']."' AND nombre_ree='".$in['user']['nombre']."' WHERE id_gua='".$id_gua."'");
-                $info['op'] = 1;
-            }
-        }
-        return $info;
-        
-    }
-    private function rmbuscarreemplazogn($id_user, $code, $id_gua){
-        
-        $in = $this->verificar_code($id_user, $code, true);
-        if($in['op'] == 1){
-            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
-            if($gn['count'] == 1){
-                $this->con->sql("UPDATE guardia_users SET reemplazo='0' WHERE id_gua='".$id_gua."'");
-                $info['op'] = 1;
-            }else{
-                // VERIFICAR JEFE DE GUARDIA
-                //$this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
-                //$info['op'] = 1;
-            }
-        }
-        return $info;
-        
-    }
-    private function rmpermisogn($id_user, $code, $id_gua){
-        
-        $in = $this->verificar_code($id_user, $code, true);
-        if($in['op'] == 1){
-            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
-            if($gn['count'] == 1){
-                $this->con->sql("UPDATE guardia_users SET permiso='0', fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
-                $info['op'] = 1;
-            }else{
-                // VERIFICAR JEFE DE GUARDIA
-                //$this->con->sql("UPDATE guardia_users SET permiso='0' AND fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
-                //$info['op'] = 1;
-            }
-        }
-        return $info;
-        
-    }
-    private function setpermisogn($id_user, $code, $id_gua){
-        
-        $in = $this->verificar_code($id_user, $code, true);
-        if($in['op'] == 1){
-            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND id_user='".$id_user."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
-            if($gn['count'] == 1){
-                $info['date'] = date("Y-m-d H:i:s");
-                $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".$info['date']."' WHERE id_gua='".$id_gua."'");
-                $info['op'] = 1;
-            }
-        }
-        return $info;
         
     }
     
-    private function setpublicgroups($id_user, $code, $id_gru, $valor){
-        
+    
+    private function buscarreemplazogn($id_user, $code, $id_gua){
         $in = $this->verificar_code($id_user, $code, true);
         if($in['op'] == 1){
-            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1' AND iscargo='0'");
-            if($grupos['count'] == 1){
-                $info['op'] = 1;
-                if(!$valor){
-                    $info['sql1'] = $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
-                }else{
-                    $info['sql1'] = $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
-                } 
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
+            if($gn['count'] == 1){
+                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado']['reemplazo'] == 0 && $id_user == $gn['resultado']['id_user']){
+                        $info['op'] = 1;
+                        $this->con->sql("UPDATE guardia_users SET reemplazo='1' WHERE id_gua='".$id_gua."'");
+                    }
+                    if($gn['resultado']['reemplazo'] == 1 && $id_user == $gn['resultado']['id_ree']){
+                        $info['op'] = 1;
+                        $this->con->sql("UPDATE guardia_users SET ree_ree='1' WHERE id_gua='".$id_gua."'");
+                    }
+                }
             }
-            $info['grupos'] = $grupos;
         }
         return $info;
-        
+    }
+    private function setreemplazogn($id_user, $code, $id_gua){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
+            if($gn['count'] == 1){
+                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                    if(!$this->in_guardia($gn['resultado']['fecha'], $id_user)){
+                        if($gn['resultado']['reemplazo'] == 1){
+                            if($gn['resultado']['id_ree'] == 0){
+                                $this->con->sql("UPDATE guardia_users SET id_ree='".$id_user."', nombre_ree='".$gn['resultado']['nombre']."' WHERE id_gua='".$id_gua."'");
+                            }
+                            if($gn['resultado']['id_ree'] != 0 && $gn['resultado']['ree_ree'] == 1){
+                                $this->con->sql("UPDATE guardia_users SET id_ree='".$id_user."', nombre_ree='".$gn['resultado']['nombre']."', ree_ree='0' WHERE id_gua='".$id_gua."'");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+    private function rmbuscarreemplazogn($id_user, $code, $id_gua){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
+            if($gn['count'] == 1){
+                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado']['reemplazo'] == 1){
+                        if($gn['resultado']['id_user'] == $id_user){
+                            $this->con->sql("UPDATE guardia_users SET id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
+                        }
+                        if($gn['resultado']['id_ree'] == $id_user){
+                            $this->con->sql("UPDATE guardia_users SET ree_ree='0' WHERE id_gua='".$id_gua."'");
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+    private function rmpermisogn($id_user, $code, $id_gua){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
+            if($gn['count'] == 1){
+                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado']['permiso'] == 1){
+                        if($gn['resultado']['id_user'] == $id_user || $gn['resultado']['id_ree'] == $id_user){
+                            $this->con->sql("UPDATE guardia_users SET permiso='0', fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
+                            $info['op'] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+    private function setpermisogn($id_user, $code, $id_gua){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND (id_user='".$id_user."' OR id_ree='".$id_user."') AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
+            if($gn['count'] == 1){
+                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado']['permiso'] == 0){
+                        if($gn['resultado']['id_user'] == $id_user || $gn['resultado']['id_ree'] == $id_user){
+                            $info['date'] = date("Y-m-d H:i:s");
+                            $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".$info['date']."' WHERE id_gua='".$id_gua."'");
+                            $info['op'] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return $info;
+    }
+    private function solicitarrefuerzogn($id_user, $code, $fecha){
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            if(!$this->in_guardia($gn['resultado']['fecha'], $id_user)){
+                $insert = $this->con->sql("INSERT INTO guardia_users (id_user, fecha, id_cia, id_cue) VALUES ('".$id_user."', '".$fecha."', '".$in['user']['id_cia']."', '".$in['user']['id_cue']."')");
+                $info['op'] = 1;
+                $info['id'] = $insert['insert_id'];
+                $info['id_user'] = $id_user;
+                $info['nombre'] = $in['user']['nombre'];
+                $info['id_cia'] = $in['user']['id_cia'];
+                $info['id_cue'] = $in['user']['id_cue'];
+            }
+        }
+        return $info;
     }
     
     private function getguardia($id_user, $code){
@@ -719,6 +748,7 @@ class Services extends Core{
                     $aux_vol['reemplazo'] = $gn['reemplazo'];
                     $aux_vol['id_ree'] = $gn['id_ree'];
                     $aux_vol['nombre_ree'] = $gn['nombre_ree'];
+                    $aux_vol['ree_ree'] = $gn['ree_ree'];
                     $aux[$gn['fecha']]['voluntarios'][] = $aux_vol;
                     unset($aux_vol);
                     
@@ -749,8 +779,25 @@ class Services extends Core{
         return $info;
     }
     
-    
-    
+    private function setpublicgroups($id_user, $code, $id_gru, $valor){
+        
+        $in = $this->verificar_code($id_user, $code, true);
+        if($in['op'] == 1){
+            $grupos = $this->con->sql("SELECT * FROM grupos WHERE id_gru='".$id_gru."' AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."' AND public='1' AND iscargo='0'");
+            if($grupos['count'] == 1){
+                $info['op'] = 1;
+                if(!$valor){
+                    $info['sql1'] = $this->con->sql("DELETE FROM grupos_usuarios WHERE id_gru='".$id_gru."' AND id_user='".$id_user."'");
+                }else{
+                    $info['sql1'] = $this->con->sql("INSERT INTO grupos_usuarios (id_gru, id_user) VALUES ('".$id_gru."', '".$id_user."')");
+                } 
+            }
+            $info['grupos'] = $grupos;
+        }
+        return $info;
+        
+    }
+
     private function getgrupos($id_user, $code){
         
         $in = $this->verificar_code($id_user, $code, true);
