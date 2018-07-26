@@ -161,7 +161,7 @@ class Services extends Core{
                 
                 $aux['posiciones'] = array();
                 
-                $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia");
+                $cias = $this->con->sql("SELECT t2.id_cia, t2.nombre, t2.id_cue FROM actos_cias t1, companias t2 WHERE t1.id_act='".$lis_actos[$i]['id_act']."' AND t1.id_cia=t2.id_cia ORDER BY t2.numero");
                 if($cias['count'] > 0){
                     for($j=0; $j<$cias['count']; $j++){
                         $aux_cias['id_cia'] = $cias['resultado'][$j]['id_cia'];
@@ -531,6 +531,7 @@ class Services extends Core{
             $info['op'] = 1;
             $info['lla'] = $user['resultado'][0]['config_lla'];
             $info['med'] = $user['resultado'][0]['config_med'];
+            $info['grupos'] = $this->getgrupos($id_user, $code);
         }
         return $info;
     }
