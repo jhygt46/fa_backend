@@ -528,10 +528,11 @@ class Services extends Core{
         $in = $this->verificar_code($id_user, $code, false);
         if($in['op'] == 1){
             $user = $this->con->sql("SELECT * FROM usuarios WHERE id_user='".$id_user."'");
+            $info = $this->getgrupos($id_user, $code);
             $info['op'] = 1;
             $info['lla'] = $user['resultado'][0]['config_lla'];
             $info['med'] = $user['resultado'][0]['config_med'];
-            $info['grupos'] = $this->getgrupos($id_user, $code);
+            
         }
         return $info;
     }
