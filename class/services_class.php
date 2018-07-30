@@ -632,6 +632,7 @@ class Services extends Core{
                     }
                 }
                 $info['gn'] = $gn;
+                $info['in'] = $in;
             }
         }
         
