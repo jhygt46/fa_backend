@@ -630,9 +630,9 @@ class Services extends Core{
                         $info['op'] = 1;
                         $this->con->sql("UPDATE guardia_users SET ree_ree='1' WHERE id_gua='".$id_gua."'");
                     }
+                    $info['gn'] = $gn;
+                    $info['in'] = $in;
                 }
-                $info['gn'] = $gn;
-                $info['in'] = $in;
             }
         }
         
