@@ -633,6 +633,8 @@ class Services extends Core{
                     $info['gn'] = $gn;
                     $info['in'] = $in;
                 }
+                $info['id_cia'] = $gn['resultado']['id_cia']." - ".$in['user']['id_cia'];
+                $info['id_cue'] = $gn['resultado']['id_cue']." - ".$in['user']['id_cue'];
             }
         }
         
