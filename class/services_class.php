@@ -668,7 +668,7 @@ class Services extends Core{
                         if($gn['resultado'][0]['id_user'] == $id_user){
                             $info['op'] = 1;
                             $info['tipo'] = 1;
-                            $this->con->sql("UPDATE guardia_users SET reemplazar='0', id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
+                            $this->con->sql("UPDATE guardia_users SET reemplazo='0', id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
                         }
                         if($gn['resultado'][0]['id_ree'] == $id_user){
                             $info['op'] = 1;
