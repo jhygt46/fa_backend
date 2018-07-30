@@ -697,6 +697,7 @@ class Services extends Core{
                             $this->con->sql("UPDATE guardia_users SET permiso='0', fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
                         }
                     }
+                    $info['gn'] = $gn;
                 }
             }
         }
