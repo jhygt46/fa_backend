@@ -631,9 +631,10 @@ class Services extends Core{
                         $this->con->sql("UPDATE guardia_users SET ree_ree='1' WHERE id_gua='".$id_gua."'");
                     }
                 }
+                $info['in'] = "ENTRO";
             }
         }
-        $info['in'] = $in;
+        
         return $info;
     }
     private function setreemplazogn($id_user, $code, $id_gua){
