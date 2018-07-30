@@ -661,12 +661,12 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
             if($gn['count'] == 1){
-                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
-                    if($gn['resultado']['reemplazo'] == 1){
-                        if($gn['resultado']['id_user'] == $id_user){
+                if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado'][0]['reemplazo'] == 1){
+                        if($gn['resultado'][0]['id_user'] == $id_user){
                             $this->con->sql("UPDATE guardia_users SET id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
                         }
-                        if($gn['resultado']['id_ree'] == $id_user){
+                        if($gn['resultado'][0]['id_ree'] == $id_user){
                             $this->con->sql("UPDATE guardia_users SET ree_ree='0' WHERE id_gua='".$id_gua."'");
                         }
                     }
