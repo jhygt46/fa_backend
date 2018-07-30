@@ -633,6 +633,7 @@ class Services extends Core{
                 }
             }
         }
+        $info['in'] = $in;
         return $info;
     }
     private function setreemplazogn($id_user, $code, $id_gua){
