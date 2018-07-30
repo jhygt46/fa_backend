@@ -624,10 +624,12 @@ class Services extends Core{
                 if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
                     if($gn['resultado'][0]['reemplazo'] == 0 && $id_user == $gn['resultado'][0]['id_user']){
                         $info['op'] = 1;
+                        $info['tipo'] = 1;
                         $this->con->sql("UPDATE guardia_users SET reemplazo='1' WHERE id_gua='".$id_gua."'");
                     }
                     if($gn['resultado'][0]['reemplazo'] == 1 && $id_user == $gn['resultado'][0]['id_ree']){
                         $info['op'] = 1;
+                        $info['tipo'] = 2;
                         $this->con->sql("UPDATE guardia_users SET ree_ree='1' WHERE id_gua='".$id_gua."'");
                     }
                 }
@@ -664,9 +666,13 @@ class Services extends Core{
                 if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
                     if($gn['resultado'][0]['reemplazo'] == 1){
                         if($gn['resultado'][0]['id_user'] == $id_user){
-                            $this->con->sql("UPDATE guardia_users SET id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
+                            $info['op'] = 1;
+                            $info['tipo'] = 1;
+                            $this->con->sql("UPDATE guardia_users SET reemplazar='0', id_ree='0', nombre_ree='' WHERE id_gua='".$id_gua."'");
                         }
                         if($gn['resultado'][0]['id_ree'] == $id_user){
+                            $info['op'] = 1;
+                            $info['tipo'] = 2;
                             $this->con->sql("UPDATE guardia_users SET ree_ree='0' WHERE id_gua='".$id_gua."'");
                         }
                     }
