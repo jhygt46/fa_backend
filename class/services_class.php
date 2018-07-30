@@ -703,12 +703,17 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."' AND (id_user='".$id_user."' OR id_ree='".$id_user."') AND id_cia='".$in['user']['id_cia']."' AND id_cue='".$in['user']['id_cue']."'");
             if($gn['count'] == 1){
-                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
-                    if($gn['resultado']['permiso'] == 0){
-                        if($gn['resultado']['id_user'] == $id_user || $gn['resultado']['id_ree'] == $id_user){
-                            $info['date'] = date("Y-m-d H:i:s");
-                            $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".$info['date']."' WHERE id_gua='".$id_gua."'");
+                if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
+                    if($gn['resultado'][0]['permiso'] == 0){
+                        if($gn['resultado'][0]['id_user'] == $id_user && $gn['resultado'][0]['id_ree'] == 0){
                             $info['op'] = 1;
+                            $info['date'] = date("d/m H:i");
+                            $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".date("Y-m-d H:i:s")."' WHERE id_gua='".$id_gua."'");
+                        }
+                        if($gn['resultado'][0]['id_ree'] == $id_user){
+                            $info['op'] = 1;
+                            $info['date'] = date("d/m H:i");
+                            $this->con->sql("UPDATE guardia_users SET permiso='1', fecha_permiso='".date("Y-m-d H:i:s")."' WHERE id_gua='".$id_gua."'");
                         }
                     }
                 }
