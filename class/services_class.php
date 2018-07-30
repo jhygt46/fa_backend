@@ -621,23 +621,18 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
             if($gn['count'] == 1){
-                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
+                if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
                     if($gn['resultado']['reemplazo'] == 0 && $id_user == $gn['resultado']['id_user']){
                         $info['op'] = 1;
                         $this->con->sql("UPDATE guardia_users SET reemplazo='1' WHERE id_gua='".$id_gua."'");
                     }
-                    if($gn['resultado']['reemplazo'] == 1 && $id_user == $gn['resultado']['id_ree']){
+                    if($gn['resultado'][0]['reemplazo'] == 1 && $id_user == $gn['resultado'][0]['id_ree']){
                         $info['op'] = 1;
                         $this->con->sql("UPDATE guardia_users SET ree_ree='1' WHERE id_gua='".$id_gua."'");
                     }
-                    $info['gn'] = $gn;
-                    $info['in'] = $in;
                 }
-                $info['id_cia'] = $gn['resultado']['id_cia']." - ".$in['user']['id_cia'];
-                $info['id_cue'] = $gn['resultado']['id_cue']." - ".$in['user']['id_cue'];
             }
         }
-        
         return $info;
     }
     private function setreemplazogn($id_user, $code, $id_gua){
