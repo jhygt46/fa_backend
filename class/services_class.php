@@ -642,13 +642,15 @@ class Services extends Core{
         if($in['op'] == 1){
             $gn = $this->con->sql("SELECT * FROM guardia_users WHERE id_gua='".$id_gua."'");
             if($gn['count'] == 1){
-                if($gn['resultado']['id_cia'] == $in['user']['id_cia'] && $gn['resultado']['id_cue'] == $in['user']['id_cue']){
-                    if(!$this->in_guardia($gn['resultado']['fecha'], $id_user)){
+                if($gn['resultado'][0]['id_cia'] == $in['user']['id_cia'] && $gn['resultado'][0]['id_cue'] == $in['user']['id_cue']){
+                    if(!$this->in_guardia($gn['resultado'][0]['fecha'], $id_user)){
                         if($gn['resultado']['reemplazo'] == 1){
                             if($gn['resultado']['id_ree'] == 0){
+                                $info['op'] = 1;
                                 $this->con->sql("UPDATE guardia_users SET id_ree='".$id_user."', nombre_ree='".$gn['resultado']['nombre']."' WHERE id_gua='".$id_gua."'");
                             }
                             if($gn['resultado']['id_ree'] != 0 && $gn['resultado']['ree_ree'] == 1){
+                                $info['op'] = 1;
                                 $this->con->sql("UPDATE guardia_users SET id_ree='".$id_user."', nombre_ree='".$gn['resultado']['nombre']."', ree_ree='0' WHERE id_gua='".$id_gua."'");
                             }
                         }
@@ -697,7 +699,6 @@ class Services extends Core{
                             $this->con->sql("UPDATE guardia_users SET permiso='0', fecha_permiso='0000-00-00 00:00:00' WHERE id_gua='".$id_gua."'");
                         }
                     }
-                    $info['gn'] = $gn;
                 }
             }
         }
