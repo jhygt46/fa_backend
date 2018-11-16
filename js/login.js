@@ -2,7 +2,8 @@ $(document).ready(function(){
 
     $('#entrar').click(function(){
         
-        $(this).prop( "disabled", true );
+        var btn = $(this);
+        btn.prop( "disabled", true );
         
         var user = $('#user').val();
         var pass = $('#pass').val();
@@ -26,12 +27,12 @@ $(document).ready(function(){
                 }
                 if(data.op == 2){
                     mal(data.message);
-                    $(this).prop( "disabled", false );
+                    btn.prop( "disabled", true );
                 }
             },
             error: function(e){
                 console.log(e);
-                $(this).prop( "disabled", false );
+                btn.prop( "disabled", true );
             }
         });
 
